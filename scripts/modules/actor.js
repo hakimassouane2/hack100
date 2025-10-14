@@ -23,6 +23,27 @@ export class Hack100Actor extends Actor {
   _prepareCharacterData() {
     const systemData = this.system;
 
+    // Clean up corrupted specialism data
+    if (systemData.specialisms) {
+      for (let [key, specialism] of Object.entries(systemData.specialisms)) {
+        // Fix corrupted name fields (e.g., comma-filled strings)
+        if (specialism.name && typeof specialism.name === 'string') {
+          // If name is only commas or whitespace, clear it
+          if (specialism.name.match(/^[,\s]*$/)) {
+            specialism.name = "";
+          }
+        }
+        // Ensure value is a valid number
+        if (typeof specialism.value !== 'number' || isNaN(specialism.value)) {
+          specialism.value = 0;
+        }
+        // Ensure boolean fields are boolean
+        if (typeof specialism.experienceCheck !== 'boolean') {
+          specialism.experienceCheck = false;
+        }
+      }
+    }
+
     // Calculate ability bonuses (tens value)
     for (let [key, ability] of Object.entries(systemData.abilities)) {
       ability.bonus = Math.floor(ability.value / 10);

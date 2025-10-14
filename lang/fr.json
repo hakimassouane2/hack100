@@ -39,7 +39,8 @@
       "movement": "Déplacement",
       "equipment": "Équipement",
       "squaresPerRound": "carrés par tour",
-      "power": "Pouvoir"
+      "power": "Pouvoir",
+      "isPower": "Est-ce un pouvoir/capacité surnaturelle?"
     },
     "items": {
       "weapon": "Armes",

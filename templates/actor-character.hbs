@@ -79,26 +79,29 @@
 
       {{!-- Specialisms Section --}}
       <div class="specialisms-section">
-        <h3>{{localize "hack100.character.specialisms"}}</h3>
+        <div class="specialisms-header">
+          <h3>{{localize "hack100.character.specialisms"}}</h3>
+          <button type="button" class="specialism-add" title="{{localize "hack100.buttons.add"}} {{localize "hack100.character.specialisms"}}">
+            <i class="fas fa-plus"></i> {{localize "hack100.buttons.add"}}
+          </button>
+        </div>
         <div class="specialisms-list">
           {{#each system.specialisms as |specialism key|}}
           <div class="specialism-item">
-            <input type="text" name="system.specialisms.{{key}}.name" value="{{specialism.name}}" placeholder="Specialism name"/>
-            <input type="number" name="system.specialisms.{{key}}.value" value="{{specialism.value}}" min="0" max="100"/>
+            <input type="text" name="system.specialisms.{{key}}.name" value="{{#if specialism.name}}{{specialism.name}}{{/if}}" placeholder="Specialism name"/>
+            <input type="number" name="system.specialisms.{{key}}.value" value="{{specialism.value}}" min="0" max="100" step="1"/>
             <span>%</span>
+            {{#if specialism.name}}
             <button type="button" class="rollable" data-ability="{{key}}">{{localize "hack100.buttons.roll"}}</button>
             {{#if specialism.experienceCheck}}
             <button type="button" class="experience-roll" data-ability="{{key}}" title="Experience Check Available">{{localize "hack100.buttons.experience"}}</button>
             {{/if}}
-            <input type="checkbox" name="system.specialisms.{{key}}.isPower" {{#if specialism.isPower}}checked{{/if}} title="{{localize "hack100.isPower"}}"/>
-              <label>{{localize "hack100.character.power"}}</label>
+            {{/if}}
+            <button type="button" class="specialism-delete" data-specialism="{{key}}" title="{{localize "hack100.buttons.delete"}}">
+              <i class="fas fa-trash"></i>
+            </button>
           </div>
           {{/each}}
-          <div class="specialism-item">
-            <input type="text" name="system.specialisms.new.name" placeholder="New specialism name"/>
-            <input type="number" name="system.specialisms.new.value" placeholder="0" min="0" max="100"/>
-            <span>%</span>
-          </div>
         </div>
       </div>
 

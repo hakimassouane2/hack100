@@ -39,7 +39,8 @@
       "movement": "Movement",
       "equipment": "Equipment",
       "squaresPerRound": "squares per round",
-      "power": "Power"
+      "power": "Power",
+      "isPower": "Is this a power/supernatural ability?"
     },
     "items": {
       "weapon": "Weapon",

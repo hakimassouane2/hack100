@@ -64,20 +64,17 @@
           "specialism1": {
             "name": "",
             "value": 40,
-            "experienceCheck": false,
-            "isPower": false
+            "experienceCheck": false
           },
           "specialism2": {
             "name": "",
             "value": 0,
-            "experienceCheck": false,
-            "isPower": false
+            "experienceCheck": false
           },
           "specialism3": {
             "name": "",
             "value": 0,
-            "experienceCheck": false,
-            "isPower": false
+            "experienceCheck": false
           }
         },
         "movement": 8,
@@ -130,7 +127,6 @@
       "templates": ["base"],
       "value": 40,
       "experienceCheck": false,
-      "isPower": false,
       "hasRoll": true
     }
   }

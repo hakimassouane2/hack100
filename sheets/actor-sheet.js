@@ -137,6 +137,10 @@ export class Hack100ActorSheet extends ActorSheet {
     // Experience rolls
     html.find(".experience-roll").click(this._onExperienceRoll.bind(this));
 
+    // Specialism management
+    html.find(".specialism-add").click(this._onSpecialismAdd.bind(this));
+    html.find(".specialism-delete").click(this._onSpecialismDelete.bind(this));
+
     // Drag events for macros.
     if (this.actor.isOwner) {
       let handler = (ev) => this._onDragStart(ev);
@@ -219,5 +223,56 @@ export class Hack100ActorSheet extends ActorSheet {
     if (abilityId) {
       return this.actor.rollExperience(abilityId);
     }
+  }
+
+  /**
+   * Handle adding a new specialism
+   */
+  async _onSpecialismAdd(event) {
+    event.preventDefault();
+    const specialisms = this.actor.system.specialisms;
+
+    // Find the next available specialism slot number
+    let nextNum = 1;
+    while (specialisms[`specialism${nextNum}`]) {
+      nextNum++;
+    }
+
+    const newKey = `specialism${nextNum}`;
+    const updateData = {
+      [`system.specialisms.${newKey}`]: {
+        name: "",
+        value: 0,
+        experienceCheck: false
+      }
+    };
+
+    await this.actor.update(updateData);
+  }
+
+  /**
+   * Handle deleting a specialism
+   */
+  async _onSpecialismDelete(event) {
+    event.preventDefault();
+    const element = event.currentTarget;
+    const specialismKey = element.dataset.specialism;
+
+    // Confirm deletion if the specialism has a name
+    const specialism = this.actor.system.specialisms[specialismKey];
+    if (specialism.name) {
+      const confirm = await Dialog.confirm({
+        title: game.i18n.localize("hack100.buttons.delete"),
+        content: `<p>Delete specialism "${specialism.name}"?</p>`
+      });
+      if (!confirm) return;
+    }
+
+    // Remove the specialism by setting it to null, then clean up
+    const updateData = {
+      [`system.specialisms.-=${specialismKey}`]: null
+    };
+
+    await this.actor.update(updateData);
   }
 }
