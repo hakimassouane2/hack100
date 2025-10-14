@@ -1,0 +1,137 @@
+{
+  "Actor": {
+    "types": ["character", "npc"],
+    "templates": {
+      "base": {
+        "health": {
+          "value": 10,
+          "min": 0,
+          "max": 10
+        },
+        "abilities": {
+          "strength": {
+            "value": 30,
+            "bonus": 3,
+            "experienceCheck": false
+          },
+          "agility": {
+            "value": 30,
+            "bonus": 3,
+            "experienceCheck": false
+          },
+          "stealth": {
+            "value": 30,
+            "bonus": 3,
+            "experienceCheck": false
+          },
+          "toughness": {
+            "value": 30,
+            "bonus": 3,
+            "experienceCheck": false
+          },
+          "perception": {
+            "value": 30,
+            "bonus": 3,
+            "experienceCheck": false
+          },
+          "reasoning": {
+            "value": 30,
+            "bonus": 3,
+            "experienceCheck": false
+          },
+          "influence": {
+            "value": 30,
+            "bonus": 3,
+            "experienceCheck": false
+          },
+          "willpower": {
+            "value": 30,
+            "bonus": 3,
+            "experienceCheck": false
+          },
+          "melee": {
+            "value": 30,
+            "bonus": 3,
+            "experienceCheck": false
+          },
+          "ranged": {
+            "value": 30,
+            "bonus": 3,
+            "experienceCheck": false
+          }
+        },
+        "specialisms": {
+          "specialism1": {
+            "name": "",
+            "value": 40,
+            "experienceCheck": false,
+            "isPower": false
+          },
+          "specialism2": {
+            "name": "",
+            "value": 0,
+            "experienceCheck": false,
+            "isPower": false
+          },
+          "specialism3": {
+            "name": "",
+            "value": 0,
+            "experienceCheck": false,
+            "isPower": false
+          }
+        },
+        "movement": 8,
+        "notes": ""
+      }
+    },
+    "character": {
+      "templates": ["base"],
+      "background": "",
+      "biography": ""
+    },
+    "npc": {
+      "templates": ["base"],
+      "baseAbilityValue": 20,
+      "description": "",
+      "background": "",
+      "innateCharacteristics": ""
+    }
+  },
+  "Item": {
+    "types": ["item", "weapon", "armor", "specialism"],
+    "templates": {
+      "base": {
+        "description": "",
+        "quantity": 1,
+        "weight": 0,
+        "price": 0,
+        "equipped": false,
+        "location": ""
+      }
+    },
+    "item": {
+      "templates": ["base"]
+    },
+    "weapon": {
+      "templates": ["base"],
+      "weaponType": "melee",
+      "damage": "+2",
+      "range": "",
+      "hasRoll": true,
+      "attackBonus": 0
+    },
+    "armor": {
+      "templates": ["base"],
+      "protection": "-1",
+      "agilityPenalty": -10,
+      "movementPenalty": -1
+    },
+    "specialism": {
+      "templates": ["base"],
+      "value": 40,
+      "experienceCheck": false,
+      "isPower": false,
+      "hasRoll": true
+    }
+  }
+}

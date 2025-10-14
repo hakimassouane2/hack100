@@ -1,0 +1,69 @@
+{
+  "hack100": {
+    "global": {
+      "current": "Current",
+      "maximum": "Maximum",
+      "bonus": "Bonus",
+      "roll": "Roll",
+      "success": "Success",
+      "failure": "Failure",
+      "criticalSuccess": "Critical Success",
+      "criticalFailure": "Critical Failure",
+      "damageRoll": "Damage Roll",
+      "tensDie": "Tens die",
+      "weapon": "Weapon",
+      "damage": "Damage",
+      "xp": "XP"
+    },
+    "abilities": {
+      "strength": "Strength",
+      "agility": "Agility",
+      "stealth": "Stealth",
+      "toughness": "Toughness",
+      "perception": "Perception",
+      "reasoning": "Reasoning",
+      "influence": "Influence",
+      "willpower": "Willpower",
+      "melee": "Melee",
+      "ranged": "Ranged"
+    },
+    "tabs": {
+      "main": "Main",
+      "equipment": "Equipment"
+    },
+    "character": {
+      "background": "Background & Motivation",
+      "abilities": "Abilities",
+      "specialisms": "Specialisms",
+      "health": "Health",
+      "movement": "Movement",
+      "equipment": "Equipment",
+      "squaresPerRound": "squares per round",
+      "power": "Power"
+    },
+    "items": {
+      "weapon": "Weapon",
+      "armor": "Armor",
+      "item": "Item",
+      "specialism": "Specialism",
+      "equipment": "Equipment"
+    },
+    "buttons": {
+      "roll": "Roll",
+      "experience": "XP",
+      "add": "Add",
+      "edit": "Edit",
+      "delete": "Delete"
+    },
+    "rollDialog": {
+      "target": "Target Percentage",
+      "modifier": "Difficulty Modifier",
+      "customModifier": "Custom Modifier",
+      "veryHard": "Very Hard (-40%)",
+      "hard": "Hard (-20%)",
+      "normal": "Normal (0%)",
+      "easy": "Easy (+20%)",
+      "difficultyModifier": "Difficulty Modifier"
+    }
+  }
+}

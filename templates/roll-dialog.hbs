@@ -1,0 +1,23 @@
+<form>
+  <div class="form-group">
+    <label>{{localize "hack100.rollDialog.target"}}</label>
+    <input type="number" name="target" value="{{target}}" readonly />
+  </div>
+
+  <div class="form-group">
+    <label>{{localize "hack100.rollDialog.modifier"}}</label>
+    <select name="modifier">
+      <option value="-40">{{localize "hack100.rollDialog.veryHard"}}</option>
+      <option value="-20">{{localize "hack100.rollDialog.hard"}}</option>
+      <option value="0" selected>{{localize
+          "hack100.rollDialog.normal"
+        }}</option>
+      <option value="20">{{localize "hack100.rollDialog.easy"}}</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label>{{localize "hack100.rollDialog.customModifier"}}</label>
+    <input type="number" name="customModifier" value="0" />
+  </div>
+</form>

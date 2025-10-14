@@ -1,0 +1,455 @@
+/* Hack100 System Styles */
+
+.hack100 {
+  font-family: "Signika", sans-serif;
+}
+
+.hack100 .window-app .window-content {
+  overflow: scroll;
+}
+
+/* Sheet Header */
+.hack100 .sheet-header {
+  flex: 0 0 100px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+}
+
+.hack100 .sheet-header .profile-img {
+  flex: 0 0 100px;
+  height: 135px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.hack100 .sheet-header .header-fields {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.hack100 .sheet-header h1.charname {
+  height: 50px;
+  padding: 0px;
+  margin: 5px 0;
+  border-bottom: 0;
+}
+
+.hack100 .sheet-header h1.charname input {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  border: 1px solid #ccc;
+  font-size: 24px;
+  font-weight: bold;
+  padding: 5px;
+}
+
+.hack100 .background-motivation {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.hack100 .background-motivation label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.hack100 .background-motivation textarea {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  font-style: italic;
+  resize: vertical;
+  min-height: 60px;
+  font-family: inherit;
+  font-size: 12px;
+}
+
+/* Tabs */
+.hack100 .tabs {
+  height: 40px;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+
+.hack100 .tabs .item {
+  line-height: 40px;
+  font-weight: bold;
+}
+
+.hack100 .tabs .item.active {
+  text-decoration: underline;
+  text-shadow: none;
+}
+
+/* Abilities Grid */
+.hack100 .abilities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.hack100 .ability-block {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  background: #f9f9f9;
+}
+
+.hack100 .ability-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.hack100 .ability-header h4 {
+  margin: 0;
+  font-weight: bold;
+}
+
+.hack100 .ability-bonus {
+  font-size: 12px;
+  color: #666;
+}
+
+.hack100 .ability-value {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.hack100 .ability-value input {
+  width: 60px;
+  text-align: center;
+  margin-right: 5px;
+  border: 1px solid #ccc;
+  padding: 3px;
+}
+
+.hack100 .ability-controls {
+  display: flex;
+  gap: 5px;
+}
+
+.hack100 .ability-controls button {
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  background: white;
+  cursor: pointer;
+  border-radius: 3px;
+  font-size: 11px;
+}
+
+.hack100 .ability-controls button:hover {
+  background: #f0f0f0;
+}
+
+.hack100 .ability-controls .experience-roll {
+  background: #d4edda;
+  border-color: #c3e6cb;
+  color: #155724;
+}
+
+/* Health Section */
+.hack100 .health-section {
+  margin-bottom: 20px;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background: #f9f9f9;
+}
+
+.hack100 .health-tracker {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  align-items: center;
+}
+
+.hack100 .health-current,
+.hack100 .health-max {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hack100 .health-current input {
+  width: 60px;
+  text-align: center;
+  border: 1px solid #ccc;
+  padding: 5px;
+}
+
+.hack100 .health-max span {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.hack100 .health-calculation {
+  grid-column: 1 / -1;
+  text-align: center;
+  margin-top: 10px;
+}
+
+/* Movement Section */
+.hack100 .movement-section {
+  margin-bottom: 20px;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background: #f9f9f9;
+}
+
+.hack100 .movement-value {
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* Specialisms Section */
+.hack100 .specialisms-section {
+  margin-bottom: 20px;
+}
+
+.hack100 .specialisms-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.hack100 .specialism-item {
+  display: grid;
+  grid-template-columns: 2fr 80px 20px 60px 60px 20px 60px;
+  gap: 10px;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  background: #f9f9f9;
+}
+
+.hack100 .specialism-item input[type="text"] {
+  border: 1px solid #ccc;
+  padding: 5px;
+}
+
+.hack100 .specialism-item input[type="number"] {
+  width: 100%;
+  text-align: center;
+  border: 1px solid #ccc;
+  padding: 5px;
+}
+
+/* Items Section */
+.hack100 .items-section {
+  margin-bottom: 20px;
+}
+
+.hack100 .items-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #ccc;
+}
+
+.hack100 .items-header h3 {
+  margin: 0;
+  font-weight: bold;
+}
+
+.hack100 .item-create {
+  font-size: 12px;
+  color: #007bff;
+  text-decoration: none;
+  padding: 5px 10px;
+  border: 1px solid #007bff;
+  border-radius: 3px;
+  background: white;
+}
+
+.hack100 .item-create:hover {
+  background: #007bff;
+  color: white;
+}
+
+.hack100 .items-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.hack100 .items-list .item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+}
+
+.hack100 .items-list .item:hover {
+  background: #f5f5f5;
+}
+
+.hack100 .item-name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hack100 .item-name h4 {
+  margin: 0;
+  font-weight: normal;
+}
+
+.hack100 .item-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hack100 .item-control {
+  color: #666;
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.hack100 .item-control:hover {
+  color: #333;
+}
+
+.hack100 .item-damage,
+.hack100 .item-protection,
+.hack100 .item-location {
+  font-size: 12px;
+  color: #666;
+  min-width: 60px;
+  text-align: center;
+}
+
+/* Chat Messages */
+.hack100-roll {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  background: #f9f9f9;
+}
+
+.hack100-roll h3 {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.hack100-roll .roll-result {
+  text-align: center;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.hack100-roll .result-text {
+  text-align: center;
+  font-weight: bold;
+  padding: 5px;
+  border-radius: 3px;
+}
+
+.hack100-roll .result-text.critical {
+  background: #b1f2a7;
+  color: #155724;
+}
+
+.hack100-roll .result-text.success {
+  background: #d4edda;
+  color: #155724;
+}
+
+.hack100-roll .result-text.failure {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.hack100-roll .result-text.fumble {
+  background: #f2a7af;
+  color: #721c24;
+}
+
+.hack100-damage {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  background: #fff3cd;
+}
+
+.hack100-damage h3 {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.hack100-damage .damage-result {
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.hack100-damage .damage-breakdown {
+  text-align: center;
+  font-size: 12px;
+  color: #666;
+}
+
+.hack100-experience {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  background: #e7f3ff;
+}
+
+.hack100-experience h3 {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* Utility Classes */
+.hack100 .flexrow {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.hack100 .flexcol {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .hack100 .abilities-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hack100 .health-tracker {
+    grid-template-columns: 1fr;
+  }
+
+  .hack100 .specialism-item {
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+}

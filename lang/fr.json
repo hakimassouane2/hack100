@@ -1,0 +1,69 @@
+{
+  "hack100": {
+    "global": {
+      "current": "Actuel",
+      "maximum": "Maximum",
+      "bonus": "Bonus",
+      "roll": "Lancer",
+      "success": "Succès",
+      "failure": "Échec",
+      "criticalSuccess": "Succès critique",
+      "criticalFailure": "Échec critique",
+      "damageRoll": "Lancer de dégâts",
+      "tensDie": "Dé de dizaines",
+      "weapon": "Arme",
+      "damage": "Dégâts",
+      "xp": "XP"
+    },
+    "abilities": {
+      "strength": "Force",
+      "agility": "Agilité",
+      "stealth": "Discrétion",
+      "toughness": "Endurance",
+      "perception": "Perception",
+      "reasoning": "Raisonnement",
+      "influence": "Influence",
+      "willpower": "Volonté",
+      "melee": "Mêlée",
+      "ranged": "Distance"
+    },
+    "tabs": {
+      "main": "Principal",
+      "equipment": "Équipement"
+    },
+    "character": {
+      "background": "Historique & Motivation",
+      "abilities": "Compétences",
+      "specialisms": "Spécialités",
+      "health": "Santé",
+      "movement": "Déplacement",
+      "equipment": "Équipement",
+      "squaresPerRound": "carrés par tour",
+      "power": "Pouvoir"
+    },
+    "items": {
+      "weapon": "Armes",
+      "armor": "Armures",
+      "item": "Objet",
+      "specialism": "Spécialité",
+      "equipment": "Équipement"
+    },
+    "buttons": {
+      "roll": "Lancer",
+      "experience": "XP",
+      "add": "Ajouter",
+      "edit": "Modifier",
+      "delete": "Supprimer"
+    },
+    "rollDialog": {
+      "target": "Cible",
+      "modifier": "Modificateur",
+      "customModifier": "Modificateur personnalisé",
+      "veryHard": "Très difficile (-40%)",
+      "hard": "Difficile (-20%)",
+      "normal": "Normal (0%)",
+      "easy": "Facile (+20%)",
+      "difficultyModifier": "Modificateur de difficulté"
+    }
+  }
+}
