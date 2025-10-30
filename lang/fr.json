@@ -55,7 +55,8 @@
       "experience": "XP",
       "add": "Ajouter",
       "edit": "Modifier",
-      "delete": "Supprimer"
+      "delete": "Supprimer",
+      "cancel": "Annuler"
     },
     "rollDialog": {
       "target": "Cible",

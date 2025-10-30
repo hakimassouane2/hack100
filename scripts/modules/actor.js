@@ -27,18 +27,18 @@ export class Hack100Actor extends Actor {
     if (systemData.specialisms) {
       for (let [key, specialism] of Object.entries(systemData.specialisms)) {
         // Fix corrupted name fields (e.g., comma-filled strings)
-        if (specialism.name && typeof specialism.name === 'string') {
+        if (specialism.name && typeof specialism.name === "string") {
           // If name is only commas or whitespace, clear it
           if (specialism.name.match(/^[,\s]*$/)) {
             specialism.name = "";
           }
         }
         // Ensure value is a valid number
-        if (typeof specialism.value !== 'number' || isNaN(specialism.value)) {
+        if (typeof specialism.value !== "number" || isNaN(specialism.value)) {
           specialism.value = 0;
         }
         // Ensure boolean fields are boolean
-        if (typeof specialism.experienceCheck !== 'boolean') {
+        if (typeof specialism.experienceCheck !== "boolean") {
           specialism.experienceCheck = false;
         }
       }
@@ -82,7 +82,7 @@ export class Hack100Actor extends Actor {
     // Check if it's a core ability
     if (systemData.abilities[abilityId]) {
       target = systemData.abilities[abilityId].value;
-      label = abilityId.charAt(0).toUpperCase() + abilityId.slice(1);
+      label = game.i18n.localize(`hack100.abilities.${abilityId}`);
     }
     // Check if it's a specialism
     else if (systemData.specialisms[abilityId]) {
@@ -95,7 +95,7 @@ export class Hack100Actor extends Actor {
 
     const modifier = options.modifier || 0;
     const dialogData = {
-      title: `Roll ${label}`,
+      title: `${game.i18n.localize("hack100.global.roll")} ${label}`,
       target: target,
       modifier: modifier,
     };
@@ -112,7 +112,7 @@ export class Hack100Actor extends Actor {
         content: html,
         buttons: {
           roll: {
-            label: "Roll",
+            label: game.i18n.localize("hack100.global.roll"),
             callback: async (html) => {
               const form = html[0].querySelector("form");
               const modifier = parseInt(form.modifier.value) || 0;
@@ -130,7 +130,7 @@ export class Hack100Actor extends Actor {
             },
           },
           cancel: {
-            label: "Cancel",
+            label: game.i18n.localize("hack100.buttons.cancel"),
             callback: () => resolve(null),
           },
         },

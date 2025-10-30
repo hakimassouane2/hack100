@@ -91,7 +91,9 @@ export async function rollTask(target, label, modifier = 0) {
       <div class="hack100-roll">
         <h3>${label}</h3>
         <div class="roll-result">
-          <strong>${result}</strong> vs Target: ${modifiedTarget}
+          <strong>${result}</strong> vs ${game.i18n.localize(
+      "hack100.rollDialog.target"
+    )}: ${modifiedTarget}
         </div>
         <div class="result-text ${
           criticalSuccess
