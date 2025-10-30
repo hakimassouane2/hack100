@@ -4,9 +4,9 @@
     "templates": {
       "base": {
         "health": {
-          "value": 10,
+          "value": 12,
           "min": 0,
-          "max": 10
+          "max": 12
         },
         "abilities": {
           "strength": {
