@@ -33,6 +33,7 @@
     },
     "character": {
       "background": "Background & Motivation",
+      "backgroundPlaceholder": "I'm great because ... / But the society has a problem with me because ...",
       "abilities": "Abilities",
       "specialisms": "Specialisms",
       "newSpecialism": "New specialism",

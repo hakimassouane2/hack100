@@ -33,6 +33,7 @@
     },
     "character": {
       "background": "Historique & Motivation",
+      "backgroundPlaceholder": "Je suis géniale car ... / Mais la société à un problème avec moi car ...",
       "abilities": "Compétences",
       "specialisms": "Spécialités",
       "newSpecialism": "Nouvelle spécialité",
