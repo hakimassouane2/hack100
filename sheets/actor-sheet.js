@@ -138,7 +138,9 @@ export class Hack100ActorSheet extends ActorSheet {
     html.find(".experience-roll").click(this._onExperienceRoll.bind(this));
 
     // Specialism management
-    html.find(".specialism-add").click(this._onSpecialismAdd.bind(this));
+    const addButton = html.find(".specialism-add");
+    console.log("Hack100 | Found specialism-add buttons:", addButton.length);
+    addButton.click(this._onSpecialismAdd.bind(this));
     html.find(".specialism-delete").click(this._onSpecialismDelete.bind(this));
 
     // Drag events for macros.
@@ -230,6 +232,8 @@ export class Hack100ActorSheet extends ActorSheet {
    */
   async _onSpecialismAdd(event) {
     event.preventDefault();
+    console.log("Hack100 | Adding new specialism");
+
     const specialisms = this.actor.system.specialisms;
 
     // Find the next available specialism slot number
@@ -239,15 +243,22 @@ export class Hack100ActorSheet extends ActorSheet {
     }
 
     const newKey = `specialism${nextNum}`;
+    console.log(`Hack100 | Creating specialism with key: ${newKey}`);
+
     const updateData = {
       [`system.specialisms.${newKey}`]: {
-        name: "",
-        value: 0,
+        name: game.i18n.localize("hack100.character.newSpecialism"),
+        value: 10,
         experienceCheck: false
       }
     };
 
-    await this.actor.update(updateData);
+    try {
+      await this.actor.update(updateData);
+      console.log("Hack100 | Specialism added successfully");
+    } catch (error) {
+      console.error("Hack100 | Error adding specialism:", error);
+    }
   }
 
   /**

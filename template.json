@@ -60,23 +60,7 @@
             "experienceCheck": false
           }
         },
-        "specialisms": {
-          "specialism1": {
-            "name": "",
-            "value": 40,
-            "experienceCheck": false
-          },
-          "specialism2": {
-            "name": "",
-            "value": 0,
-            "experienceCheck": false
-          },
-          "specialism3": {
-            "name": "",
-            "value": 0,
-            "experienceCheck": false
-          }
-        },
+        "specialisms": {},
         "movement": 8,
         "notes": ""
       }

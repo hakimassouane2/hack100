@@ -118,8 +118,8 @@
 }
 
 .hack100 .sheet-header .profile-img {
-  flex: 0 0 120px;
-  height: 120px;
+  flex: 0 0 132px;
+  height: 132px;
   border: 3px solid var(--hack100-border-dark);
   border-radius: var(--hack100-radius-md);
   cursor: pointer;
@@ -159,6 +159,7 @@
   padding: var(--hack100-spacing-sm) var(--hack100-spacing-md);
   box-shadow: var(--hack100-shadow-inset);
   transition: border-color 0.2s ease;
+  margin: 0;
 }
 
 .hack100 .sheet-header h1.charname input:focus {
@@ -207,7 +208,8 @@
 /* ===== TABS ===== */
 .hack100 .tabs {
   display: flex;
-  gap: var(--hack100-spacing-sm);
+  /* gap: var(--hack100-spacing-sm); */
+  border-top: 0;
   border-bottom: 3px solid var(--hack100-border-dark);
   margin-bottom: var(--hack100-spacing-xl);
   padding: 0;
@@ -229,6 +231,7 @@
   transition: all 0.2s ease;
   margin-bottom: -3px;
   line-height: 1;
+  flex-grow: 1;
 }
 
 .hack100 .tabs .item:hover {
@@ -242,15 +245,26 @@
   border-bottom: 3px solid var(--hack100-accent);
   text-decoration: none;
   text-shadow: none;
-  transform: translateY(3px);
+  /* transform: translateY(3px); */
 }
 
 /* ===== SECTION CONTAINERS ===== */
 .hack100 .abilities-section,
-.hack100 .health-section,
-.hack100 .movement-section,
 .hack100 .specialisms-section {
   margin-bottom: var(--hack100-spacing-xl);
+}
+
+/* Health and Movement Row - Side by Side */
+.hack100 .health-movement-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--hack100-spacing-lg);
+  margin-bottom: var(--hack100-spacing-xl);
+}
+
+.hack100 .health-movement-row .health-section,
+.hack100 .health-movement-row .movement-section {
+  margin-bottom: 0;
 }
 
 /* ===== ABILITIES GRID ===== */
@@ -480,23 +494,19 @@
 }
 
 /* ===== SPECIALISMS SECTION ===== */
-.hack100 .specialisms-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.hack100 .specialisms-section h3 {
   margin-bottom: var(--hack100-spacing-md);
 }
 
-.hack100 .specialisms-header h3 {
-  margin: 0;
-}
-
 .hack100 .specialism-add {
-  padding: var(--hack100-spacing-sm) var(--hack100-spacing-lg);
-  font-size: 12px;
+  display: block;
+  width: 100%;
+  height: 48px;
+  margin-top: var(--hack100-spacing-md);
+  font-size: 13px;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.5px;
   color: white;
   background: var(--hack100-accent);
   border: 2px solid var(--hack100-accent-dark);
@@ -541,6 +551,7 @@
 }
 
 .hack100 .specialism-item input[type="text"] {
+  height: 40px;
   padding: var(--hack100-spacing-sm) var(--hack100-spacing-md);
   font-size: 14px;
   font-weight: 500;
@@ -559,6 +570,7 @@
 
 .hack100 .specialism-item input[type="number"] {
   width: 70px;
+  height: 40px;
   padding: var(--hack100-spacing-sm);
   text-align: center;
   font-size: 16px;
@@ -580,10 +592,12 @@
   font-size: 14px;
   font-weight: 600;
   color: var(--hack100-text-muted);
+  line-height: 40px;
 }
 
 .hack100 .specialism-item button {
-  padding: var(--hack100-spacing-sm) var(--hack100-spacing-md);
+  height: 40px;
+  padding: 0 var(--hack100-spacing-md);
   font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
@@ -621,9 +635,12 @@
   color: white;
   background: var(--hack100-danger);
   border: 2px solid var(--hack100-danger);
-  padding: var(--hack100-spacing-sm);
-  width: 36px;
-  height: 36px;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .hack100 .specialism-item .specialism-delete:hover {
@@ -935,6 +952,10 @@
   }
 
   .hack100 .health-tracker {
+    grid-template-columns: 1fr;
+  }
+
+  .hack100 .health-movement-row {
     grid-template-columns: 1fr;
   }
 }

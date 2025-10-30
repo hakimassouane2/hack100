@@ -25,7 +25,36 @@
 
     {{!-- Main Tab --}}
     <div class="tab main" data-group="primary" data-tab="main">
-      
+
+      {{!-- Health and Movement Row --}}
+      <div class="health-movement-row">
+        {{!-- Health Section --}}
+        <div class="health-section">
+          <h3>{{localize "hack100.character.health"}}</h3>
+          <div class="health-tracker">
+            <div class="health-current">
+              <label>{{localize "hack100.global.current"}}</label>
+              <input type="number" name="system.health.value" value="{{system.health.value}}" min="0"/>
+            </div>
+            <div class="health-max">
+              <label>{{localize "hack100.global.maximum"}}</label>
+              <span>{{system.health.max}}</span>
+            </div>
+            <div class="health-calculation">
+              <small>({{localize "hack100.abilities.toughness"}}+{{localize "hack100.abilities.willpower"}}) × 2</small>
+            </div>
+          </div>
+        </div>
+
+        {{!-- Movement Section --}}
+        <div class="movement-section">
+          <h3>{{localize "hack100.character.movement"}}</h3>
+          <div class="movement-value">
+            <span>{{system.movement}}</span> {{localize "hack100.character.squaresPerRound"}}
+          </div>
+        </div>
+      </div>
+
       {{!-- Abilities Section --}}
       <div class="abilities-section">
         <h3>{{localize "hack100.character.abilities"}}</h3>
@@ -51,40 +80,9 @@
         </div>
       </div>
 
-      {{!-- Health Section --}}
-      <div class="health-section">
-        <h3>{{localize "hack100.character.health"}}</h3>
-        <div class="health-tracker">
-          <div class="health-current">
-            <label>{{localize "hack100.global.current"}}</label>
-            <input type="number" name="system.health.value" value="{{system.health.value}}" min="0"/>
-          </div>
-          <div class="health-max">
-            <label>{{localize "hack100.global.maximum"}}</label>
-            <span>{{system.health.max}}</span>
-          </div>
-          <div class="health-calculation">
-            <small>({{localize "hack100.abilities.toughness"}}+{{localize "hack100.abilities.willpower"}}) × 2</small>
-          </div>
-        </div>
-      </div>
-
-      {{!-- Movement Section --}}
-      <div class="movement-section">
-        <h3>{{localize "hack100.character.movement"}}</h3>
-        <div class="movement-value">
-          <span>{{system.movement}}</span> {{localize "hack100.character.squaresPerRound"}}
-        </div>
-      </div>
-
       {{!-- Specialisms Section --}}
       <div class="specialisms-section">
-        <div class="specialisms-header">
-          <h3>{{localize "hack100.character.specialisms"}}</h3>
-          <button type="button" class="specialism-add" title="{{localize "hack100.buttons.add"}} {{localize "hack100.character.specialisms"}}">
-            <i class="fas fa-plus"></i> {{localize "hack100.buttons.add"}}
-          </button>
-        </div>
+        <h3>{{localize "hack100.character.specialisms"}}</h3>
         <div class="specialisms-list">
           {{#each system.specialisms as |specialism key|}}
           <div class="specialism-item">
@@ -103,6 +101,9 @@
           </div>
           {{/each}}
         </div>
+        <button type="button" class="specialism-add" title="{{localize "hack100.buttons.add"}} {{localize "hack100.character.specialisms"}}">
+          <i class="fas fa-plus"></i> {{localize "hack100.buttons.add"}}
+        </button>
       </div>
 
     </div>
