@@ -66,6 +66,10 @@
       "normal": "Normal (0%)",
       "easy": "Facile (+20%)",
       "difficultyModifier": "Modificateur de difficulté"
+    },
+    "tooltips": {
+      "xpAvailable": "Vérification d'expérience disponible - Lancez pour améliorer cette compétence",
+      "xpNotAvailable": "Aucune vérification d'expérience disponible - Réussissez un lancer pour obtenir une vérification d'expérience"
     }
   }
 }

@@ -71,9 +71,7 @@
             </div>
             <div class="ability-controls">
               <button type="button" class="rollable" data-ability="{{key}}">{{localize "hack100.global.roll"}}</button>
-              {{#if ability.experienceCheck}}
-              <button type="button" class="experience-roll" data-ability="{{key}}" title="Experience Check Available">{{localize "hack100.global.xp"}}</button>
-              {{/if}}
+              <button type="button" class="experience-roll" data-ability="{{key}}" {{#unless ability.experienceCheck}}disabled{{/unless}} title="{{#if ability.experienceCheck}}{{localize "hack100.tooltips.xpAvailable"}}{{else}}{{localize "hack100.tooltips.xpNotAvailable"}}{{/if}}">{{localize "hack100.global.xp"}}</button>
             </div>
           </div>
           {{/each}}
@@ -91,9 +89,7 @@
             <span>%</span>
             {{#if specialism.name}}
             <button type="button" class="rollable" data-ability="{{key}}">{{localize "hack100.buttons.roll"}}</button>
-            {{#if specialism.experienceCheck}}
-            <button type="button" class="experience-roll" data-ability="{{key}}" title="Experience Check Available">{{localize "hack100.buttons.experience"}}</button>
-            {{/if}}
+            <button type="button" class="experience-roll" data-ability="{{key}}" {{#unless specialism.experienceCheck}}disabled{{/unless}} title="{{#if specialism.experienceCheck}}{{localize "hack100.tooltips.xpAvailable"}}{{else}}{{localize "hack100.tooltips.xpNotAvailable"}}{{/if}}">{{localize "hack100.buttons.experience"}}</button>
             {{/if}}
             <button type="button" class="specialism-delete" data-specialism="{{key}}" title="{{localize "hack100.buttons.delete"}}">
               <i class="fas fa-trash"></i>

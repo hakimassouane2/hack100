@@ -286,7 +286,7 @@
 
 .hack100 .ability-block:hover {
   box-shadow: var(--hack100-shadow-md);
-  transform: translateY(-2px);
+  /* transform: translateY(-2px); */
 }
 
 .hack100 .ability-header {
@@ -390,6 +390,23 @@
 .hack100 .ability-controls .experience-roll:hover {
   background: var(--hack100-accent-dark);
   border-color: var(--hack100-accent-dark);
+}
+
+.hack100 .ability-controls .experience-roll:disabled {
+  background: var(--hack100-bg-tertiary);
+  border-color: var(--hack100-border);
+  color: var(--hack100-text-muted);
+  cursor: not-allowed;
+  opacity: 0.5;
+  transform: none;
+  box-shadow: none;
+}
+
+.hack100 .ability-controls .experience-roll:disabled:hover {
+  background: var(--hack100-bg-tertiary);
+  border-color: var(--hack100-border);
+  transform: none;
+  box-shadow: none;
 }
 
 /* ===== HEALTH SECTION ===== */
@@ -629,6 +646,23 @@
 .hack100 .specialism-item .experience-roll:hover {
   background: var(--hack100-accent-dark);
   transform: translateY(-1px);
+}
+
+.hack100 .specialism-item .experience-roll:disabled {
+  background: var(--hack100-bg-tertiary);
+  border-color: var(--hack100-border);
+  color: var(--hack100-text-muted);
+  cursor: not-allowed;
+  opacity: 0.5;
+  transform: none;
+  box-shadow: none;
+}
+
+.hack100 .specialism-item .experience-roll:disabled:hover {
+  background: var(--hack100-bg-tertiary);
+  border-color: var(--hack100-border);
+  transform: none;
+  box-shadow: none;
 }
 
 .hack100 .specialism-item .specialism-delete {

@@ -66,6 +66,10 @@
       "normal": "Normal (0%)",
       "easy": "Easy (+20%)",
       "difficultyModifier": "Difficulty Modifier"
+    },
+    "tooltips": {
+      "xpAvailable": "Experience check available - Roll to improve this ability",
+      "xpNotAvailable": "No experience check available - Succeed on a roll to earn an experience check"
     }
   }
 }
