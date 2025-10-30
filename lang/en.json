@@ -28,8 +28,8 @@
       "ranged": "Ranged"
     },
     "tabs": {
-      "main": "Main",
-      "equipment": "Equipment"
+      "main": "Information",
+      "equipment": "Inventory"
     },
     "character": {
       "background": "Background & Motivation",

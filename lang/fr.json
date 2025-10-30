@@ -28,8 +28,8 @@
       "ranged": "Distance"
     },
     "tabs": {
-      "main": "Principal",
-      "equipment": "Équipement"
+      "main": "Informations",
+      "equipment": "Inventaire"
     },
     "character": {
       "background": "Historique & Motivation",
