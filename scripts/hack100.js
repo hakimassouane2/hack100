@@ -140,6 +140,21 @@ export async function rollDamage(weaponDamage, attackRoll) {
   const weaponDamageMod = parseInt(weaponDamage) || 0;
   const totalDamage = unitsDigit + weaponDamageMod;
 
+  // Get targeted tokens
+  const targets = Array.from(game.user.targets);
+  const hasTargets = targets.length > 0;
+
+  // Build apply damage button if there are targets
+  let applyDamageButton = "";
+  if (hasTargets) {
+    const targetIds = targets.map(t => t.id).join(',');
+    applyDamageButton = `
+      <button class="apply-damage" data-damage="${totalDamage}" data-targets="${targetIds}">
+        ${game.i18n.localize("hack100.global.applyDamage")}
+      </button>
+    `;
+  }
+
   const content = `
     <div class="hack100-damage">
       <h3>${game.i18n.localize("hack100.global.damageRoll")}</h3>
@@ -155,6 +170,7 @@ export async function rollDamage(weaponDamage, attackRoll) {
     "hack100.global.weapon"
   )}: ${weaponDamageMod}
       </div>
+      ${applyDamageButton}
     </div>
   `;
 
@@ -172,4 +188,49 @@ export async function rollDamage(weaponDamage, attackRoll) {
 
 Hooks.once("ready", async function () {
   console.log(`Hack100 | System Ready`);
+});
+
+/* -------------------------------------------- */
+/*  Chat Message Hooks                          */
+/* -------------------------------------------- */
+
+/**
+ * Handle clicking apply damage buttons in chat messages
+ */
+Hooks.on("renderChatMessage", (message, html, data) => {
+  html.find(".apply-damage").click(async (event) => {
+    event.preventDefault();
+    const button = event.currentTarget;
+    const damage = parseInt(button.dataset.damage);
+    const targetIds = button.dataset.targets.split(',');
+
+    // Apply damage to each targeted token
+    for (const targetId of targetIds) {
+      const token = canvas.tokens.get(targetId);
+      if (!token) continue;
+
+      const actor = token.actor;
+      if (!actor) continue;
+
+      // Calculate new health
+      const currentHealth = actor.system.health.value;
+      const newHealth = Math.max(0, currentHealth - damage);
+
+      // Update actor health
+      await actor.update({ "system.health.value": newHealth });
+
+      // Show notification
+      ui.notifications.info(
+        game.i18n.format("hack100.notifications.damageApplied", {
+          damage: damage,
+          name: actor.name,
+          health: newHealth
+        })
+      );
+    }
+
+    // Disable button after use
+    button.disabled = true;
+    button.textContent = game.i18n.localize("hack100.global.damageApplied");
+  });
 });

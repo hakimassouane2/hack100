@@ -19,7 +19,9 @@
       "tensDie": "Dé de dizaines",
       "weapon": "Arme",
       "damage": "Dégâts",
-      "xp": "XP"
+      "xp": "XP",
+      "applyDamage": "Appliquer les dégâts",
+      "damageApplied": "Dégâts appliqués"
     },
     "abilities": {
       "strength": "Force",
@@ -101,7 +103,8 @@
       "xpNotAvailable": "Aucune vérification d'expérience disponible - Réussis un jet pour obtenir une vérification d'expérience"
     },
     "notifications": {
-      "experienceAwarded": "Vérification d'expérience accordée pour {ability} !"
+      "experienceAwarded": "Vérification d'expérience accordée pour {ability} !",
+      "damageApplied": "{damage} dégâts appliqués à {name} (Santé : {health})"
     },
     "hints": {
       "weaponDamage": "Bonus de dégâts ajouté au chiffre des dizaines du jet d'attaque",

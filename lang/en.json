@@ -19,7 +19,9 @@
       "tensDie": "Tens die",
       "weapon": "Weapon",
       "damage": "Damage",
-      "xp": "XP"
+      "xp": "XP",
+      "applyDamage": "Apply Damage",
+      "damageApplied": "Damage Applied"
     },
     "abilities": {
       "strength": "Strength",
@@ -101,7 +103,8 @@
       "xpNotAvailable": "No experience check available - Succeed on a roll to earn an experience check"
     },
     "notifications": {
-      "experienceAwarded": "Experience check awarded for {ability}!"
+      "experienceAwarded": "Experience check awarded for {ability}!",
+      "damageApplied": "{damage} damage applied to {name} (Health: {health})"
     },
     "hints": {
       "weaponDamage": "Damage bonus added to attack roll tens digit",

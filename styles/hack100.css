@@ -1117,6 +1117,46 @@
   font-size: 13px;
   color: var(--hack100-text-muted);
   font-style: italic;
+  margin-bottom: var(--hack100-spacing-md);
+}
+
+.hack100-damage .apply-damage {
+  display: block;
+  width: 100%;
+  height: 42px;
+  margin-top: var(--hack100-spacing-md);
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: white;
+  background: var(--hack100-danger);
+  border: 2px solid #8b3a3a;
+  border-radius: var(--hack100-radius-md);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: var(--hack100-shadow-sm);
+}
+
+.hack100-damage .apply-damage:hover:not(:disabled) {
+  background: #8b3a3a;
+  transform: translateY(-1px);
+  box-shadow: var(--hack100-shadow-md);
+}
+
+.hack100-damage .apply-damage:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: var(--hack100-shadow-sm);
+}
+
+.hack100-damage .apply-damage:disabled {
+  background: var(--hack100-bg-tertiary);
+  border-color: var(--hack100-border);
+  color: var(--hack100-text-muted);
+  cursor: not-allowed;
+  opacity: 0.6;
+  transform: none;
+  box-shadow: none;
 }
 
 .hack100-experience {
