@@ -11,11 +11,11 @@
       "maximum": "Maximum",
       "bonus": "Bonus",
       "roll": "Lancer",
-      "success": "Succès",
+      "success": "Jet de",
       "failure": "Échec",
       "criticalSuccess": "Succès critique",
       "criticalFailure": "Échec critique",
-      "damageRoll": "Lancer de dégâts",
+      "damageRoll": "Jet de dégâts",
       "tensDie": "Dé de dizaines",
       "weapon": "Arme",
       "damage": "Dégâts",
@@ -55,10 +55,13 @@
       "armor": "Armures",
       "item": "Objet",
       "specialism": "Spécialité",
-      "equipment": "Équipement"
+      "equipment": "Équipement",
+      "newItem": "Nouvel Objet",
+      "newWeapon": "Nouvelle Arme",
+      "newArmor": "Nouvelle Armure"
     },
     "buttons": {
-      "roll": "Lancer",
+      "roll": "Jet de",
       "experience": "XP",
       "add": "Ajouter",
       "edit": "Modifier",
@@ -76,8 +79,8 @@
       "difficultyModifier": "Modificateur de difficulté"
     },
     "tooltips": {
-      "xpAvailable": "Vérification d'expérience disponible - Lancez pour améliorer cette compétence",
-      "xpNotAvailable": "Aucune vérification d'expérience disponible - Réussissez un lancer pour obtenir une vérification d'expérience"
+      "xpAvailable": "Vérification d'expérience disponible - Fait un jet pour améliorer cette compétence",
+      "xpNotAvailable": "Aucune vérification d'expérience disponible - Réussis un jet pour obtenir une vérification d'expérience"
     }
   }
 }

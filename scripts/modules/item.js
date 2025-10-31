@@ -40,7 +40,7 @@ export class Hack100Item extends Item {
     if (!actor) return;
 
     const weaponData = this.system;
-    const isRanged = weaponData.type === "ranged";
+    const isRanged = weaponData.weaponType === "ranged";
     const abilityId = isRanged ? "ranged" : "melee";
 
     // Roll the attack

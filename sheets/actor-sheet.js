@@ -169,8 +169,8 @@ export class Hack100ActorSheet extends ActorSheet {
     const type = header.dataset.type;
     // Grab any data associated with this control.
     const data = duplicate(header.dataset);
-    // Initialize a default name.
-    const name = `New ${type.capitalize()}`;
+    // Initialize a default name using localization.
+    const name = game.i18n.localize(`hack100.items.new${type.capitalize()}`);
     // Prepare the item object.
     const itemData = {
       name: name,

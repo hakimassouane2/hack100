@@ -96,16 +96,16 @@
     "weapon": {
       "templates": ["base"],
       "weaponType": "melee",
-      "damage": "+2",
-      "range": "",
+      "damage": "0",
+      "range": "0",
       "hasRoll": true,
       "attackBonus": 0
     },
     "armor": {
       "templates": ["base"],
-      "protection": "-1",
-      "agilityPenalty": -10,
-      "movementPenalty": -1
+      "protection": "0",
+      "agilityPenalty": 0,
+      "movementPenalty": 0
     },
     "specialism": {
       "templates": ["base"],

@@ -7,7 +7,7 @@ export class Hack100ItemSheet extends ItemSheet {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ["hack100", "sheet", "item"],
       width: 520,
-      height: 480,
+      height: 625,
       tabs: [
         {
           navSelector: ".sheet-tabs",

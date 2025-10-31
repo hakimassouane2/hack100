@@ -55,7 +55,10 @@
       "armor": "Armor",
       "item": "Item",
       "specialism": "Specialism",
-      "equipment": "Equipment"
+      "equipment": "Equipment",
+      "newItem": "New Item",
+      "newWeapon": "New Weapon",
+      "newArmor": "New Armor"
     },
     "buttons": {
       "roll": "Roll",
