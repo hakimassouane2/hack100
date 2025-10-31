@@ -58,7 +58,25 @@
       "equipment": "Equipment",
       "newItem": "New Item",
       "newWeapon": "New Weapon",
-      "newArmor": "New Armor"
+      "newArmor": "New Armor",
+      "description": "Description",
+      "attributes": "Attributes",
+      "weaponType": "Weapon Type",
+      "melee": "Melee",
+      "ranged": "Ranged",
+      "damageModifier": "Damage Modifier",
+      "attackBonus": "Attack Bonus",
+      "range": "Range",
+      "rangeForRanged": "Range (for ranged weapons)",
+      "location": "Location",
+      "quantity": "Quantity",
+      "weight": "Weight",
+      "weightPerItem": "Weight (per item)",
+      "price": "Price",
+      "currentlyEquipped": "Currently Equipped",
+      "equippedInUse": "Equipped / In Use",
+      "protectionValue": "Protection Value",
+      "movementPenalty": "Movement Penalty"
     },
     "buttons": {
       "roll": "Roll",
@@ -81,6 +99,39 @@
     "tooltips": {
       "xpAvailable": "Experience check available - Roll to improve this ability",
       "xpNotAvailable": "No experience check available - Succeed on a roll to earn an experience check"
+    },
+    "notifications": {
+      "experienceAwarded": "Experience check awarded for {ability}!"
+    },
+    "hints": {
+      "weaponDamage": "Damage bonus added to attack roll tens digit",
+      "weaponAttackBonus": "Bonus to attack rolls",
+      "weaponRange": "Maximum effective range of the weapon",
+      "weaponLocation": "E.g., \"right hand\", \"belt\", \"back sheath\", \"quiver\"",
+      "weaponEquipped": "Check this box if the weapon is currently equipped and ready for use",
+      "armorProtection": "Damage reduction provided by this armor",
+      "armorMovementPenalty": "Squares reduced from base movement",
+      "armorLocation": "E.g., \"worn\", \"backpack\", \"mount's saddlebag\"",
+      "armorEquipped": "Check this box if the armor is currently being worn",
+      "itemLocation": "E.g., \"backpack\", \"belt pouch\", \"left hand\", \"pocket\", \"horse saddlebag\"",
+      "itemEquipped": "Check this box if the item is currently equipped or in use"
+    },
+    "placeholders": {
+      "weaponName": "Weapon name",
+      "armorName": "Armor name",
+      "itemName": "Item name",
+      "descriptionWeapon": "Enter a detailed description of this weapon...",
+      "descriptionArmor": "Enter a detailed description of this armor...",
+      "descriptionItem": "Enter a detailed description of this item...",
+      "damageModifier": "+2",
+      "attackBonus": "0",
+      "range": "e.g., 50 squares, 100 meters",
+      "weaponLocation": "Where is this weapon carried?",
+      "armorLocation": "Where is this armor stored?",
+      "itemLocation": "Where is this item stored?",
+      "quantity": "1",
+      "weight": "0",
+      "price": "0"
     }
   }
 }

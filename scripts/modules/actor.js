@@ -162,7 +162,7 @@ export class Hack100Actor extends Actor {
 
     if (Object.keys(updateData).length > 0) {
       this.update(updateData);
-      ui.notifications.info(`Experience check awarded for ${abilityId}!`);
+      ui.notifications.info(game.i18n.format("hack100.notifications.experienceAwarded", { ability: abilityId }));
     }
   }
 
@@ -189,12 +189,12 @@ export class Hack100Actor extends Actor {
     }
 
     const roll = new Roll("1d100");
-    await roll.roll({ async: true });
+    await roll.evaluate();
 
     if (roll.total > currentValue) {
       // Improvement roll
       const improvementRoll = new Roll("1d5");
-      await improvementRoll.roll({ async: true });
+      await improvementRoll.evaluate();
 
       const newValue = currentValue + improvementRoll.total;
       let updateData = {};
@@ -209,17 +209,16 @@ export class Hack100Actor extends Actor {
 
       await this.update(updateData);
 
-      const chatData = {
-        user: game.user.id,
-        content: `
-          <div class="hack100-experience">
-            <h3>Experience Roll: ${abilityId}</h3>
-            <p><strong>Success!</strong> ${abilityId} improved from ${currentValue}% to ${newValue}%</p>
-          </div>
-        `,
-      };
+      // Show both dice rolls
+      await roll.toMessage({
+        flavor: `<h3>Experience Roll: ${abilityId}</h3><p>Rolling vs ${currentValue}%...</p>`,
+        speaker: ChatMessage.getSpeaker({ actor: this }),
+      });
 
-      ChatMessage.create(chatData);
+      await improvementRoll.toMessage({
+        flavor: `<h3>Improvement Roll</h3><p><strong>Success!</strong> ${abilityId} improved from ${currentValue}% to ${newValue}%</p>`,
+        speaker: ChatMessage.getSpeaker({ actor: this }),
+      });
     } else {
       // Clear experience check anyway
       let updateData = {};
@@ -231,17 +230,10 @@ export class Hack100Actor extends Actor {
 
       await this.update(updateData);
 
-      const chatData = {
-        user: game.user.id,
-        content: `
-          <div class="hack100-experience">
-            <h3>Experience Roll: ${abilityId}</h3>
-            <p>No improvement - rolled ${roll.total} vs ${currentValue}%</p>
-          </div>
-        `,
-      };
-
-      ChatMessage.create(chatData);
+      await roll.toMessage({
+        flavor: `<h3>Experience Roll: ${abilityId}</h3><p>No improvement - rolled ${roll.total} vs ${currentValue}%</p>`,
+        speaker: ChatMessage.getSpeaker({ actor: this }),
+      });
     }
   }
 }

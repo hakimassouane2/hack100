@@ -13,7 +13,7 @@
           name="name"
           type="text"
           value="{{item.name}}"
-          placeholder="Weapon name"
+          placeholder="{{localize "hack100.placeholders.weaponName"}}"
         />
       </h1>
     </div>
@@ -21,8 +21,8 @@
 
   {{!-- Sheet Tab Navigation --}}
   <nav class="sheet-tabs tabs" data-group="primary">
-    <a class="item" data-tab="description">Description</a>
-    <a class="item" data-tab="attributes">Attributes</a>
+    <a class="item" data-tab="description">{{localize "hack100.items.description"}}</a>
+    <a class="item" data-tab="attributes">{{localize "hack100.items.attributes"}}</a>
   </nav>
 
   {{!-- Sheet Body --}}
@@ -32,11 +32,11 @@
     <div class="tab" data-group="primary" data-tab="description">
       <div class="item-description-section">
         <div class="form-group">
-          <label>Description</label>
+          <label>{{localize "hack100.items.description"}}</label>
           <textarea
             name="system.description"
             rows="10"
-            placeholder="Enter a detailed description of this weapon..."
+            placeholder="{{localize "hack100.placeholders.descriptionWeapon"}}"
           >{{system.description}}</textarea>
         </div>
       </div>
@@ -47,97 +47,97 @@
 
       {{!-- Weapon Type --}}
       <div class="form-group">
-        <label>Weapon Type</label>
+        <label>{{localize "hack100.items.weaponType"}}</label>
         <select name="system.weaponType" data-dtype="String">
-          <option value="melee" {{#if (eq system.weaponType "melee")}}selected{{/if}}>Melee</option>
-          <option value="ranged" {{#if (eq system.weaponType "ranged")}}selected{{/if}}>Ranged</option>
+          <option value="melee" {{#if (eq system.weaponType "melee")}}selected{{/if}}>{{localize "hack100.items.melee"}}</option>
+          <option value="ranged" {{#if (eq system.weaponType "ranged")}}selected{{/if}}>{{localize "hack100.items.ranged"}}</option>
         </select>
       </div>
 
       {{!-- Combat Stats Row --}}
       <div class="item-stats-row">
         <div class="form-group stat-box damage-box">
-          <label>Damage Modifier</label>
+          <label>{{localize "hack100.items.damageModifier"}}</label>
           <input
             type="text"
             name="system.damage"
             value="{{system.damage}}"
-            placeholder="+2"
+            placeholder="{{localize "hack100.placeholders.damageModifier"}}"
           />
-          <p class="hint">Damage bonus added to attack roll tens digit</p>
+          <p class="hint">{{localize "hack100.hints.weaponDamage"}}</p>
         </div>
 
         <div class="form-group stat-box attack-box">
-          <label>Attack Bonus</label>
+          <label>{{localize "hack100.items.attackBonus"}}</label>
           <input
             type="number"
             name="system.attackBonus"
             value="{{system.attackBonus}}"
             data-dtype="Number"
-            placeholder="0"
+            placeholder="{{localize "hack100.placeholders.attackBonus"}}"
           />
-          <p class="hint">Bonus to attack rolls</p>
+          <p class="hint">{{localize "hack100.hints.weaponAttackBonus"}}</p>
         </div>
       </div>
 
       {{!-- Range (for ranged weapons) --}}
       <div class="form-group">
-        <label>Range (for ranged weapons)</label>
+        <label>{{localize "hack100.items.rangeForRanged"}}</label>
         <input
           type="text"
           name="system.range"
           value="{{system.range}}"
-          placeholder="e.g., 50 squares, 100 meters"
+          placeholder="{{localize "hack100.placeholders.range"}}"
         />
-        <p class="hint">Maximum effective range of the weapon</p>
+        <p class="hint">{{localize "hack100.hints.weaponRange"}}</p>
       </div>
 
       {{!-- Location --}}
       <div class="form-group">
-        <label>Location</label>
+        <label>{{localize "hack100.items.location"}}</label>
         <input
           type="text"
           name="system.location"
           value="{{system.location}}"
-          placeholder="Where is this weapon carried?"
+          placeholder="{{localize "hack100.placeholders.weaponLocation"}}"
         />
-        <p class="hint">E.g., "right hand", "belt", "back sheath", "quiver"</p>
+        <p class="hint">{{localize "hack100.hints.weaponLocation"}}</p>
       </div>
 
       {{!-- Additional Details Row --}}
       <div class="item-details-row">
         <div class="form-group">
-          <label>Quantity</label>
+          <label>{{localize "hack100.items.quantity"}}</label>
           <input
             type="number"
             name="system.quantity"
             value="{{system.quantity}}"
             min="0"
             data-dtype="Number"
-            placeholder="1"
+            placeholder="{{localize "hack100.placeholders.quantity"}}"
           />
         </div>
 
         <div class="form-group">
-          <label>Weight</label>
+          <label>{{localize "hack100.items.weight"}}</label>
           <input
             type="number"
             name="system.weight"
             value="{{system.weight}}"
             step="0.1"
             data-dtype="Number"
-            placeholder="0"
+            placeholder="{{localize "hack100.placeholders.weight"}}"
           />
         </div>
 
         <div class="form-group">
-          <label>Price</label>
+          <label>{{localize "hack100.items.price"}}</label>
           <input
             type="number"
             name="system.price"
             value="{{system.price}}"
             data-dtype="Number"
-            placeholder="0"
+            placeholder="{{localize "hack100.placeholders.price"}}"
           />
         </div>
       </div>
@@ -150,9 +150,9 @@
             name="system.equipped"
             {{checked system.equipped}}
           />
-          <span class="checkbox-text">Currently Equipped</span>
+          <span class="checkbox-text">{{localize "hack100.items.currentlyEquipped"}}</span>
         </label>
-        <p class="hint">Check this box if the weapon is currently equipped and ready for use</p>
+        <p class="hint">{{localize "hack100.hints.weaponEquipped"}}</p>
       </div>
 
     </div>

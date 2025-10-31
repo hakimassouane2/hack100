@@ -11,7 +11,7 @@
       "maximum": "Maximum",
       "bonus": "Bonus",
       "roll": "Lancer",
-      "success": "Jet de",
+      "success": "Succès",
       "failure": "Échec",
       "criticalSuccess": "Succès critique",
       "criticalFailure": "Échec critique",
@@ -58,7 +58,25 @@
       "equipment": "Équipement",
       "newItem": "Nouvel Objet",
       "newWeapon": "Nouvelle Arme",
-      "newArmor": "Nouvelle Armure"
+      "newArmor": "Nouvelle Armure",
+      "description": "Description",
+      "attributes": "Attributs",
+      "weaponType": "Type d'arme",
+      "melee": "Mêlée",
+      "ranged": "Distance",
+      "damageModifier": "Modificateur de dégâts",
+      "attackBonus": "Bonus d'attaque",
+      "range": "Portée",
+      "rangeForRanged": "Portée (pour armes à distance)",
+      "location": "Emplacement",
+      "quantity": "Quantité",
+      "weight": "Poids",
+      "weightPerItem": "Poids (par objet)",
+      "price": "Prix",
+      "currentlyEquipped": "Actuellement équipé",
+      "equippedInUse": "Équipé / En cours d'utilisation",
+      "protectionValue": "Valeur de protection",
+      "movementPenalty": "Pénalité de mouvement"
     },
     "buttons": {
       "roll": "Jet de",
@@ -81,6 +99,39 @@
     "tooltips": {
       "xpAvailable": "Vérification d'expérience disponible - Fait un jet pour améliorer cette compétence",
       "xpNotAvailable": "Aucune vérification d'expérience disponible - Réussis un jet pour obtenir une vérification d'expérience"
+    },
+    "notifications": {
+      "experienceAwarded": "Vérification d'expérience accordée pour {ability} !"
+    },
+    "hints": {
+      "weaponDamage": "Bonus de dégâts ajouté au chiffre des dizaines du jet d'attaque",
+      "weaponAttackBonus": "Bonus aux jets d'attaque",
+      "weaponRange": "Portée maximale effective de l'arme",
+      "weaponLocation": "Ex : \"main droite\", \"ceinture\", \"fourreau dorsal\", \"carquois\"",
+      "weaponEquipped": "Cochez cette case si l'arme est actuellement équipée et prête à l'emploi",
+      "armorProtection": "Réduction de dégâts fournie par cette armure",
+      "armorMovementPenalty": "Carrés réduits du mouvement de base",
+      "armorLocation": "Ex : \"porté\", \"sac à dos\", \"sacoche de monture\"",
+      "armorEquipped": "Cochez cette case si l'armure est actuellement portée",
+      "itemLocation": "Ex : \"sac à dos\", \"bourse de ceinture\", \"main gauche\", \"poche\", \"sacoche de cheval\"",
+      "itemEquipped": "Cochez cette case si l'objet est actuellement équipé ou en cours d'utilisation"
+    },
+    "placeholders": {
+      "weaponName": "Nom de l'arme",
+      "armorName": "Nom de l'armure",
+      "itemName": "Nom de l'objet",
+      "descriptionWeapon": "Entrez une description détaillée de cette arme...",
+      "descriptionArmor": "Entrez une description détaillée de cette armure...",
+      "descriptionItem": "Entrez une description détaillée de cet objet...",
+      "damageModifier": "+2",
+      "attackBonus": "0",
+      "range": "ex : 50 carrés, 100 mètres",
+      "weaponLocation": "Où cette arme est-elle portée ?",
+      "armorLocation": "Où cette armure est-elle stockée ?",
+      "itemLocation": "Où cet objet est-il stocké ?",
+      "quantity": "1",
+      "weight": "0",
+      "price": "0"
     }
   }
 }

@@ -13,7 +13,7 @@
           name="name"
           type="text"
           value="{{item.name}}"
-          placeholder="Item name"
+          placeholder="{{localize "hack100.placeholders.itemName"}}"
         />
       </h1>
     </div>
@@ -21,8 +21,8 @@
 
   {{!-- Sheet Tab Navigation --}}
   <nav class="sheet-tabs tabs" data-group="primary">
-    <a class="item" data-tab="description">Description</a>
-    <a class="item" data-tab="attributes">Attributes</a>
+    <a class="item" data-tab="description">{{localize "hack100.items.description"}}</a>
+    <a class="item" data-tab="attributes">{{localize "hack100.items.attributes"}}</a>
   </nav>
 
   {{!-- Sheet Body --}}
@@ -32,11 +32,11 @@
     <div class="tab" data-group="primary" data-tab="description">
       <div class="item-description-section">
         <div class="form-group">
-          <label>Description</label>
+          <label>{{localize "hack100.items.description"}}</label>
           <textarea
             name="system.description"
             rows="10"
-            placeholder="Enter a detailed description of this item..."
+            placeholder="{{localize "hack100.placeholders.descriptionItem"}}"
           >{{system.description}}</textarea>
         </div>
       </div>
@@ -47,20 +47,20 @@
 
       {{!-- Location --}}
       <div class="form-group">
-        <label>Location</label>
+        <label>{{localize "hack100.items.location"}}</label>
         <input
           type="text"
           name="system.location"
           value="{{system.location}}"
-          placeholder="Where is this item stored?"
+          placeholder="{{localize "hack100.placeholders.itemLocation"}}"
         />
-        <p class="hint">E.g., "backpack", "belt pouch", "left hand", "pocket", "horse saddlebag"</p>
+        <p class="hint">{{localize "hack100.hints.itemLocation"}}</p>
       </div>
 
       {{!-- Quantity, Weight, Price Row --}}
       <div class="item-details-row">
         <div class="form-group">
-          <label>Quantity</label>
+          <label>{{localize "hack100.items.quantity"}}</label>
           <input
             type="number"
             name="system.quantity"
@@ -71,25 +71,25 @@
         </div>
 
         <div class="form-group">
-          <label>Weight (per item)</label>
+          <label>{{localize "hack100.items.weightPerItem"}}</label>
           <input
             type="number"
             name="system.weight"
             value="{{system.weight}}"
             step="0.1"
             data-dtype="Number"
-            placeholder="0"
+            placeholder="{{localize "hack100.placeholders.weight"}}"
           />
         </div>
 
         <div class="form-group">
-          <label>Price</label>
+          <label>{{localize "hack100.items.price"}}</label>
           <input
             type="number"
             name="system.price"
             value="{{system.price}}"
             data-dtype="Number"
-            placeholder="0"
+            placeholder="{{localize "hack100.placeholders.price"}}"
           />
         </div>
       </div>
@@ -102,9 +102,9 @@
             name="system.equipped"
             {{checked system.equipped}}
           />
-          <span class="checkbox-text">Equipped / In Use</span>
+          <span class="checkbox-text">{{localize "hack100.items.equippedInUse"}}</span>
         </label>
-        <p class="hint">Check this box if the item is currently equipped or in use</p>
+        <p class="hint">{{localize "hack100.hints.itemEquipped"}}</p>
       </div>
 
     </div>

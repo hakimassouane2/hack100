@@ -67,7 +67,7 @@ Hooks.once("init", async function () {
 export async function rollTask(target, label, modifier = 0) {
   const modifiedTarget = target + modifier;
   const roll = new Roll("1d100");
-  await roll.roll({ async: true });
+  await roll.evaluate();
 
   const result = roll.total;
   const success = result <= modifiedTarget;
@@ -85,68 +85,85 @@ export async function rollTask(target, label, modifier = 0) {
     resultText = game.i18n.localize("hack100.global.failure");
   }
 
-  const chatData = {
-    user: game.user.id,
-    content: `
-      <div class="hack100-roll">
-        <h3>${label}</h3>
-        <div class="roll-result">
-          <strong>${result}</strong> vs ${game.i18n.localize(
-      "hack100.rollDialog.target"
-    )}: ${modifiedTarget}
-        </div>
-        <div class="result-text ${
-          criticalSuccess
-            ? "critical"
-            : criticalFailure
-            ? "fumble"
-            : success
-            ? "success"
-            : "failure"
-        }">
-          ${resultText}
-        </div>
+  const flavor = `
+    <div class="hack100-roll">
+      <h3>${label}</h3>
+      <div class="roll-result">
+        <strong>${result}</strong> vs ${game.i18n.localize(
+    "hack100.rollDialog.target"
+  )}: ${modifiedTarget}
       </div>
-    `,
-  };
+      <div class="result-text ${
+        criticalSuccess
+          ? "critical"
+          : criticalFailure
+          ? "fumble"
+          : success
+          ? "success"
+          : "failure"
+      }">
+        ${resultText}
+      </div>
+    </div>
+  `;
 
-  await ChatMessage.create(chatData);
+  // Show the roll with Dice So Nice animation
+  const message = await roll.toMessage(
+    {
+      flavor: flavor,
+      speaker: ChatMessage.getSpeaker(),
+      flags: {
+        "core.canPopout": false,
+      },
+    },
+    {
+      rollMode: game.settings.get("core", "rollMode"),
+      create: true,
+    }
+  );
+
+  // Wait for Dice So Nice animation to complete if it's enabled
+  if (game.dice3d) {
+    await game.dice3d.waitFor3DAnimationByMessageID(message.id);
+  }
+
   return { result, success, criticalSuccess, criticalFailure };
 }
 
 /**
  * Roll damage
  * @param {string} weaponDamage - Weapon damage modifier
- * @param {number} attackRoll - The attack roll (to get tens digit)
+ * @param {number} attackRoll - The attack roll (to get units digit)
  */
 export async function rollDamage(weaponDamage, attackRoll) {
-  const tensDigit = Math.floor(attackRoll / 10);
-  const roll = new Roll(`${tensDigit} + ${weaponDamage}`);
-  await roll.roll({ async: true });
+  const unitsDigit = attackRoll % 10; // Get the ones place (units digit)
+  const weaponDamageMod = parseInt(weaponDamage) || 0;
+  const totalDamage = unitsDigit + weaponDamageMod;
 
-  const chatData = {
-    user: game.user.id,
-    content: `
-      <div class="hack100-damage">
-        <h3>${game.i18n.localize("hack100.global.damageRoll")}</h3>
-        <div class="damage-result">
-          <strong>${roll.total}</strong> ${game.i18n.localize(
-      "hack100.global.damage"
-    )}
-        </div>
-        <div class="damage-breakdown">
-            ${game.i18n.localize(
-              "hack100.global.tensDie"
-            )}: ${tensDigit} + ${game.i18n.localize(
-      "hack100.global.weapon"
-    )}: ${weaponDamage}
-        </div>
+  const content = `
+    <div class="hack100-damage">
+      <h3>${game.i18n.localize("hack100.global.damageRoll")}</h3>
+      <div class="damage-result">
+        <strong>${totalDamage}</strong> ${game.i18n.localize(
+    "hack100.global.damage"
+  )}
       </div>
-    `,
-  };
+      <div class="damage-breakdown">
+          ${game.i18n.localize(
+            "hack100.global.tensDie"
+          )}: ${unitsDigit} + ${game.i18n.localize(
+    "hack100.global.weapon"
+  )}: ${weaponDamageMod}
+      </div>
+    </div>
+  `;
 
-  await ChatMessage.create(chatData);
-  return roll.total;
+  await ChatMessage.create({
+    content: content,
+    speaker: ChatMessage.getSpeaker(),
+  });
+
+  return totalDamage;
 }
 
 /* -------------------------------------------- */

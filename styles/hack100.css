@@ -1003,6 +1003,20 @@
 }
 
 /* ===== CHAT MESSAGES ===== */
+
+/* Hide default Foundry dice roll display for Hack100 rolls */
+.chat-message:has(.hack100-roll) .dice-roll,
+.chat-message:has(.hack100-damage) .dice-roll,
+.chat-message:has(.hack100-experience) .dice-roll {
+  display: none !important;
+}
+
+.chat-message:has(.hack100-roll) .dice-total,
+.chat-message:has(.hack100-damage) .dice-total,
+.chat-message:has(.hack100-experience) .dice-total {
+  display: none !important;
+}
+
 .hack100-roll,
 .hack100-damage,
 .hack100-experience {
