@@ -117,13 +117,20 @@ export class Hack100Actor extends Actor {
               const form = html[0].querySelector("form");
               const modifier = parseInt(form.modifier.value) || 0;
 
-              // Import the rollTask function
-              const { rollTask } = await import("../hack100.js");
+              // Import the rollTask and rollDamage functions
+              const { rollTask, rollDamage } = await import("../hack100.js");
               const result = await rollTask(target, label, modifier);
 
               // Award experience check if successful
               if (result.success) {
                 this._awardExperienceCheck(abilityId);
+              }
+
+              // If this is a melee or ranged roll and it succeeded, roll damage
+              if (result.success && (abilityId === "melee" || abilityId === "ranged")) {
+                // Use a default weapon damage of 0 if no weapon is equipped
+                // The damage will be based on the tens digit of the attack roll
+                await rollDamage("0", result.result);
               }
 
               resolve(result);

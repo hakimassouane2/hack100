@@ -821,65 +821,87 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: var(--hack100-spacing-md);
   margin-bottom: var(--hack100-spacing-md);
   padding-bottom: var(--hack100-spacing-sm);
   border-bottom: 2px solid var(--hack100-border);
+  flex-wrap: wrap;
 }
 
 .hack100 .items-header h3 {
   margin: 0;
   border: none;
   padding: 0;
+  flex: 0 0 auto;
 }
 
 .hack100 .item-create {
-  padding: var(--hack100-spacing-sm) var(--hack100-spacing-lg);
-  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--hack100-spacing-sm);
+  min-height: 40px;
+  min-width: fit-content;
+  padding: var(--hack100-spacing-md) var(--hack100-spacing-lg);
+  font-size: 13px;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.5px;
   text-decoration: none;
-  color: white;
+  color: white !important;
   background: var(--hack100-accent);
   border: 2px solid var(--hack100-accent-dark);
   border-radius: var(--hack100-radius-md);
   cursor: pointer;
   transition: all 0.2s ease;
   box-shadow: var(--hack100-shadow-sm);
+  white-space: nowrap;
+  line-height: 1.4;
+  vertical-align: middle;
+  flex-shrink: 0;
 }
 
 .hack100 .item-create:hover {
   background: var(--hack100-accent-dark);
+  color: white !important;
   transform: translateY(-1px);
   box-shadow: var(--hack100-shadow-md);
 }
 
 .hack100 .item-create i {
-  margin-right: var(--hack100-spacing-xs);
+  font-size: 13px;
+  color: white;
+  display: inline-block;
+  flex-shrink: 0;
 }
 
 .hack100 .items-list {
   list-style: none;
   margin: 0;
   padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--hack100-spacing-sm);
 }
 
 .hack100 .items-list .item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--hack100-spacing-md);
-  margin-bottom: var(--hack100-spacing-xs);
+  padding: var(--hack100-spacing-md) var(--hack100-spacing-lg);
   background: white;
   border: 2px solid var(--hack100-border);
-  border-radius: var(--hack100-radius-sm);
+  border-left: 4px solid var(--hack100-accent);
+  border-radius: var(--hack100-radius-md);
   transition: all 0.2s ease;
+  box-shadow: var(--hack100-shadow-sm);
 }
 
 .hack100 .items-list .item:hover {
   background: var(--hack100-bg-secondary);
-  box-shadow: var(--hack100-shadow-sm);
-  transform: translateX(2px);
+  box-shadow: var(--hack100-shadow-md);
+  transform: translateX(4px);
+  border-left-color: var(--hack100-accent-dark);
 }
 
 .hack100 .item-name {
@@ -887,22 +909,25 @@
   align-items: center;
   gap: var(--hack100-spacing-md);
   flex: 1;
+  min-width: 0;
 }
 
 .hack100 .item-name .item-image {
   flex-shrink: 0;
-  width: 36px;
-  height: 36px;
+  width: 48px;
+  height: 48px;
   border: 2px solid var(--hack100-border);
-  border-radius: var(--hack100-radius-sm);
+  border-radius: var(--hack100-radius-md);
   overflow: hidden;
   cursor: pointer;
   transition: all 0.2s ease;
+  box-shadow: var(--hack100-shadow-sm);
 }
 
 .hack100 .item-name .item-image:hover {
   border-color: var(--hack100-accent);
-  transform: scale(1.05);
+  transform: scale(1.08);
+  box-shadow: var(--hack100-shadow-md);
 }
 
 .hack100 .item-name .item-image img {
@@ -913,20 +938,24 @@
 
 .hack100 .item-name h4 {
   margin: 0;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--hack100-text);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--hack100-primary-dark);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .hack100 .item-controls {
   display: flex;
   align-items: center;
   gap: var(--hack100-spacing-md);
+  flex-shrink: 0;
 }
 
 .hack100 .item-controls input[type="checkbox"] {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   cursor: pointer;
   accent-color: var(--hack100-accent);
 }
@@ -934,33 +963,43 @@
 .hack100 .item-damage,
 .hack100 .item-protection,
 .hack100 .item-location {
-  min-width: 60px;
-  padding: var(--hack100-spacing-xs) var(--hack100-spacing-sm);
-  font-size: 12px;
-  font-weight: 600;
+  min-width: 70px;
+  padding: var(--hack100-spacing-sm) var(--hack100-spacing-md);
+  font-size: 13px;
+  font-weight: 700;
   text-align: center;
-  color: var(--hack100-text-light);
+  color: var(--hack100-primary-dark);
   background: var(--hack100-bg-secondary);
-  border: 1px solid var(--hack100-border);
-  border-radius: var(--hack100-radius-sm);
+  border: 2px solid var(--hack100-border);
+  border-radius: var(--hack100-radius-md);
+  box-shadow: var(--hack100-shadow-inset);
 }
 
 .hack100 .item-control {
-  padding: var(--hack100-spacing-xs);
+  padding: var(--hack100-spacing-sm);
   color: var(--hack100-text-muted);
-  font-size: 14px;
+  font-size: 16px;
   text-decoration: none;
   cursor: pointer;
   transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--hack100-radius-sm);
 }
 
 .hack100 .item-control:hover {
-  color: var(--hack100-primary);
-  transform: scale(1.15);
+  color: white;
+  background: var(--hack100-primary);
+  transform: scale(1.1);
+  box-shadow: var(--hack100-shadow-sm);
 }
 
 .hack100 .item-control.item-delete:hover {
-  color: var(--hack100-danger);
+  color: white;
+  background: var(--hack100-danger);
 }
 
 /* ===== CHAT MESSAGES ===== */

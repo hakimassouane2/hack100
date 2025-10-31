@@ -117,11 +117,11 @@ export async function rollTask(target, label, modifier = 0) {
 /**
  * Roll damage
  * @param {string} weaponDamage - Weapon damage modifier
- * @param {number} attackRoll - The attack roll (to get ones digit)
+ * @param {number} attackRoll - The attack roll (to get tens digit)
  */
 export async function rollDamage(weaponDamage, attackRoll) {
-  const onesDigit = attackRoll % 10;
-  const roll = new Roll(`${onesDigit} + ${weaponDamage}`);
+  const tensDigit = Math.floor(attackRoll / 10);
+  const roll = new Roll(`${tensDigit} + ${weaponDamage}`);
   await roll.roll({ async: true });
 
   const chatData = {
@@ -137,7 +137,7 @@ export async function rollDamage(weaponDamage, attackRoll) {
         <div class="damage-breakdown">
             ${game.i18n.localize(
               "hack100.global.tensDie"
-            )}: ${onesDigit} + ${game.i18n.localize(
+            )}: ${tensDigit} + ${game.i18n.localize(
       "hack100.global.weapon"
     )}: ${weaponDamage}
         </div>
