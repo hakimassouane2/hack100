@@ -57,6 +57,30 @@ export class Hack100ActorSheet extends ActorSheet {
     return context;
   }
 
+  /** @override */
+  async _render(force, options) {
+    await super._render(force, options);
+
+    // Apply color scheme class to the window
+    this._applyColorScheme();
+  }
+
+  /**
+   * Apply the color scheme class to the actor sheet window
+   */
+  _applyColorScheme() {
+    const colorScheme = this.actor.system.colorScheme || "default";
+    const element = this.element[0];
+
+    // Remove all color scheme classes
+    element.classList.remove("color-scheme-default", "color-scheme-dark", "color-scheme-light");
+
+    // Add the current color scheme class
+    if (colorScheme !== "default") {
+      element.classList.add(`color-scheme-${colorScheme}`);
+    }
+  }
+
   /**
    * Organize and classify Items for Character sheets.
    */
@@ -119,6 +143,12 @@ export class Hack100ActorSheet extends ActorSheet {
     // -------------------------------------------------------------
     // Everything below here is only needed if the sheet is editable
     if (!this.isEditable) return;
+
+    // Color scheme change handler
+    html.find('select[name="system.colorScheme"]').change(async (ev) => {
+      await this.actor.update({ "system.colorScheme": ev.target.value });
+      this._applyColorScheme();
+    });
 
     // Add Inventory Item
     html.find(".item-create").click(this._onItemCreate.bind(this));

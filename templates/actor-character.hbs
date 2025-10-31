@@ -18,6 +18,7 @@
   <nav class="sheet-tabs tabs" data-group="primary">
     <a class="item" data-tab="main">{{localize "hack100.tabs.main"}}</a>
     <a class="item" data-tab="equipment">{{localize "hack100.tabs.equipment"}}</a>
+    <a class="item" data-tab="settings">{{localize "hack100.tabs.settings"}}</a>
   </nav>
 
   {{!-- Sheet Body --}}
@@ -187,6 +188,25 @@
           </li>
           {{/each}}
         </ol>
+      </div>
+
+    </div>
+
+    {{!-- Settings Tab --}}
+    <div class="tab settings" data-group="primary" data-tab="settings">
+
+      {{!-- Color Scheme Section --}}
+      <div class="settings-section">
+        <h3>{{localize "hack100.settings.appearance"}}</h3>
+        <div class="form-group">
+          <label for="system.colorScheme">{{localize "hack100.settings.colorScheme"}}</label>
+          <select name="system.colorScheme" data-dtype="String">
+            <option value="default" {{#if (eq system.colorScheme "default")}}selected{{/if}}>{{localize "hack100.settings.colorSchemes.default"}}</option>
+            <option value="dark" {{#if (eq system.colorScheme "dark")}}selected{{/if}}>{{localize "hack100.settings.colorSchemes.dark"}}</option>
+            <option value="light" {{#if (eq system.colorScheme "light")}}selected{{/if}}>{{localize "hack100.settings.colorSchemes.light"}}</option>
+          </select>
+          <p class="hint">{{localize "hack100.settings.colorSchemeHint"}}</p>
+        </div>
       </div>
 
     </div>

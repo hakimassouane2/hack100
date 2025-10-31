@@ -37,7 +37,8 @@
     },
     "tabs": {
       "main": "Informations",
-      "equipment": "Inventaire"
+      "equipment": "Inventaire",
+      "settings": "Paramètres"
     },
     "character": {
       "background": "Historique & Motivation",
@@ -135,6 +136,16 @@
       "quantity": "1",
       "weight": "0",
       "price": "0"
+    },
+    "settings": {
+      "appearance": "Apparence",
+      "colorScheme": "Palette de couleurs",
+      "colorSchemeHint": "Choisissez une palette de couleurs pour cette fiche de personnage. Ce paramètre est enregistré par personnage.",
+      "colorSchemes": {
+        "default": "Par défaut (Parchemin terreux)",
+        "dark": "Sombre (Nuit fantastique)",
+        "light": "Clair (Bleu épuré)"
+      }
     }
   }
 }

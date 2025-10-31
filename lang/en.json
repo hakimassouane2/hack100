@@ -37,7 +37,8 @@
     },
     "tabs": {
       "main": "Information",
-      "equipment": "Inventory"
+      "equipment": "Inventory",
+      "settings": "Settings"
     },
     "character": {
       "background": "Background & Motivation",
@@ -135,6 +136,16 @@
       "quantity": "1",
       "weight": "0",
       "price": "0"
+    },
+    "settings": {
+      "appearance": "Appearance",
+      "colorScheme": "Color Scheme",
+      "colorSchemeHint": "Choose a color scheme for this character sheet. This setting is saved per character.",
+      "colorSchemes": {
+        "default": "Default (Earthy Parchment)",
+        "dark": "Dark (Fantasy Night)",
+        "light": "Light (Clean Blue)"
+      }
     }
   }
 }

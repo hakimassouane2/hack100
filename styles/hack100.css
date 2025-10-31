@@ -4,7 +4,7 @@
 
 /* ===== COLOR VARIABLES ===== */
 :root {
-  /* Earthy Natural Palette */
+  /* Earthy Natural Palette - DEFAULT THEME */
   --hack100-primary: #5d4a3a; /* Deep brown */
   --hack100-primary-light: #7a6550; /* Light brown */
   --hack100-primary-dark: #3d2f24; /* Dark brown */
@@ -51,6 +51,84 @@
   --hack100-shadow-md: 0 2px 6px rgba(61, 47, 36, 0.15);
   --hack100-shadow-lg: 0 4px 12px rgba(61, 47, 36, 0.18);
   --hack100-shadow-inset: inset 0 1px 3px rgba(61, 47, 36, 0.1);
+}
+
+/* ===== DARK COLOR SCHEME ===== */
+.hack100.color-scheme-dark {
+  /* Dark Fantasy Palette */
+  --hack100-primary: #8b7355; /* Lighter brown for dark theme */
+  --hack100-primary-light: #a08870; /* Even lighter brown */
+  --hack100-primary-dark: #c9b89a; /* Light tan for highlights */
+
+  --hack100-secondary: #5d4a3a; /* Darker secondary */
+  --hack100-accent: #88b04b; /* Brighter olive green */
+  --hack100-accent-dark: #6b8e23; /* Medium olive */
+
+  --hack100-bg-primary: #1a1612; /* Very dark brown */
+  --hack100-bg-secondary: #2d2520; /* Dark brown */
+  --hack100-bg-tertiary: #3d2f24; /* Medium dark brown */
+
+  --hack100-border: #4a3f33; /* Dark border */
+  --hack100-border-dark: #5d4a3a; /* Lighter border (reversed) */
+
+  --hack100-text: #e8e3d6; /* Light tan text */
+  --hack100-text-light: #d9d3c3; /* Lighter text */
+  --hack100-text-muted: #a08870; /* Muted light text */
+
+  /* Functional Colors for Dark */
+  --hack100-success: #88b04b; /* Bright green */
+  --hack100-success-bg: #2d3d1f;
+  --hack100-warning: #d4af37; /* Brighter gold */
+  --hack100-warning-bg: #3d3520;
+  --hack100-danger: #d45f5f; /* Brighter red */
+  --hack100-danger-bg: #3d2020;
+  --hack100-info: #7fa8c4; /* Brighter blue */
+  --hack100-info-bg: #1f2d3d;
+
+  /* Shadows for Dark */
+  --hack100-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --hack100-shadow-md: 0 2px 6px rgba(0, 0, 0, 0.4);
+  --hack100-shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --hack100-shadow-inset: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* ===== LIGHT COLOR SCHEME ===== */
+.hack100.color-scheme-light {
+  /* Clean Light Palette */
+  --hack100-primary: #3d5a80; /* Deep blue */
+  --hack100-primary-light: #5f7fa3; /* Light blue */
+  --hack100-primary-dark: #293241; /* Dark blue */
+
+  --hack100-secondary: #98c1d9; /* Sky blue */
+  --hack100-accent: #ee6c4d; /* Coral/orange */
+  --hack100-accent-dark: #d45f4d; /* Dark coral */
+
+  --hack100-bg-primary: #ffffff; /* Pure white */
+  --hack100-bg-secondary: #f8f9fa; /* Very light gray */
+  --hack100-bg-tertiary: #e9ecef; /* Light gray */
+
+  --hack100-border: #dee2e6; /* Light border */
+  --hack100-border-dark: #adb5bd; /* Medium border */
+
+  --hack100-text: #212529; /* Almost black */
+  --hack100-text-light: #495057; /* Dark gray */
+  --hack100-text-muted: #6c757d; /* Medium gray */
+
+  /* Functional Colors for Light */
+  --hack100-success: #40916c; /* Green */
+  --hack100-success-bg: #d8f3dc;
+  --hack100-warning: #f77f00; /* Orange */
+  --hack100-warning-bg: #ffe8cc;
+  --hack100-danger: #d62828; /* Red */
+  --hack100-danger-bg: #ffe0e0;
+  --hack100-info: #3d5a80; /* Blue */
+  --hack100-info-bg: #dfe7f2;
+
+  /* Shadows for Light */
+  --hack100-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --hack100-shadow-md: 0 2px 6px rgba(0, 0, 0, 0.12);
+  --hack100-shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --hack100-shadow-inset: inset 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 /* ===== BASE STYLES ===== */
@@ -254,8 +332,19 @@
 
 /* ===== SECTION CONTAINERS ===== */
 .hack100 .abilities-section,
-.hack100 .specialisms-section {
+.hack100 .specialisms-section,
+.hack100 .settings-section {
   margin-bottom: var(--hack100-spacing-xl);
+}
+
+/* Settings Section Specific */
+.hack100 .settings-section {
+  background: white;
+  border: 2px solid var(--hack100-border);
+  border-left: 4px solid var(--hack100-accent);
+  border-radius: var(--hack100-radius-md);
+  padding: var(--hack100-spacing-lg);
+  box-shadow: var(--hack100-shadow-sm);
 }
 
 /* Health and Movement Row - Side by Side */

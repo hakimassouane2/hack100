@@ -68,7 +68,8 @@
     "character": {
       "templates": ["base"],
       "background": "",
-      "biography": ""
+      "biography": "",
+      "colorScheme": "default"
     },
     "npc": {
       "templates": ["base"],
