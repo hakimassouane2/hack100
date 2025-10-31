@@ -32,6 +32,16 @@
   "gridUnits": "ft",
   "primaryTokenAttribute": "health",
   "secondaryTokenAttribute": null,
+  "documentTypes": {
+    "Actor": {
+      "character": {
+        "label": "TYPES.Actor.character"
+      },
+      "npc": {
+        "label": "TYPES.Actor.npc"
+      }
+    }
+  },
   "url": "",
   "manifest": "",
   "download": "",

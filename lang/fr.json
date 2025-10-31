@@ -1,4 +1,10 @@
 {
+  "TYPES": {
+    "Actor": {
+      "character": "PJ",
+      "npc": "PNJ"
+    }
+  },
   "hack100": {
     "global": {
       "current": "Actuel",
