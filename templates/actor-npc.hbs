@@ -25,7 +25,36 @@
 
     {{!-- Main Tab --}}
     <div class="tab main" data-group="primary" data-tab="main">
-      
+
+      {{!-- Health and Movement Row --}}
+      <div class="health-movement-row">
+        {{!-- Health Section --}}
+        <div class="health-section">
+          <h3>{{localize "hack100.character.health"}}</h3>
+          <div class="health-tracker">
+            <div class="health-current">
+              <label>{{localize "hack100.global.current"}}</label>
+              <input type="number" name="system.health.value" value="{{system.health.value}}" min="0" data-health-percent="{{system.healthPercent}}"/>
+            </div>
+            <div class="health-max">
+              <label>{{localize "hack100.global.maximum"}}</label>
+              <span>{{system.health.max}}</span>
+            </div>
+            <div class="health-calculation">
+              <small>({{localize "hack100.abilities.toughness"}}+{{localize "hack100.abilities.willpower"}}) × 2</small>
+            </div>
+          </div>
+        </div>
+
+        {{!-- Movement Section --}}
+        <div class="movement-section">
+          <h3>{{localize "hack100.character.movement"}}</h3>
+          <div class="movement-value">
+            <span>{{system.movement}}</span> {{localize "hack100.character.squaresPerRound"}}
+          </div>
+        </div>
+      </div>
+
       {{!-- Abilities Section --}}
       <div class="abilities-section">
         <h3>{{localize "hack100.character.abilities"}}</h3>
@@ -42,38 +71,10 @@
             </div>
             <div class="ability-controls">
               <button type="button" class="rollable" data-ability="{{key}}">{{localize "hack100.global.roll"}}</button>
-              {{#if ability.experienceCheck}}
-              <button type="button" class="experience-roll" data-ability="{{key}}" title="Experience Check Available">{{localize "hack100.global.xp"}}</button>
-              {{/if}}
+              <button type="button" class="experience-roll" data-ability="{{key}}" {{#unless ability.experienceCheck}}disabled{{/unless}} title="{{#if ability.experienceCheck}}{{localize "hack100.tooltips.xpAvailable"}}{{else}}{{localize "hack100.tooltips.xpNotAvailable"}}{{/if}}">{{localize "hack100.global.xp"}}</button>
             </div>
           </div>
           {{/each}}
-        </div>
-      </div>
-
-      {{!-- Health Section --}}
-      <div class="health-section">
-        <h3>{{localize "hack100.character.health"}}</h3>
-        <div class="health-tracker">
-          <div class="health-current">
-            <label>{{localize "hack100.global.current"}}</label>
-            <input type="number" name="system.health.value" value="{{system.health.value}}" min="0" data-health-percent="{{system.healthPercent}}"/>
-          </div>
-          <div class="health-max">
-            <label>{{localize "hack100.global.maximum"}}</label>
-            <span>{{system.health.max}}</span>
-          </div>
-          <div class="health-calculation">
-            <small>({{localize "hack100.abilities.toughness"}}+{{localize "hack100.abilities.willpower"}}) × 2</small>
-          </div>
-        </div>
-      </div>
-
-      {{!-- Movement Section --}}
-      <div class="movement-section">
-        <h3>{{localize "hack100.character.movement"}}</h3>
-        <div class="movement-value">
-          <span>{{system.movement}}</span> {{localize "hack100.character.squaresPerRound"}}
         </div>
       </div>
 
@@ -83,23 +84,24 @@
         <div class="specialisms-list">
           {{#each system.specialisms as |specialism key|}}
           <div class="specialism-item">
-            <input type="text" name="system.specialisms.{{key}}.name" value="{{specialism.name}}" placeholder="Specialism name"/>
-            <input type="number" name="system.specialisms.{{key}}.value" value="{{specialism.value}}" min="0" max="100"/>
+            <input type="text" name="system.specialisms.{{key}}.name" value="{{#if specialism.name}}{{specialism.name}}{{/if}}" placeholder="Specialism name"/>
+            <input type="number" name="system.specialisms.{{key}}.value" value="{{specialism.value}}" min="0" max="100" step="1"/>
             <span>%</span>
+            {{#if specialism.name}}
             <button type="button" class="rollable" data-ability="{{key}}">{{localize "hack100.buttons.roll"}}</button>
-            {{#if specialism.experienceCheck}}
-            <button type="button" class="experience-roll" data-ability="{{key}}" title="Experience Check Available">{{localize "hack100.buttons.experience"}}</button>
+            <button type="button" class="experience-roll" data-ability="{{key}}" {{#unless specialism.experienceCheck}}disabled{{/unless}} title="{{#if specialism.experienceCheck}}{{localize "hack100.tooltips.xpAvailable"}}{{else}}{{localize "hack100.tooltips.xpNotAvailable"}}{{/if}}">{{localize "hack100.buttons.experience"}}</button>
             {{/if}}
             <input type="checkbox" name="system.specialisms.{{key}}.isPower" {{#if specialism.isPower}}checked{{/if}} title="{{localize "hack100.isPower"}}"/>
-              <label>{{localize "hack100.character.power"}}</label>
+            <label>{{localize "hack100.character.power"}}</label>
+            <button type="button" class="specialism-delete" data-specialism="{{key}}" title="{{localize "hack100.buttons.delete"}}">
+              <i class="fas fa-trash"></i>
+            </button>
           </div>
           {{/each}}
-          <div class="specialism-item">
-            <input type="text" name="system.specialisms.new.name" placeholder="New specialism name"/>
-            <input type="number" name="system.specialisms.new.value" placeholder="0" min="0" max="100"/>
-            <span>%</span>
-          </div>
         </div>
+        <button type="button" class="specialism-add" title="{{localize "hack100.buttons.add"}} {{localize "hack100.character.specialisms"}}">
+          <i class="fas fa-plus"></i> {{localize "hack100.buttons.add"}}
+        </button>
       </div>
 
     </div>
