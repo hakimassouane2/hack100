@@ -1163,3 +1163,234 @@
 .hack100 .tab[data-tab].active {
   animation: fadeIn 0.3s ease;
 }
+
+/* ===== ITEM SHEET SPECIFIC STYLES ===== */
+
+/* Item Sheet Header - Smaller image for items */
+.hack100.sheet.item .sheet-header .item-img {
+  flex: 0 0 100px;
+  height: 100px;
+  border: 3px solid var(--hack100-border-dark);
+  border-radius: var(--hack100-radius-md);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: var(--hack100-shadow-md);
+  object-fit: cover;
+}
+
+.hack100.sheet.item .sheet-header .item-img:hover {
+  border-color: var(--hack100-accent);
+  transform: scale(1.02);
+  box-shadow: var(--hack100-shadow-lg);
+}
+
+/* Form Groups */
+.hack100 .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hack100-spacing-xs);
+  margin-bottom: var(--hack100-spacing-lg);
+}
+
+.hack100 .form-group label {
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--hack100-primary);
+}
+
+.hack100 .form-group input[type="text"],
+.hack100 .form-group input[type="number"],
+.hack100 .form-group select {
+  height: 40px;
+  padding: var(--hack100-spacing-sm) var(--hack100-spacing-md);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--hack100-text);
+  background: white;
+  border: 2px solid var(--hack100-border);
+  border-radius: var(--hack100-radius-md);
+  box-shadow: var(--hack100-shadow-inset);
+  transition: all 0.2s ease;
+}
+
+.hack100 .form-group input[type="text"]:focus,
+.hack100 .form-group input[type="number"]:focus,
+.hack100 .form-group select:focus {
+  outline: none;
+  border-color: var(--hack100-accent);
+  box-shadow: 0 0 0 3px rgba(107, 142, 35, 0.1);
+}
+
+.hack100 .form-group textarea {
+  min-height: 120px;
+  padding: var(--hack100-spacing-md);
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--hack100-text-light);
+  background: white;
+  border: 2px solid var(--hack100-border);
+  border-radius: var(--hack100-radius-md);
+  resize: vertical;
+  box-shadow: var(--hack100-shadow-inset);
+  transition: border-color 0.2s ease;
+}
+
+.hack100 .form-group textarea::placeholder {
+  color: var(--hack100-text-muted);
+  font-style: italic;
+}
+
+.hack100 .form-group textarea:focus {
+  outline: none;
+  border-color: var(--hack100-accent);
+  box-shadow: 0 0 0 3px rgba(107, 142, 35, 0.1);
+}
+
+.hack100 .form-group .hint {
+  font-size: 11px;
+  color: var(--hack100-text-muted);
+  font-style: italic;
+  margin: 0;
+  padding-top: 2px;
+}
+
+/* Select Dropdown Styling */
+.hack100 .form-group select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path fill="%235d4a3a" d="M6 9L1 4h10z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 40px;
+}
+
+/* Item Description Section */
+.hack100 .item-description-section {
+  background: white;
+  border: 2px solid var(--hack100-border);
+  border-left: 4px solid var(--hack100-accent);
+  border-radius: var(--hack100-radius-md);
+  padding: var(--hack100-spacing-lg);
+  box-shadow: var(--hack100-shadow-sm);
+}
+
+/* Item Stats Row - For special stat boxes */
+.hack100 .item-stats-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--hack100-spacing-lg);
+  margin-bottom: var(--hack100-spacing-lg);
+}
+
+.hack100 .stat-box {
+  background: white;
+  border: 2px solid var(--hack100-border);
+  border-radius: var(--hack100-radius-md);
+  padding: var(--hack100-spacing-lg);
+  box-shadow: var(--hack100-shadow-sm);
+  transition: all 0.2s ease;
+}
+
+.hack100 .stat-box:hover {
+  box-shadow: var(--hack100-shadow-md);
+}
+
+.hack100 .stat-box.protection-box {
+  border-left: 4px solid var(--hack100-info);
+}
+
+.hack100 .stat-box.penalty-box {
+  border-left: 4px solid var(--hack100-warning);
+}
+
+.hack100 .stat-box.damage-box {
+  border-left: 4px solid var(--hack100-danger);
+}
+
+.hack100 .stat-box.attack-box {
+  border-left: 4px solid var(--hack100-accent);
+}
+
+.hack100 .stat-box input {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* Item Details Row - For quantity, weight, price */
+.hack100 .item-details-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--hack100-spacing-md);
+  margin-bottom: var(--hack100-spacing-lg);
+}
+
+.hack100 .item-details-row .form-group {
+  margin-bottom: 0;
+}
+
+.hack100 .item-details-row input {
+  text-align: center;
+}
+
+/* Checkbox Group Styling */
+.hack100 .checkbox-group {
+  background: var(--hack100-bg-secondary);
+  border: 2px solid var(--hack100-border);
+  border-radius: var(--hack100-radius-md);
+  padding: var(--hack100-spacing-lg);
+  margin-bottom: var(--hack100-spacing-md);
+}
+
+.hack100 .checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: var(--hack100-spacing-md);
+  cursor: pointer;
+  font-weight: normal;
+  font-size: 14px;
+  text-transform: none;
+  letter-spacing: normal;
+  color: var(--hack100-text);
+}
+
+.hack100 .checkbox-label input[type="checkbox"] {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  accent-color: var(--hack100-accent);
+  margin: 0;
+}
+
+.hack100 .checkbox-label .checkbox-text {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--hack100-primary-dark);
+}
+
+.hack100 .checkbox-group .hint {
+  margin-top: var(--hack100-spacing-sm);
+  margin-left: 40px;
+}
+
+/* Item Sheet Responsive */
+@media (max-width: 600px) {
+  .hack100 .item-stats-row {
+    grid-template-columns: 1fr;
+  }
+
+  .hack100 .item-details-row {
+    grid-template-columns: 1fr;
+  }
+
+  .hack100.sheet.item .sheet-header {
+    flex-direction: column;
+  }
+
+  .hack100.sheet.item .sheet-header .item-img {
+    margin: 0 auto;
+  }
+}

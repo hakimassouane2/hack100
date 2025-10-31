@@ -13,7 +13,7 @@
           name="name"
           type="text"
           value="{{item.name}}"
-          placeholder="Weapon name"
+          placeholder="Item name"
         />
       </h1>
     </div>
@@ -36,7 +36,7 @@
           <textarea
             name="system.description"
             rows="10"
-            placeholder="Enter a detailed description of this weapon..."
+            placeholder="Enter a detailed description of this item..."
           >{{system.description}}</textarea>
         </div>
       </div>
@@ -45,53 +45,6 @@
     {{!-- Attributes Tab --}}
     <div class="tab" data-group="primary" data-tab="attributes">
 
-      {{!-- Weapon Type --}}
-      <div class="form-group">
-        <label>Weapon Type</label>
-        <select name="system.weaponType" data-dtype="String">
-          <option value="melee" {{#if (eq system.weaponType "melee")}}selected{{/if}}>Melee</option>
-          <option value="ranged" {{#if (eq system.weaponType "ranged")}}selected{{/if}}>Ranged</option>
-        </select>
-      </div>
-
-      {{!-- Combat Stats Row --}}
-      <div class="item-stats-row">
-        <div class="form-group stat-box damage-box">
-          <label>Damage Modifier</label>
-          <input
-            type="text"
-            name="system.damage"
-            value="{{system.damage}}"
-            placeholder="+2"
-          />
-          <p class="hint">Damage bonus added to attack roll tens digit</p>
-        </div>
-
-        <div class="form-group stat-box attack-box">
-          <label>Attack Bonus</label>
-          <input
-            type="number"
-            name="system.attackBonus"
-            value="{{system.attackBonus}}"
-            data-dtype="Number"
-            placeholder="0"
-          />
-          <p class="hint">Bonus to attack rolls</p>
-        </div>
-      </div>
-
-      {{!-- Range (for ranged weapons) --}}
-      <div class="form-group">
-        <label>Range (for ranged weapons)</label>
-        <input
-          type="text"
-          name="system.range"
-          value="{{system.range}}"
-          placeholder="e.g., 50 squares, 100 meters"
-        />
-        <p class="hint">Maximum effective range of the weapon</p>
-      </div>
-
       {{!-- Location --}}
       <div class="form-group">
         <label>Location</label>
@@ -99,12 +52,12 @@
           type="text"
           name="system.location"
           value="{{system.location}}"
-          placeholder="Where is this weapon carried?"
+          placeholder="Where is this item stored?"
         />
-        <p class="hint">E.g., "right hand", "belt", "back sheath", "quiver"</p>
+        <p class="hint">E.g., "backpack", "belt pouch", "left hand", "pocket", "horse saddlebag"</p>
       </div>
 
-      {{!-- Additional Details Row --}}
+      {{!-- Quantity, Weight, Price Row --}}
       <div class="item-details-row">
         <div class="form-group">
           <label>Quantity</label>
@@ -114,12 +67,11 @@
             value="{{system.quantity}}"
             min="0"
             data-dtype="Number"
-            placeholder="1"
           />
         </div>
 
         <div class="form-group">
-          <label>Weight</label>
+          <label>Weight (per item)</label>
           <input
             type="number"
             name="system.weight"
@@ -150,9 +102,9 @@
             name="system.equipped"
             {{checked system.equipped}}
           />
-          <span class="checkbox-text">Currently Equipped</span>
+          <span class="checkbox-text">Equipped / In Use</span>
         </label>
-        <p class="hint">Check this box if the weapon is currently equipped and ready for use</p>
+        <p class="hint">Check this box if the item is currently equipped or in use</p>
       </div>
 
     </div>

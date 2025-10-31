@@ -1,4 +1,5 @@
 <form class="{{cssClass}}" autocomplete="off">
+  {{!-- Sheet Header --}}
   <header class="sheet-header">
     <img
       class="item-img"
@@ -12,82 +13,128 @@
           name="name"
           type="text"
           value="{{item.name}}"
-          placeholder="Item name"
+          placeholder="Armor name"
         />
       </h1>
     </div>
   </header>
 
+  {{!-- Sheet Tab Navigation --}}
   <nav class="sheet-tabs tabs" data-group="primary">
     <a class="item" data-tab="description">Description</a>
     <a class="item" data-tab="attributes">Attributes</a>
   </nav>
 
+  {{!-- Sheet Body --}}
   <section class="sheet-body">
+
+    {{!-- Description Tab --}}
     <div class="tab" data-group="primary" data-tab="description">
-      <div class="form-group">
-        <label>Description:</label>
-        <textarea
-          name="system.description"
-          rows="8"
-        >{{system.description}}</textarea>
+      <div class="item-description-section">
+        <div class="form-group">
+          <label>Description</label>
+          <textarea
+            name="system.description"
+            rows="10"
+            placeholder="Enter a detailed description of this armor..."
+          >{{system.description}}</textarea>
+        </div>
       </div>
     </div>
 
+    {{!-- Attributes Tab --}}
     <div class="tab" data-group="primary" data-tab="attributes">
-      <div class="form-group">
-        <label>Quantity:</label>
-        <input
-          type="number"
-          name="system.quantity"
-          value="{{system.quantity}}"
-          min="0"
-          data-dtype="Number"
-        />
+
+      {{!-- Protection and Equipped Row --}}
+      <div class="item-stats-row">
+        <div class="form-group stat-box protection-box">
+          <label>Protection Value</label>
+          <input
+            type="number"
+            name="system.protection"
+            value="{{system.protection}}"
+            min="0"
+            data-dtype="Number"
+            placeholder="0"
+          />
+          <p class="hint">Damage reduction provided by this armor</p>
+        </div>
+
+        <div class="form-group stat-box penalty-box">
+          <label>Movement Penalty</label>
+          <input
+            type="number"
+            name="system.movementPenalty"
+            value="{{system.movementPenalty}}"
+            min="0"
+            data-dtype="Number"
+            placeholder="0"
+          />
+          <p class="hint">Squares reduced from base movement</p>
+        </div>
       </div>
 
+      {{!-- Location and Quantity --}}
       <div class="form-group">
-        <label>Location:</label>
+        <label>Location</label>
         <input
           type="text"
           name="system.location"
           value="{{system.location}}"
-          placeholder="Where is it carried?"
+          placeholder="Where is this armor stored?"
         />
-        <p class="hint">E.g., "backpack", "belt pouch", "left hand", "pocket"</p>
+        <p class="hint">E.g., "worn", "backpack", "mount's saddlebag"</p>
       </div>
 
-      <div class="form-group">
-        <label>Weight:</label>
-        <input
-          type="number"
-          name="system.weight"
-          value="{{system.weight}}"
-          step="0.1"
-          data-dtype="Number"
-        />
+      <div class="item-details-row">
+        <div class="form-group">
+          <label>Quantity</label>
+          <input
+            type="number"
+            name="system.quantity"
+            value="{{system.quantity}}"
+            min="0"
+            data-dtype="Number"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Weight (per item)</label>
+          <input
+            type="number"
+            name="system.weight"
+            value="{{system.weight}}"
+            step="0.1"
+            data-dtype="Number"
+            placeholder="0"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Price</label>
+          <input
+            type="number"
+            name="system.price"
+            value="{{system.price}}"
+            data-dtype="Number"
+            placeholder="0"
+          />
+        </div>
       </div>
 
-      <div class="form-group">
-        <label>Price:</label>
-        <input
-          type="number"
-          name="system.price"
-          value="{{system.price}}"
-          data-dtype="Number"
-        />
-      </div>
-
-      <div class="form-group">
-        <label>
+      {{!-- Equipped Checkbox --}}
+      <div class="form-group checkbox-group">
+        <label class="checkbox-label">
           <input
             type="checkbox"
             name="system.equipped"
             {{checked system.equipped}}
           />
-          Equipped/In Use
+          <span class="checkbox-text">Currently Equipped</span>
         </label>
+        <p class="hint">Check this box if the armor is currently being worn</p>
       </div>
+
     </div>
   </section>
 </form>
