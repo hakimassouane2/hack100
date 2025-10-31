@@ -35,6 +35,11 @@ export class Hack100ActorSheet extends ActorSheet {
     context.system = actorData.system;
     context.flags = actorData.flags;
 
+    // Calculate health percentage for gradient display
+    const healthMax = actorData.system.health.max || 1;
+    const healthValue = actorData.system.health.value || 0;
+    context.system.healthPercent = Math.max(0, Math.min(100, Math.round((healthValue / healthMax) * 100)));
+
     // Prepare character data and items.
     if (actorData.type == "character") {
       this._prepareItems(context);

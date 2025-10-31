@@ -452,11 +452,136 @@
   text-align: center;
   font-size: 28px;
   font-weight: 700;
-  color: var(--hack100-danger);
-  background: var(--hack100-danger-bg);
   border: 2px solid var(--hack100-border);
   border-radius: var(--hack100-radius-md);
   box-shadow: var(--hack100-shadow-inset);
+  transition: all 0.3s ease;
+}
+
+/* Health gradient colors based on percentage */
+.hack100 .health-current input[data-health-percent] {
+  --health-percent: attr(data-health-percent);
+}
+
+/* Critical health (0-25%) - Red */
+.hack100 .health-current input[data-health-percent="0"],
+.hack100 .health-current input[data-health-percent="1"],
+.hack100 .health-current input[data-health-percent="2"],
+.hack100 .health-current input[data-health-percent="3"],
+.hack100 .health-current input[data-health-percent="4"],
+.hack100 .health-current input[data-health-percent="5"],
+.hack100 .health-current input[data-health-percent="6"],
+.hack100 .health-current input[data-health-percent="7"],
+.hack100 .health-current input[data-health-percent="8"],
+.hack100 .health-current input[data-health-percent="9"],
+.hack100 .health-current input[data-health-percent="10"],
+.hack100 .health-current input[data-health-percent="11"],
+.hack100 .health-current input[data-health-percent="12"],
+.hack100 .health-current input[data-health-percent="13"],
+.hack100 .health-current input[data-health-percent="14"],
+.hack100 .health-current input[data-health-percent="15"],
+.hack100 .health-current input[data-health-percent="16"],
+.hack100 .health-current input[data-health-percent="17"],
+.hack100 .health-current input[data-health-percent="18"],
+.hack100 .health-current input[data-health-percent="19"],
+.hack100 .health-current input[data-health-percent="20"],
+.hack100 .health-current input[data-health-percent="21"],
+.hack100 .health-current input[data-health-percent="22"],
+.hack100 .health-current input[data-health-percent="23"],
+.hack100 .health-current input[data-health-percent="24"],
+.hack100 .health-current input[data-health-percent="25"] {
+  background: linear-gradient(135deg, #f8e6e6 0%, #f5d0d0 100%);
+  color: #a84d4d;
+}
+
+/* Low health (26-50%) - Orange/Yellow */
+.hack100 .health-current input[data-health-percent="26"],
+.hack100 .health-current input[data-health-percent="27"],
+.hack100 .health-current input[data-health-percent="28"],
+.hack100 .health-current input[data-health-percent="29"],
+.hack100 .health-current input[data-health-percent="30"],
+.hack100 .health-current input[data-health-percent="31"],
+.hack100 .health-current input[data-health-percent="32"],
+.hack100 .health-current input[data-health-percent="33"],
+.hack100 .health-current input[data-health-percent="34"],
+.hack100 .health-current input[data-health-percent="35"],
+.hack100 .health-current input[data-health-percent="36"],
+.hack100 .health-current input[data-health-percent="37"],
+.hack100 .health-current input[data-health-percent="38"],
+.hack100 .health-current input[data-health-percent="39"],
+.hack100 .health-current input[data-health-percent="40"],
+.hack100 .health-current input[data-health-percent="41"],
+.hack100 .health-current input[data-health-percent="42"],
+.hack100 .health-current input[data-health-percent="43"],
+.hack100 .health-current input[data-health-percent="44"],
+.hack100 .health-current input[data-health-percent="45"],
+.hack100 .health-current input[data-health-percent="46"],
+.hack100 .health-current input[data-health-percent="47"],
+.hack100 .health-current input[data-health-percent="48"],
+.hack100 .health-current input[data-health-percent="49"],
+.hack100 .health-current input[data-health-percent="50"] {
+  background: linear-gradient(135deg, #fef6e8 0%, #fdefd0 100%);
+  color: #c9a05f;
+}
+
+/* Medium health (51-75%) - Yellow/Green */
+.hack100 .health-current input[data-health-percent="51"],
+.hack100 .health-current input[data-health-percent="52"],
+.hack100 .health-current input[data-health-percent="53"],
+.hack100 .health-current input[data-health-percent="54"],
+.hack100 .health-current input[data-health-percent="55"],
+.hack100 .health-current input[data-health-percent="56"],
+.hack100 .health-current input[data-health-percent="57"],
+.hack100 .health-current input[data-health-percent="58"],
+.hack100 .health-current input[data-health-percent="59"],
+.hack100 .health-current input[data-health-percent="60"],
+.hack100 .health-current input[data-health-percent="61"],
+.hack100 .health-current input[data-health-percent="62"],
+.hack100 .health-current input[data-health-percent="63"],
+.hack100 .health-current input[data-health-percent="64"],
+.hack100 .health-current input[data-health-percent="65"],
+.hack100 .health-current input[data-health-percent="66"],
+.hack100 .health-current input[data-health-percent="67"],
+.hack100 .health-current input[data-health-percent="68"],
+.hack100 .health-current input[data-health-percent="69"],
+.hack100 .health-current input[data-health-percent="70"],
+.hack100 .health-current input[data-health-percent="71"],
+.hack100 .health-current input[data-health-percent="72"],
+.hack100 .health-current input[data-health-percent="73"],
+.hack100 .health-current input[data-health-percent="74"],
+.hack100 .health-current input[data-health-percent="75"] {
+  background: linear-gradient(135deg, #f5f8e8 0%, #eef3d5 100%);
+  color: #8b9850;
+}
+
+/* Good health (76-100%) - Green */
+.hack100 .health-current input[data-health-percent="76"],
+.hack100 .health-current input[data-health-percent="77"],
+.hack100 .health-current input[data-health-percent="78"],
+.hack100 .health-current input[data-health-percent="79"],
+.hack100 .health-current input[data-health-percent="80"],
+.hack100 .health-current input[data-health-percent="81"],
+.hack100 .health-current input[data-health-percent="82"],
+.hack100 .health-current input[data-health-percent="83"],
+.hack100 .health-current input[data-health-percent="84"],
+.hack100 .health-current input[data-health-percent="85"],
+.hack100 .health-current input[data-health-percent="86"],
+.hack100 .health-current input[data-health-percent="87"],
+.hack100 .health-current input[data-health-percent="88"],
+.hack100 .health-current input[data-health-percent="89"],
+.hack100 .health-current input[data-health-percent="90"],
+.hack100 .health-current input[data-health-percent="91"],
+.hack100 .health-current input[data-health-percent="92"],
+.hack100 .health-current input[data-health-percent="93"],
+.hack100 .health-current input[data-health-percent="94"],
+.hack100 .health-current input[data-health-percent="95"],
+.hack100 .health-current input[data-health-percent="96"],
+.hack100 .health-current input[data-health-percent="97"],
+.hack100 .health-current input[data-health-percent="98"],
+.hack100 .health-current input[data-health-percent="99"],
+.hack100 .health-current input[data-health-percent="100"] {
+  background: linear-gradient(135deg, #e8f3dd 0%, #d8ecc5 100%);
+  color: #556b2f;
 }
 
 .hack100 .health-current input:focus {
