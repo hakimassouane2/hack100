@@ -127,7 +127,8 @@ export class Hack100Actor extends Actor {
               }
 
               // If this is a melee or ranged roll and it succeeded, roll damage
-              if (result.success && (abilityId === "melee" || abilityId === "ranged")) {
+              // BUT only if skipDamage option is not set (used by weapon attacks)
+              if (result.success && (abilityId === "melee" || abilityId === "ranged") && !options.skipDamage) {
                 // Use a default weapon damage of 0 if no weapon is equipped
                 // The damage will be based on the tens digit of the attack roll
                 await rollDamage("0", result.result);

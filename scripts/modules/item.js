@@ -43,14 +43,15 @@ export class Hack100Item extends Item {
     const isRanged = weaponData.weaponType === "ranged";
     const abilityId = isRanged ? "ranged" : "melee";
 
-    // Roll the attack
+    // Roll the attack - skip automatic damage since we'll roll it with weapon damage
     const attackResult = await actor.rollAbility(abilityId, {
       modifier: weaponData.attackBonus || 0,
+      skipDamage: true, // Don't auto-roll damage for weapon attacks
     });
 
     if (!attackResult || !attackResult.success) return;
 
-    // If attack succeeds, roll damage
+    // If attack succeeds, roll damage with weapon damage modifier
     const { rollDamage } = await import("../hack100.js");
     const damage = await rollDamage(weaponData.damage, attackResult.result);
 
