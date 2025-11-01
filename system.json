@@ -10,8 +10,8 @@
   },
   "authors": [
     {
-      "name": "Your Name",
-      "email": "your.email@example.com"
+      "name": "Hakim Assouane",
+      "email": "hakimassouane@hotmail.com"
     }
   ],
   "esmodules": ["scripts/hack100.js"],
@@ -42,9 +42,9 @@
       }
     }
   },
-  "url": "",
-  "manifest": "",
-  "download": "",
+  "url": "https://github.com/hakimassouane2/hack100-foundryvtt",
+  "manifest": "https://raw.githubusercontent.com/hakimassouane2/hack100-foundryvtt/refs/heads/staging/system.json",
+  "download": "https://github.com/hakimassouane2/hack100-foundryvtt/archive/refs/tags/v1.0.0.zip",
   "license": "LICENSE",
   "readme": "README.md"
 }
