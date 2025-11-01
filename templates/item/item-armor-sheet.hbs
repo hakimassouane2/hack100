@@ -49,27 +49,34 @@
       <div class="item-stats-row">
         <div class="form-group stat-box protection-box">
           <label>{{localize "hack100.items.protectionValue"}}</label>
-          <input
-            type="number"
-            name="system.protection"
-            value="{{system.protection}}"
-            min="0"
-            data-dtype="Number"
-            placeholder="{{localize "hack100.placeholders.attackBonus"}}"
-          />
+          <select name="system.protection" data-dtype="String">
+            <option value="0" {{#if (eq system.protection "0")}}selected{{/if}}>0</option>
+            <option value="1" {{#if (eq system.protection "1")}}selected{{/if}}>1</option>
+            <option value="2" {{#if (eq system.protection "2")}}selected{{/if}}>2</option>
+            <option value="3" {{#if (eq system.protection "3")}}selected{{/if}}>3</option>
+            <option value="4" {{#if (eq system.protection "4")}}selected{{/if}}>4</option>
+            <option value="5" {{#if (eq system.protection "5")}}selected{{/if}}>5</option>
+            <option value="6" {{#if (eq system.protection "6")}}selected{{/if}}>6</option>
+            <option value="7" {{#if (eq system.protection "7")}}selected{{/if}}>7</option>
+            <option value="8" {{#if (eq system.protection "8")}}selected{{/if}}>8</option>
+            <option value="9" {{#if (eq system.protection "9")}}selected{{/if}}>9</option>
+            <option value="10" {{#if (eq system.protection "10")}}selected{{/if}}>10</option>
+          </select>
           <p class="hint">{{localize "hack100.hints.armorProtection"}}</p>
         </div>
 
         <div class="form-group stat-box penalty-box">
           <label>{{localize "hack100.items.movementPenalty"}}</label>
-          <input
-            type="number"
-            name="system.movementPenalty"
-            value="{{system.movementPenalty}}"
-            min="0"
-            data-dtype="Number"
-            placeholder="{{localize "hack100.placeholders.attackBonus"}}"
-          />
+          <select name="system.movementPenalty" data-dtype="Number">
+            {{#select system.movementPenalty}}
+            <option value="0">0</option>
+            <option value="1">-1</option>
+            <option value="2">-2</option>
+            <option value="3">-3</option>
+            <option value="4">-4</option>
+            <option value="5">-5</option>
+            {{/select}}
+          </select>
           <p class="hint">{{localize "hack100.hints.armorMovementPenalty"}}</p>
         </div>
       </div>

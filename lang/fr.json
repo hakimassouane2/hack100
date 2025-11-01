@@ -49,7 +49,7 @@
       "health": "Santé",
       "movement": "Déplacement",
       "equipment": "Équipement",
-      "squaresPerRound": "carrés par tour",
+      "squaresPerRound": "cases par tour",
       "power": "Pouvoir",
       "isPower": "Est-ce un pouvoir/capacité surnaturelle?"
     },
@@ -105,7 +105,8 @@
     },
     "notifications": {
       "experienceAwarded": "Vérification d'expérience accordée pour {ability} !",
-      "damageApplied": "{damage} dégâts appliqués à {name} (Santé : {health})"
+      "damageApplied": "{damage} dégâts appliqués à {name} (Santé : {health})",
+      "damageAppliedWithArmor": "{damage} dégâts - {armor} armure = {finalDamage} dégâts appliqués à {name} (Santé : {health})"
     },
     "hints": {
       "weaponDamage": "Bonus de dégâts ajouté",
@@ -114,7 +115,7 @@
       "weaponLocation": "Ex : \"main droite\", \"ceinture\", \"fourreau dorsal\", \"carquois\"",
       "weaponEquipped": "Cochez cette case si l'arme est actuellement équipée et prête à l'emploi",
       "armorProtection": "Réduction de dégâts fournie",
-      "armorMovementPenalty": "Carrés réduits du mouvement de base",
+      "armorMovementPenalty": "Cases réduites du mouvement de base",
       "armorLocation": "Ex : \"porté\", \"sac à dos\", \"sacoche de monture\"",
       "armorEquipped": "Cochez cette case si l'armure est actuellement portée",
       "itemLocation": "Ex : \"sac à dos\", \"bourse de ceinture\", \"main gauche\", \"poche\", \"sacoche de cheval\"",
@@ -129,7 +130,7 @@
       "descriptionItem": "Entrez une description détaillée de cet objet...",
       "damageModifier": "+2",
       "attackBonus": "0",
-      "range": "ex : 50 carrés, 100 mètres",
+      "range": "ex : 50 cases, 100 mètres",
       "weaponLocation": "Où cette arme est-elle portée ?",
       "armorLocation": "Où cette armure est-elle stockée ?",
       "itemLocation": "Où cet objet est-il stocké ?",

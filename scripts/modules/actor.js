@@ -70,6 +70,20 @@ export class Hack100Actor extends Actor {
   }
 
   /**
+   * Calculate total armor protection from equipped armor
+   * @returns {number} Total armor protection value
+   */
+  getTotalArmor() {
+    let totalProtection = 0;
+    for (let item of this.items) {
+      if (item.type === "armor" && item.system.equipped) {
+        totalProtection += parseInt(item.system.protection) || 0;
+      }
+    }
+    return totalProtection;
+  }
+
+  /**
    * Roll an ability or specialism check
    * @param {string} abilityId - The ability/specialism to roll
    * @param {object} options - Roll options
@@ -128,7 +142,11 @@ export class Hack100Actor extends Actor {
 
               // If this is a melee or ranged roll and it succeeded, roll damage
               // BUT only if skipDamage option is not set (used by weapon attacks)
-              if (result.success && (abilityId === "melee" || abilityId === "ranged") && !options.skipDamage) {
+              if (
+                result.success &&
+                (abilityId === "melee" || abilityId === "ranged") &&
+                !options.skipDamage
+              ) {
                 // Use a default weapon damage of 0 if no weapon is equipped
                 // The damage will be based on the tens digit of the attack roll
                 await rollDamage("0", result.result);
@@ -163,7 +181,11 @@ export class Hack100Actor extends Actor {
 
     if (Object.keys(updateData).length > 0) {
       this.update(updateData);
-      ui.notifications.info(game.i18n.format("hack100.notifications.experienceAwarded", { ability: abilityId }));
+      ui.notifications.info(
+        game.i18n.format("hack100.notifications.experienceAwarded", {
+          ability: abilityId,
+        })
+      );
     }
   }
 

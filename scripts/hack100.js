@@ -147,7 +147,7 @@ export async function rollDamage(weaponDamage, attackRoll) {
   // Build apply damage button if there are targets
   let applyDamageButton = "";
   if (hasTargets) {
-    const targetIds = targets.map(t => t.id).join(',');
+    const targetIds = targets.map((t) => t.id).join(",");
     applyDamageButton = `
       <button class="apply-damage" data-damage="${totalDamage}" data-targets="${targetIds}">
         ${game.i18n.localize("hack100.global.applyDamage")}
@@ -202,7 +202,7 @@ Hooks.on("renderChatMessage", (message, html, data) => {
     event.preventDefault();
     const button = event.currentTarget;
     const damage = parseInt(button.dataset.damage);
-    const targetIds = button.dataset.targets.split(',');
+    const targetIds = button.dataset.targets.split(",");
 
     // Apply damage to each targeted token
     for (const targetId of targetIds) {
@@ -212,21 +212,47 @@ Hooks.on("renderChatMessage", (message, html, data) => {
       const actor = token.actor;
       if (!actor) continue;
 
+      console.log("actor =>", actor);
+
+      console.log("actor.getTotalArmor =>", actor.getTotalArmor);
+
+      // Get total armor protection
+      const armorProtection = actor.getTotalArmor ? actor.getTotalArmor() : 0;
+
+      console.log("armorProtection =>", armorProtection);
+
+      // Calculate damage after armor reduction
+      const reducedDamage = Math.max(0, damage - armorProtection);
+
+      console.log("reducedDamage =>", reducedDamage);
+
       // Calculate new health
       const currentHealth = actor.system.health.value;
-      const newHealth = Math.max(0, currentHealth - damage);
+      const newHealth = Math.max(0, currentHealth - reducedDamage);
 
       // Update actor health
       await actor.update({ "system.health.value": newHealth });
 
-      // Show notification
-      ui.notifications.info(
-        game.i18n.format("hack100.notifications.damageApplied", {
-          damage: damage,
-          name: actor.name,
-          health: newHealth
-        })
-      );
+      // Show notification with armor info
+      if (armorProtection > 0) {
+        ui.notifications.info(
+          game.i18n.format("hack100.notifications.damageAppliedWithArmor", {
+            damage: damage,
+            armor: armorProtection,
+            finalDamage: reducedDamage,
+            name: actor.name,
+            health: newHealth,
+          })
+        );
+      } else {
+        ui.notifications.info(
+          game.i18n.format("hack100.notifications.damageApplied", {
+            damage: damage,
+            name: actor.name,
+            health: newHealth,
+          })
+        );
+      }
     }
 
     // Disable button after use
