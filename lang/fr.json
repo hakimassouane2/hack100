@@ -108,12 +108,12 @@
       "damageApplied": "{damage} dégâts appliqués à {name} (Santé : {health})"
     },
     "hints": {
-      "weaponDamage": "Bonus de dégâts ajouté au chiffre des dizaines du jet d'attaque",
+      "weaponDamage": "Bonus de dégâts ajouté",
       "weaponAttackBonus": "Bonus aux jets d'attaque",
       "weaponRange": "Portée maximale effective de l'arme",
       "weaponLocation": "Ex : \"main droite\", \"ceinture\", \"fourreau dorsal\", \"carquois\"",
       "weaponEquipped": "Cochez cette case si l'arme est actuellement équipée et prête à l'emploi",
-      "armorProtection": "Réduction de dégâts fournie par cette armure",
+      "armorProtection": "Réduction de dégâts fournie",
       "armorMovementPenalty": "Carrés réduits du mouvement de base",
       "armorLocation": "Ex : \"porté\", \"sac à dos\", \"sacoche de monture\"",
       "armorEquipped": "Cochez cette case si l'armure est actuellement portée",

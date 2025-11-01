@@ -108,12 +108,12 @@
       "damageApplied": "{damage} damage applied to {name} (Health: {health})"
     },
     "hints": {
-      "weaponDamage": "Damage bonus added to attack roll tens digit",
+      "weaponDamage": "Damage bonus added to attack roll",
       "weaponAttackBonus": "Bonus to attack rolls",
       "weaponRange": "Maximum effective range of the weapon",
       "weaponLocation": "E.g., \"right hand\", \"belt\", \"back sheath\", \"quiver\"",
       "weaponEquipped": "Check this box if the weapon is currently equipped and ready for use",
-      "armorProtection": "Damage reduction provided by this armor",
+      "armorProtection": "Damage reduction provided",
       "armorMovementPenalty": "Squares reduced from base movement",
       "armorLocation": "E.g., \"worn\", \"backpack\", \"mount's saddlebag\"",
       "armorEquipped": "Check this box if the armor is currently being worn",

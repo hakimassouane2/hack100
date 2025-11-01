@@ -166,6 +166,21 @@
   background-position: right 12px center;
 }
 
+/* Dark theme hints */
+.hack100.color-scheme-dark .form-group .hint,
+.hack100.color-scheme-dark .stat-box .hint,
+.hack100.color-scheme-dark .checkbox-group .hint {
+  color: var(--hack100-text-muted);
+  flex: 0;
+  text-align: center;
+}
+
+/* Dark theme labels */
+.hack100.color-scheme-dark .form-group label,
+.hack100.color-scheme-dark .stat-box label {
+  color: var(--hack100-primary-light);
+}
+
 /* ===== LIGHT COLOR SCHEME ===== */
 .hack100.color-scheme-light {
   /* Clean Light Palette */
@@ -1541,6 +1556,12 @@
   margin-bottom: var(--hack100-spacing-lg);
 }
 
+/* Ensure stat boxes in grid don't overflow */
+.hack100 .item-stats-row > * {
+  min-width: 0;
+  max-width: 100%;
+}
+
 .hack100 .stat-box {
   background: white;
   border: 2px solid var(--hack100-border);
@@ -1548,6 +1569,9 @@
   padding: var(--hack100-spacing-lg);
   box-shadow: var(--hack100-shadow-sm);
   transition: all 0.2s ease;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .hack100 .stat-box:hover {
@@ -1571,9 +1595,23 @@
 }
 
 .hack100 .stat-box input {
+  width: 100%;
   text-align: center;
   font-size: 16px;
   font-weight: 700;
+}
+
+.hack100 .stat-box .form-group {
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.hack100 .stat-box .hint {
+  width: 100%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 /* Item Details Row - For quantity, weight, price */
