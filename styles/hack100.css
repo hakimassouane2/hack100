@@ -1612,6 +1612,8 @@
   width: 100%;
   word-wrap: break-word;
   overflow-wrap: break-word;
+  flex: 0;
+  text-align: center;
 }
 
 /* Item Details Row - For quantity, weight, price */
