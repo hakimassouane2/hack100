@@ -47,6 +47,33 @@ export class Hack100ItemSheet extends ItemSheet {
   }
 
   /** @override */
+  async _render(force, options) {
+    await super._render(force, options);
+
+    // Apply the parent actor's color scheme to the item sheet
+    this._applyColorScheme();
+  }
+
+  /**
+   * Apply the parent actor's color scheme class to the item sheet window
+   */
+  _applyColorScheme() {
+    const actor = this.object?.parent ?? null;
+    if (!actor) return;
+
+    const colorScheme = actor.system.colorScheme || "default";
+    const element = this.element[0];
+
+    // Remove all color scheme classes
+    element.classList.remove("color-scheme-default", "color-scheme-dark", "color-scheme-light");
+
+    // Add the current color scheme class
+    if (colorScheme !== "default") {
+      element.classList.add(`color-scheme-${colorScheme}`);
+    }
+  }
+
+  /** @override */
   activateListeners(html) {
     super.activateListeners(html);
 

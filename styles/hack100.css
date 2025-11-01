@@ -64,32 +64,106 @@
   --hack100-accent: #88b04b; /* Brighter olive green */
   --hack100-accent-dark: #6b8e23; /* Medium olive */
 
-  --hack100-bg-primary: #1a1612; /* Very dark brown */
-  --hack100-bg-secondary: #2d2520; /* Dark brown */
-  --hack100-bg-tertiary: #3d2f24; /* Medium dark brown */
+  --hack100-bg-primary: #0d0b09; /* Almost black */
+  --hack100-bg-secondary: #1a1612; /* Very dark brown */
+  --hack100-bg-tertiary: #2d2520; /* Dark brown */
+  --hack100-bg-input: #1a1612; /* Dark input background */
+  --hack100-bg-panel: #1a1612; /* Dark panel background */
 
-  --hack100-border: #4a3f33; /* Dark border */
-  --hack100-border-dark: #5d4a3a; /* Lighter border (reversed) */
+  --hack100-border: #3d2f24; /* Dark border */
+  --hack100-border-dark: #4a3f33; /* Slightly lighter border */
 
   --hack100-text: #e8e3d6; /* Light tan text */
   --hack100-text-light: #d9d3c3; /* Lighter text */
-  --hack100-text-muted: #a08870; /* Muted light text */
+  --hack100-text-muted: #8b7d6b; /* Muted light text */
 
   /* Functional Colors for Dark */
   --hack100-success: #88b04b; /* Bright green */
-  --hack100-success-bg: #2d3d1f;
+  --hack100-success-bg: #1f2a15;
   --hack100-warning: #d4af37; /* Brighter gold */
-  --hack100-warning-bg: #3d3520;
+  --hack100-warning-bg: #2d2515;
   --hack100-danger: #d45f5f; /* Brighter red */
-  --hack100-danger-bg: #3d2020;
+  --hack100-danger-bg: #2d1515;
   --hack100-info: #7fa8c4; /* Brighter blue */
-  --hack100-info-bg: #1f2d3d;
+  --hack100-info-bg: #15202d;
 
   /* Shadows for Dark */
-  --hack100-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
-  --hack100-shadow-md: 0 2px 6px rgba(0, 0, 0, 0.4);
-  --hack100-shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.5);
-  --hack100-shadow-inset: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+  --hack100-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.5);
+  --hack100-shadow-md: 0 2px 6px rgba(0, 0, 0, 0.6);
+  --hack100-shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.7);
+  --hack100-shadow-inset: inset 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* Dark Theme Overrides - Replace white backgrounds with dark variables */
+.hack100.color-scheme-dark .sheet-header h1.charname input,
+.hack100.color-scheme-dark .background-motivation textarea,
+.hack100.color-scheme-dark .ability-value input:focus,
+.hack100.color-scheme-dark .specialism-item input[type="text"]:focus,
+.hack100.color-scheme-dark .specialism-item input[type="number"]:focus,
+.hack100.color-scheme-dark .form-group input[type="text"],
+.hack100.color-scheme-dark .form-group input[type="number"],
+.hack100.color-scheme-dark .form-group select,
+.hack100.color-scheme-dark .form-group textarea {
+  background: var(--hack100-bg-input);
+  color: var(--hack100-text);
+}
+
+.hack100.color-scheme-dark .ability-block,
+.hack100.color-scheme-dark .health-section,
+.hack100.color-scheme-dark .movement-section,
+.hack100.color-scheme-dark .settings-section,
+.hack100.color-scheme-dark .specialism-item,
+.hack100.color-scheme-dark .items-list .item,
+.hack100.color-scheme-dark .item-description-section,
+.hack100.color-scheme-dark .stat-box,
+.hack100.color-scheme-dark .checkbox-group {
+  background: var(--hack100-bg-panel);
+}
+
+.hack100.color-scheme-dark .items-list .item:hover {
+  background: var(--hack100-bg-tertiary);
+}
+
+.hack100.color-scheme-dark .ability-bonus {
+  background: var(--hack100-bg-tertiary);
+}
+
+.hack100.color-scheme-dark .tabs .item {
+  background: var(--hack100-bg-tertiary);
+  color: var(--hack100-text-light);
+}
+
+.hack100.color-scheme-dark .tabs .item:hover {
+  background: var(--hack100-bg-secondary);
+  color: var(--hack100-text);
+}
+
+.hack100.color-scheme-dark .tabs .item.active {
+  background: var(--hack100-bg-primary);
+  color: var(--hack100-primary-dark);
+}
+
+.hack100.color-scheme-dark .item-damage,
+.hack100.color-scheme-dark .item-protection,
+.hack100.color-scheme-dark .item-location,
+.hack100.color-scheme-dark .movement-value span:first-child,
+.hack100.color-scheme-dark .health-max span {
+  background: var(--hack100-bg-tertiary);
+  color: var(--hack100-text);
+}
+
+/* Dark theme select dropdown - including options */
+.hack100.color-scheme-dark select,
+.hack100.color-scheme-dark select option {
+  background: var(--hack100-bg-input);
+  color: var(--hack100-text);
+}
+
+/* Update the select dropdown arrow for dark theme */
+.hack100.color-scheme-dark .form-group select {
+  background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path fill="%23c9b89a" d="M6 9L1 4h10z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 12px center;
 }
 
 /* ===== LIGHT COLOR SCHEME ===== */
