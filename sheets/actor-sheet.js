@@ -161,6 +161,16 @@ export class Hack100ActorSheet extends ActorSheet {
       li.slideUp(200, () => this.render(false));
     });
 
+    // Toggle equipped status for items
+    html.find(".equipped-checkbox input[type='checkbox']").change(async (ev) => {
+      const checkbox = ev.currentTarget;
+      const li = $(checkbox).closest(".item");
+      const item = this.actor.items.get(li.data("itemId"));
+      if (item) {
+        await item.update({ "system.equipped": checkbox.checked });
+      }
+    });
+
     // Active Effect management
     html
       .find(".effect-control")

@@ -212,19 +212,11 @@ Hooks.on("renderChatMessage", (message, html, data) => {
       const actor = token.actor;
       if (!actor) continue;
 
-      console.log("actor =>", actor);
-
-      console.log("actor.getTotalArmor =>", actor.getTotalArmor);
-
       // Get total armor protection
       const armorProtection = actor.getTotalArmor ? actor.getTotalArmor() : 0;
 
-      console.log("armorProtection =>", armorProtection);
-
       // Calculate damage after armor reduction
       const reducedDamage = Math.max(0, damage - armorProtection);
-
-      console.log("reducedDamage =>", reducedDamage);
 
       // Calculate new health
       const currentHealth = actor.system.health.value;

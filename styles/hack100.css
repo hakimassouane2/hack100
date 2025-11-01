@@ -1180,6 +1180,190 @@
   background: var(--hack100-danger);
 }
 
+/* ===== IMPROVED ITEM LAYOUTS (Weapons & Armor) ===== */
+
+/* Weapon and Armor items - horizontal compact layout */
+.hack100 .weapon-item,
+.hack100 .armor-item {
+  display: flex;
+  align-items: center;
+  gap: var(--hack100-spacing-lg);
+  padding: var(--hack100-spacing-md) var(--hack100-spacing-lg);
+  background: white;
+  border: 2px solid var(--hack100-border);
+  border-left: 4px solid var(--hack100-accent);
+  border-radius: var(--hack100-radius-md);
+  transition: all 0.2s ease;
+  box-shadow: var(--hack100-shadow-sm);
+}
+
+.hack100 .weapon-item:hover,
+.hack100 .armor-item:hover {
+  background: var(--hack100-bg-secondary);
+  box-shadow: var(--hack100-shadow-md);
+  transform: translateX(4px);
+  border-left-color: var(--hack100-accent-dark);
+}
+
+/* Item image */
+.hack100 .weapon-item .item-image,
+.hack100 .armor-item .item-image {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border: 2px solid var(--hack100-border);
+  border-radius: var(--hack100-radius-md);
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: var(--hack100-shadow-sm);
+}
+
+.hack100 .weapon-item .item-image:hover,
+.hack100 .armor-item .item-image:hover {
+  border-color: var(--hack100-accent);
+  transform: scale(1.1);
+  box-shadow: var(--hack100-shadow-md);
+}
+
+.hack100 .weapon-item .item-image img,
+.hack100 .armor-item .item-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Item header - name and equipped checkbox in horizontal layout */
+.hack100 .weapon-item .item-header,
+.hack100 .armor-item .item-header {
+  display: flex;
+  align-items: center;
+  gap: var(--hack100-spacing-md);
+  flex: 1;
+  min-width: 0;
+}
+
+.hack100 .item-name-equipped {
+  display: flex;
+  align-items: center;
+  gap: var(--hack100-spacing-md);
+  flex: 1;
+  min-width: 0;
+}
+
+.hack100 .item-name-equipped h4 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--hack100-primary-dark);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 120px;
+}
+
+.hack100 .item-equipped-status {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.hack100 .equipped-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  font-size: 11px;
+  color: var(--hack100-text-muted);
+  white-space: nowrap;
+}
+
+.hack100 .equipped-checkbox input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: var(--hack100-accent);
+  flex-shrink: 0;
+}
+
+.hack100 .equipped-checkbox span {
+  user-select: none;
+}
+
+/* Item stats - horizontal inline */
+.hack100 .item-stats {
+  display: flex;
+  gap: var(--hack100-spacing-lg);
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.hack100 .stat-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.hack100 .stat-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--hack100-text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.hack100 .stat-value {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--hack100-primary-dark);
+  padding: 4px 12px;
+  background: var(--hack100-bg-secondary);
+  border: 1px solid var(--hack100-border);
+  border-radius: var(--hack100-radius-sm);
+  min-width: 35px;
+  text-align: center;
+}
+
+.hack100 .damage-value {
+  background: var(--hack100-danger-bg);
+  border-color: var(--hack100-danger);
+  color: var(--hack100-danger);
+}
+
+.hack100 .protection-value {
+  background: var(--hack100-success-bg);
+  border-color: var(--hack100-success);
+  color: var(--hack100-success);
+}
+
+.hack100 .penalty-value {
+  background: var(--hack100-warning-bg);
+  border-color: var(--hack100-warning);
+  color: var(--hack100-warning);
+}
+
+/* Item controls at the end */
+.hack100 .weapon-item .item-controls,
+.hack100 .armor-item .item-controls {
+  display: flex;
+  gap: var(--hack100-spacing-xs);
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+/* Dark theme adjustments */
+.hack100.color-scheme-dark .weapon-item,
+.hack100.color-scheme-dark .armor-item {
+  background: var(--hack100-bg-secondary);
+  border-color: var(--hack100-border);
+}
+
+.hack100.color-scheme-dark .weapon-item:hover,
+.hack100.color-scheme-dark .armor-item:hover {
+  background: var(--hack100-bg-tertiary);
+}
+
 /* ===== CHAT MESSAGES ===== */
 
 /* Hide default Foundry dice roll display for Hack100 rolls */
