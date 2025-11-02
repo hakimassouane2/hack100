@@ -21,7 +21,7 @@ export class Hack100ActorSheet extends ActorSheet {
 
   /** @override */
   get template() {
-    return `systems/hack100/templates/actor-${this.actor.type}.hbs`;
+    return `systems/hack100/templates/actor-character.hbs`;
   }
 
   /** @override */
