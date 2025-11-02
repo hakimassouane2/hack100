@@ -63,6 +63,38 @@ export class Hack100ActorSheet extends ActorSheet {
 
     // Apply color scheme class to the window
     this._applyColorScheme();
+
+    // Restore collapsed sections
+    this._restoreCollapsedSections();
+  }
+
+  /**
+   * Restore collapsed section states from localStorage
+   */
+  _restoreCollapsedSections() {
+    const storageKey = `hack100-collapsed-${this.actor.id}`;
+    const stored = localStorage.getItem(storageKey);
+
+    if (!stored) return;
+
+    try {
+      const collapsedSections = JSON.parse(stored);
+      const element = this.element[0];
+
+      Object.entries(collapsedSections).forEach(([sectionName, isCollapsed]) => {
+        if (isCollapsed) {
+          const toggle = element.querySelector(`.section-toggle[data-section="${sectionName}"]`);
+          if (toggle) {
+            const section = toggle.closest(".items-section");
+            if (section) {
+              section.classList.add("collapsed");
+            }
+          }
+        }
+      });
+    } catch (e) {
+      console.error("Error restoring collapsed sections:", e);
+    }
   }
 
   /**
@@ -130,6 +162,28 @@ export class Hack100ActorSheet extends ActorSheet {
   }
 
   /** @override */
+  async _onChangeInput(event) {
+    // Get the field name
+    const fieldName = event.target.name;
+
+    // For certain fields that change frequently, update without re-render
+    if (fieldName && (
+      fieldName.includes("abilities") ||
+      fieldName.includes("specialisms") ||
+      fieldName === "name" ||
+      fieldName.includes("background")
+    )) {
+      event.preventDefault();
+      const formData = this._getSubmitData();
+      await this.actor.update(formData, {render: false});
+      return;
+    }
+
+    // For other fields, use default behavior
+    return super._onChangeInput(event);
+  }
+
+  /** @override */
   activateListeners(html) {
     super.activateListeners(html);
 
@@ -140,13 +194,49 @@ export class Hack100ActorSheet extends ActorSheet {
       item.sheet.render(true);
     });
 
+    // Section collapse/expand toggle
+    html.find(".section-toggle").click((ev) => {
+      ev.preventDefault();
+      ev.stopPropagation();
+      const icon = $(ev.currentTarget);
+      const section = icon.closest(".items-section");
+      const sectionName = icon.data("section");
+
+      // Toggle collapsed state immediately
+      section.toggleClass("collapsed");
+
+      // Save to localStorage (purely client-side, no re-render)
+      const storageKey = `hack100-collapsed-${this.actor.id}`;
+      const stored = localStorage.getItem(storageKey);
+      let collapsedSections = {};
+
+      if (stored) {
+        try {
+          collapsedSections = JSON.parse(stored);
+        } catch (e) {
+          collapsedSections = {};
+        }
+      }
+
+      collapsedSections[sectionName] = section.hasClass("collapsed");
+      localStorage.setItem(storageKey, JSON.stringify(collapsedSections));
+    });
+
+    // Also allow clicking on the h3 to toggle
+    html.find(".items-header h3").click((ev) => {
+      const toggle = $(ev.currentTarget).find(".section-toggle");
+      if (toggle.length > 0) {
+        toggle.trigger("click");
+      }
+    });
+
     // -------------------------------------------------------------
     // Everything below here is only needed if the sheet is editable
     if (!this.isEditable) return;
 
     // Color scheme change handler
     html.find('select[name="system.colorScheme"]').change(async (ev) => {
-      await this.actor.update({ "system.colorScheme": ev.target.value });
+      await this.actor.update({ "system.colorScheme": ev.target.value }, {render: false});
       this._applyColorScheme();
     });
 
@@ -154,11 +244,13 @@ export class Hack100ActorSheet extends ActorSheet {
     html.find(".item-create").click(this._onItemCreate.bind(this));
 
     // Delete Inventory Item
-    html.find(".item-delete").click((ev) => {
+    html.find(".item-delete").click(async (ev) => {
       const li = $(ev.currentTarget).parents(".item");
       const item = this.actor.items.get(li.data("itemId"));
-      item.delete();
-      li.slideUp(200, () => this.render(false));
+      await item.delete();
+      li.slideUp(200, () => {
+        // Item already deleted, no need to re-render
+      });
     });
 
     // Toggle equipped status for items
@@ -167,7 +259,7 @@ export class Hack100ActorSheet extends ActorSheet {
       const li = $(checkbox).closest(".item");
       const item = this.actor.items.get(li.data("itemId"));
       if (item) {
-        await item.update({ "system.equipped": checkbox.checked });
+        await item.update({ "system.equipped": checkbox.checked }, {render: false});
       }
     });
 
@@ -220,8 +312,12 @@ export class Hack100ActorSheet extends ActorSheet {
     // Remove the type from the dataset since it's in the itemData.type prop.
     delete itemData.system["type"];
 
-    // Finally, create the item!
-    return await Item.create(itemData, { parent: this.actor });
+    // Create the item without triggering re-render
+    const item = await Item.create(itemData, { parent: this.actor, renderSheet: false });
+
+    // Manually add the item to the list without full re-render
+    // (Foundry will handle this through its reactive system)
+    return item;
   }
 
   /**
@@ -299,8 +395,9 @@ export class Hack100ActorSheet extends ActorSheet {
     };
 
     try {
-      await this.actor.update(updateData);
+      await this.actor.update(updateData, {render: false});
       console.log("Hack100 | Specialism added successfully");
+      this.render(false); // Soft refresh to show new specialism
     } catch (error) {
       console.error("Hack100 | Error adding specialism:", error);
     }
@@ -329,7 +426,8 @@ export class Hack100ActorSheet extends ActorSheet {
       [`system.specialisms.-=${specialismKey}`]: null
     };
 
-    await this.actor.update(updateData);
+    await this.actor.update(updateData, {render: false});
+    this.render(false); // Soft refresh to remove deleted specialism
   }
 
   /** @override */

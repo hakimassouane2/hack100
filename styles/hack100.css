@@ -1011,6 +1011,38 @@
   border: none;
   padding: 0;
   flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: var(--hack100-spacing-sm);
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.2s ease;
+}
+
+.hack100 .items-header h3:hover {
+  color: var(--hack100-accent);
+}
+
+.hack100 .items-header h3 .section-toggle {
+  font-size: 14px;
+  transition: transform 0.3s ease;
+  color: var(--hack100-accent);
+}
+
+.hack100 .items-section.collapsed .section-toggle {
+  transform: rotate(-90deg);
+}
+
+.hack100 .collapsible-content {
+  max-height: 2000px;
+  overflow: hidden;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  opacity: 1;
+}
+
+.hack100 .items-section.collapsed .collapsible-content {
+  max-height: 0;
+  opacity: 0;
 }
 
 .hack100 .item-create {
