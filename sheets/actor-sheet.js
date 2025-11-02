@@ -331,4 +331,28 @@ export class Hack100ActorSheet extends ActorSheet {
 
     await this.actor.update(updateData);
   }
+
+  /** @override */
+  _onDragStart(event) {
+    const li = event.currentTarget;
+    if (event.target.classList.contains("content-link")) return;
+
+    // Get the item being dragged
+    const itemId = li.dataset.itemId;
+    const item = this.actor.items.get(itemId);
+    if (!item) return;
+
+    // Create the drag data
+    const dragData = {
+      actorId: this.actor.id,
+      sceneId: this.actor.isToken ? canvas.scene?.id : null,
+      tokenId: this.actor.isToken ? this.actor.token.id : null,
+      type: "Item",
+      uuid: item.uuid,
+      data: item.toObject()
+    };
+
+    // Set data transfer
+    event.dataTransfer.setData("text/plain", JSON.stringify(dragData));
+  }
 }

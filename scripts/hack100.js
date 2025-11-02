@@ -191,6 +191,64 @@ Hooks.once("ready", async function () {
 });
 
 /* -------------------------------------------- */
+/*  Hotbar Macros                               */
+/* -------------------------------------------- */
+
+/**
+ * Create a Macro from an Item drop.
+ * Get an existing item macro if one exists, otherwise create a new one.
+ * @param {Object} data     The dropped data
+ * @param {number} slot     The hotbar slot to use
+ * @returns {Promise}
+ */
+async function createHack100Macro(data, slot) {
+  if (data.type !== "Item") return;
+
+  // Get the Item from the UUID
+  const item = await fromUuid(data.uuid);
+  if (!item) return ui.notifications.warn("You can only create macro buttons for owned Items");
+
+  // Only create macros for weapons
+  if (item.type !== "weapon") {
+    return ui.notifications.warn("You can only create macro buttons for weapons");
+  }
+
+  // Create the macro command
+  const command = `// Roll weapon attack: ${item.name}
+const item = await fromUuid("${data.uuid}");
+if (item) {
+  item.roll();
+} else {
+  ui.notifications.warn("Weapon not found. Make sure the item still exists.");
+}`;
+
+  // Create or update the macro
+  let macro = game.macros.find(m => (m.name === item.name) && (m.command === command));
+  if (!macro) {
+    macro = await Macro.create({
+      name: item.name,
+      type: "script",
+      img: item.img,
+      command: command,
+      flags: { "hack100.itemMacro": true }
+    });
+  }
+
+  if (macro) {
+    game.user.assignHotbarMacro(macro, slot);
+  }
+  return false;
+}
+
+/**
+ * Hook hotbar drops to create macros
+ */
+Hooks.on("hotbarDrop", (bar, data, slot) => {
+  createHack100Macro(data, slot);
+  return false; // Prevent default handling
+});
+
+/* -------------------------------------------- */
 /*  Chat Message Hooks                          */
 /* -------------------------------------------- */
 
