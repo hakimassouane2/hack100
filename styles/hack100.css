@@ -1129,6 +1129,7 @@
   align-items: center;
   gap: var(--hack100-spacing-md);
   flex-shrink: 0;
+  justify-content: flex-end;
 }
 
 .hack100 .item-controls input[type="checkbox"] {
