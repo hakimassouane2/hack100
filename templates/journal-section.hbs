@@ -1,0 +1,234 @@
+{{!-- Journal Section --}}
+<div class="journal-section">
+  <div class="section-header">
+    <h3>
+      <i class="fas fa-chevron-down section-toggle" data-section="journal"></i>
+      {{localize "hack100.journal.title"}}
+    </h3>
+  </div>
+
+  <div class="journal-content collapsible-content">
+
+    {{!-- 1. Quick Notes --}}
+    <div class="journal-subsection quick-notes">
+      <h4>{{localize "hack100.journal.quickNotes"}}</h4>
+      <textarea
+        name="system.journal.quickNotes"
+        class="journal-quick-textarea"
+        placeholder="{{localize "hack100.journal.quickNotesPlaceholder"}}">{{system.journal.quickNotes}}</textarea>
+    </div>
+
+    {{!-- 2. Important Clues & Leads --}}
+    <div class="journal-subsection clues-section">
+      <div class="subsection-header">
+        <h4>
+          <i class="fas fa-chevron-down subsection-toggle" data-subsection="clues"></i>
+          {{localize "hack100.journal.clues"}}
+        </h4>
+        <button type="button" class="journal-add" data-journal-type="clue" title="{{localize "hack100.journal.addClue"}}">
+          <i class="fas fa-plus"></i>
+        </button>
+      </div>
+      <div class="journal-entries collapsible-subsection">
+        {{#each system.journal.clues as |clue index|}}
+        <div class="journal-entry clue-entry" data-index="{{index}}">
+          <div class="entry-header">
+            <i class="fas fa-chevron-right entry-toggle"></i>
+            <input
+              type="text"
+              name="system.journal.clues.{{index}}.title"
+              class="entry-title"
+              value="{{clue.title}}"
+              placeholder="{{localize "hack100.journal.clueTitle"}}"
+              data-journal-type="clue"
+              data-index="{{index}}" />
+            <select
+              name="system.journal.clues.{{index}}.status"
+              class="entry-status"
+              data-journal-type="clue"
+              data-index="{{index}}">
+              <option value="unsolved" {{#if (eq clue.status "unsolved")}}selected{{/if}}>{{localize "hack100.journal.unsolved"}}</option>
+              <option value="investigating" {{#if (eq clue.status "investigating")}}selected{{/if}}>{{localize "hack100.journal.investigating"}}</option>
+              <option value="resolved" {{#if (eq clue.status "resolved")}}selected{{/if}}>{{localize "hack100.journal.resolved"}}</option>
+            </select>
+            <button type="button" class="journal-delete" data-journal-type="clue" data-index="{{index}}" title="{{localize "hack100.buttons.delete"}}">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+          <div class="entry-body">
+            <textarea
+              name="system.journal.clues.{{index}}.description"
+              class="entry-description"
+              placeholder="{{localize "hack100.journal.clueDescription"}}"
+              data-journal-type="clue"
+              data-index="{{index}}">{{clue.description}}</textarea>
+          </div>
+        </div>
+        {{/each}}
+        {{#unless system.journal.clues.length}}
+        <p class="empty-message">{{localize "hack100.journal.noClues"}}</p>
+        {{/unless}}
+      </div>
+    </div>
+
+    {{!-- 3. NPCs & Factions --}}
+    <div class="journal-subsection npcs-section">
+      <div class="subsection-header">
+        <h4>
+          <i class="fas fa-chevron-down subsection-toggle" data-subsection="npcs"></i>
+          {{localize "hack100.journal.npcs"}}
+        </h4>
+        <button type="button" class="journal-add" data-journal-type="npc" title="{{localize "hack100.journal.addNpc"}}">
+          <i class="fas fa-plus"></i>
+        </button>
+      </div>
+      <div class="journal-entries collapsible-subsection">
+        {{#each system.journal.npcs as |npc index|}}
+        <div class="journal-entry npc-entry" data-index="{{index}}">
+          <div class="entry-header">
+            <i class="fas fa-chevron-right entry-toggle"></i>
+            <input
+              type="text"
+              name="system.journal.npcs.{{index}}.name"
+              class="entry-title"
+              value="{{npc.name}}"
+              placeholder="{{localize "hack100.journal.npcName"}}"
+              data-journal-type="npc"
+              data-index="{{index}}" />
+            <select
+              name="system.journal.npcs.{{index}}.relationship"
+              class="entry-relationship"
+              data-journal-type="npc"
+              data-index="{{index}}">
+              <option value="unknown" {{#if (eq npc.relationship "unknown")}}selected{{/if}}>{{localize "hack100.journal.unknown"}}</option>
+              <option value="ally" {{#if (eq npc.relationship "ally")}}selected{{/if}}>{{localize "hack100.journal.ally"}}</option>
+              <option value="neutral" {{#if (eq npc.relationship "neutral")}}selected{{/if}}>{{localize "hack100.journal.neutral"}}</option>
+              <option value="enemy" {{#if (eq npc.relationship "enemy")}}selected{{/if}}>{{localize "hack100.journal.enemy"}}</option>
+            </select>
+            <button type="button" class="journal-delete" data-journal-type="npc" data-index="{{index}}" title="{{localize "hack100.buttons.delete"}}">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+          <div class="entry-body">
+            <textarea
+              name="system.journal.npcs.{{index}}.notes"
+              class="entry-description"
+              placeholder="{{localize "hack100.journal.npcNotes"}}"
+              data-journal-type="npc"
+              data-index="{{index}}">{{npc.notes}}</textarea>
+          </div>
+        </div>
+        {{/each}}
+        {{#unless system.journal.npcs.length}}
+        <p class="empty-message">{{localize "hack100.journal.noNpcs"}}</p>
+        {{/unless}}
+      </div>
+    </div>
+
+    {{!-- 4. Rumors / Lore Bits --}}
+    <div class="journal-subsection rumors-section">
+      <div class="subsection-header">
+        <h4>
+          <i class="fas fa-chevron-down subsection-toggle" data-subsection="rumors"></i>
+          {{localize "hack100.journal.rumors"}}
+        </h4>
+        <button type="button" class="journal-add" data-journal-type="rumor" title="{{localize "hack100.journal.addRumor"}}">
+          <i class="fas fa-plus"></i>
+        </button>
+      </div>
+      <div class="journal-entries collapsible-subsection">
+        {{#each system.journal.rumors as |rumor index|}}
+        <div class="journal-entry rumor-entry" data-index="{{index}}">
+          <div class="entry-header">
+            <i class="fas fa-chevron-right entry-toggle"></i>
+            <input
+              type="text"
+              name="system.journal.rumors.{{index}}.text"
+              class="entry-text"
+              value="{{rumor.text}}"
+              placeholder="{{localize "hack100.journal.rumorText"}}"
+              data-journal-type="rumor"
+              data-index="{{index}}" />
+            <input
+              type="text"
+              name="system.journal.rumors.{{index}}.source"
+              class="entry-source"
+              value="{{rumor.source}}"
+              placeholder="{{localize "hack100.journal.rumorSource"}}"
+              data-journal-type="rumor"
+              data-index="{{index}}" />
+            <select
+              name="system.journal.rumors.{{index}}.credibility"
+              class="entry-credibility"
+              data-journal-type="rumor"
+              data-index="{{index}}">
+              <option value="unknown" {{#if (eq rumor.credibility "unknown")}}selected{{/if}}>{{localize "hack100.journal.unknown"}}</option>
+              <option value="doubtful" {{#if (eq rumor.credibility "doubtful")}}selected{{/if}}>{{localize "hack100.journal.doubtful"}}</option>
+              <option value="confirmed" {{#if (eq rumor.credibility "confirmed")}}selected{{/if}}>{{localize "hack100.journal.confirmed"}}</option>
+            </select>
+            <button type="button" class="journal-delete" data-journal-type="rumor" data-index="{{index}}" title="{{localize "hack100.buttons.delete"}}">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        </div>
+        {{/each}}
+        {{#unless system.journal.rumors.length}}
+        <p class="empty-message">{{localize "hack100.journal.noRumors"}}</p>
+        {{/unless}}
+      </div>
+    </div>
+
+    {{!-- 5. Free Journal Entries --}}
+    <div class="journal-subsection free-entries-section">
+      <div class="subsection-header">
+        <h4>
+          <i class="fas fa-chevron-down subsection-toggle" data-subsection="freeEntries"></i>
+          {{localize "hack100.journal.freeEntries"}}
+        </h4>
+        <button type="button" class="journal-add" data-journal-type="freeEntry" title="{{localize "hack100.journal.addEntry"}}">
+          <i class="fas fa-plus"></i>
+        </button>
+      </div>
+      <div class="journal-entries collapsible-subsection">
+        {{#each system.journal.freeEntries as |entry index|}}
+        <div class="journal-entry free-entry" data-index="{{index}}">
+          <div class="entry-header">
+            <i class="fas fa-chevron-right entry-toggle"></i>
+            <input
+              type="text"
+              name="system.journal.freeEntries.{{index}}.title"
+              class="entry-title"
+              value="{{entry.title}}"
+              placeholder="{{localize "hack100.journal.entryTitle"}}"
+              data-journal-type="freeEntry"
+              data-index="{{index}}" />
+            <input
+              type="text"
+              name="system.journal.freeEntries.{{index}}.date"
+              class="entry-date"
+              value="{{entry.date}}"
+              placeholder="{{localize "hack100.journal.entryDate"}}"
+              data-journal-type="freeEntry"
+              data-index="{{index}}" />
+            <button type="button" class="journal-delete" data-journal-type="freeEntry" data-index="{{index}}" title="{{localize "hack100.buttons.delete"}}">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+          <div class="entry-body">
+            <textarea
+              name="system.journal.freeEntries.{{index}}.body"
+              class="entry-description"
+              placeholder="{{localize "hack100.journal.entryBody"}}"
+              data-journal-type="freeEntry"
+              data-index="{{index}}">{{entry.body}}</textarea>
+          </div>
+        </div>
+        {{/each}}
+        {{#unless system.journal.freeEntries.length}}
+        <p class="empty-message">{{localize "hack100.journal.noEntries"}}</p>
+        {{/unless}}
+      </div>
+    </div>
+
+  </div>
+</div>

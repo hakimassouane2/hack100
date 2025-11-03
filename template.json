@@ -62,7 +62,14 @@
         },
         "specialisms": {},
         "movement": 8,
-        "notes": ""
+        "notes": "",
+        "journal": {
+          "quickNotes": "",
+          "clues": [],
+          "npcs": [],
+          "rumors": [],
+          "freeEntries": []
+        }
       }
     },
     "character": {

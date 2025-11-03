@@ -69,6 +69,9 @@ export class Hack100ActorSheet extends ActorSheet {
 
     // Restore collapsed sections
     this._restoreCollapsedSections();
+
+    // Restore collapsed journal entries and subsections
+    this._restoreJournalCollapsedStates();
   }
 
   /**
@@ -91,7 +94,7 @@ export class Hack100ActorSheet extends ActorSheet {
               `.section-toggle[data-section="${sectionName}"]`
             );
             if (toggle) {
-              const section = toggle.closest(".items-section");
+              const section = toggle.closest(".items-section, .journal-section");
               if (section) {
                 section.classList.add("collapsed");
               }
@@ -101,6 +104,42 @@ export class Hack100ActorSheet extends ActorSheet {
       );
     } catch (e) {
       console.error("Error restoring collapsed sections:", e);
+    }
+  }
+
+  /**
+   * Restore collapsed journal entry states from localStorage
+   */
+  _restoreJournalCollapsedStates() {
+    const element = this.element[0];
+
+    // Restore entry collapsed states
+    const entryKey = `hack100-journal-collapsed-${this.actor.id}`;
+    const entryStored = localStorage.getItem(entryKey);
+
+    if (entryStored) {
+      try {
+        const collapsedEntries = JSON.parse(entryStored);
+        Object.entries(collapsedEntries).forEach(([key, isCollapsed]) => {
+          if (isCollapsed) {
+            const [type, index] = key.split("-");
+            const entryClass =
+              type === "clue"
+                ? "clue-entry"
+                : type === "npc"
+                ? "npc-entry"
+                : type === "rumor"
+                ? "rumor-entry"
+                : "free-entry";
+            const entries = element.querySelectorAll(
+              `.${entryClass}[data-index="${index}"]`
+            );
+            entries.forEach((entry) => entry.classList.add("collapsed"));
+          }
+        });
+      } catch (e) {
+        console.error("Error restoring collapsed entries:", e);
+      }
     }
   }
 
@@ -294,6 +333,15 @@ export class Hack100ActorSheet extends ActorSheet {
     addButton.click(this._onSpecialismAdd.bind(this));
     html.find(".specialism-delete").click(this._onSpecialismDelete.bind(this));
 
+    // Journal management
+    html.find(".journal-add").click(this._onJournalAdd.bind(this));
+    html.find(".journal-delete").click(this._onJournalDelete.bind(this));
+    html.find(".entry-toggle").click(this._onEntryToggle.bind(this));
+
+    // Journal autosave on input change
+    html.find(".journal-quick-textarea").on("blur", this._onJournalFieldChange.bind(this));
+    html.find(".journal-entry input, .journal-entry textarea, .journal-entry select").on("change", this._onJournalFieldChange.bind(this));
+
     // Drag events for macros.
     if (this.actor.isOwner) {
       let handler = (ev) => this._onDragStart(ev);
@@ -469,5 +517,189 @@ export class Hack100ActorSheet extends ActorSheet {
 
     // Set data transfer
     event.dataTransfer.setData("text/plain", JSON.stringify(dragData));
+  }
+
+  /**
+   * Handle adding a new journal entry
+   */
+  async _onJournalAdd(event) {
+    event.preventDefault();
+    const button = event.currentTarget;
+    const journalType = button.dataset.journalType;
+
+    const journal = foundry.utils.duplicate(this.actor.system.journal) || {
+      quickNotes: "",
+      clues: [],
+      npcs: [],
+      rumors: [],
+      freeEntries: []
+    };
+    let newEntry;
+    let arrayKey;
+
+    // Get current date in a nice format
+    const now = new Date();
+    const dateStr = now.toLocaleDateString();
+
+    switch (journalType) {
+      case "clue":
+        arrayKey = "clues";
+        newEntry = {
+          title: game.i18n.localize("hack100.journal.newClue"),
+          description: "",
+          status: "unsolved",
+        };
+        break;
+      case "npc":
+        arrayKey = "npcs";
+        newEntry = {
+          name: game.i18n.localize("hack100.journal.newNpc"),
+          relationship: "unknown",
+          notes: "",
+        };
+        break;
+      case "rumor":
+        arrayKey = "rumors";
+        newEntry = {
+          text: "",
+          source: "",
+          credibility: "unknown",
+        };
+        break;
+      case "freeEntry":
+        arrayKey = "freeEntries";
+        newEntry = {
+          title: game.i18n.localize("hack100.journal.newEntry"),
+          body: "",
+          date: dateStr,
+        };
+        break;
+      default:
+        console.warn("Unknown journal type:", journalType);
+        return;
+    }
+
+    // Ensure the array exists before pushing
+    if (!Array.isArray(journal[arrayKey])) {
+      journal[arrayKey] = [];
+    }
+
+    journal[arrayKey].push(newEntry);
+
+    await this.actor.update({ "system.journal": journal });
+
+    // Focus on the new entry's first input field after render
+    setTimeout(() => {
+      const entries = this.element.find(`.${journalType}-entry`);
+      const lastEntry = entries.last();
+      const firstInput = lastEntry.find("input, textarea").first();
+      if (firstInput.length) {
+        firstInput.focus().select();
+      }
+    }, 100);
+  }
+
+  /**
+   * Handle deleting a journal entry
+   */
+  async _onJournalDelete(event) {
+    event.preventDefault();
+    const button = event.currentTarget;
+    const journalType = button.dataset.journalType;
+    const index = parseInt(button.dataset.index);
+
+    const journal = foundry.utils.duplicate(this.actor.system.journal);
+    let arrayKey;
+
+    switch (journalType) {
+      case "clue":
+        arrayKey = "clues";
+        break;
+      case "npc":
+        arrayKey = "npcs";
+        break;
+      case "rumor":
+        arrayKey = "rumors";
+        break;
+      case "freeEntry":
+        arrayKey = "freeEntries";
+        break;
+      default:
+        console.warn("Unknown journal type:", journalType);
+        return;
+    }
+
+    // Confirm deletion if there's content
+    const entry = journal[arrayKey][index];
+    const hasContent =
+      entry && Object.values(entry).some((val) => val && val.trim?.().length > 0);
+
+    if (hasContent) {
+      const confirm = await Dialog.confirm({
+        title: game.i18n.localize("hack100.buttons.delete"),
+        content: `<p>${game.i18n.localize("hack100.journal.confirmDelete")}</p>`,
+      });
+      if (!confirm) return;
+    }
+
+    journal[arrayKey].splice(index, 1);
+
+    await this.actor.update({ "system.journal": journal });
+  }
+
+  /**
+   * Handle toggling journal entry collapse state
+   */
+  _onEntryToggle(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    const icon = $(event.currentTarget);
+    const entry = icon.closest(".journal-entry");
+
+    entry.toggleClass("collapsed");
+
+    // Save state to localStorage
+    const storageKey = `hack100-journal-collapsed-${this.actor.id}`;
+    const stored = localStorage.getItem(storageKey);
+    let collapsedEntries = {};
+
+    if (stored) {
+      try {
+        collapsedEntries = JSON.parse(stored);
+      } catch (e) {
+        collapsedEntries = {};
+      }
+    }
+
+    const entryType = entry.hasClass("clue-entry")
+      ? "clue"
+      : entry.hasClass("npc-entry")
+      ? "npc"
+      : entry.hasClass("rumor-entry")
+      ? "rumor"
+      : "free";
+    const index = entry.data("index");
+    const key = `${entryType}-${index}`;
+
+    collapsedEntries[key] = entry.hasClass("collapsed");
+    localStorage.setItem(storageKey, JSON.stringify(collapsedEntries));
+  }
+
+  /**
+   * Handle journal field changes for autosave
+   */
+  async _onJournalFieldChange(event) {
+    event.preventDefault();
+    const field = event.currentTarget;
+    const fieldName = field.name;
+
+    if (!fieldName) return;
+
+    // Build update data
+    const updateData = {};
+    updateData[fieldName] = field.value;
+
+    // Update without re-render to avoid losing focus
+    await this.actor.update(updateData, { render: false });
   }
 }

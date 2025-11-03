@@ -38,6 +38,7 @@
     "tabs": {
       "main": "Information",
       "equipment": "Inventory",
+      "journal": "Journal",
       "settings": "Settings"
     },
     "character": {
@@ -147,6 +148,45 @@
         "dark": "Dark (Fantasy Night)",
         "light": "Light (Clean Blue)"
       }
+    },
+    "journal": {
+      "title": "Character Journal",
+      "quickNotes": "Quick Notes",
+      "quickNotesPlaceholder": "Jot down temporary notes, reminders, or TODOs...",
+      "clues": "Important Clues & Leads",
+      "npcs": "NPCs & Factions",
+      "rumors": "Rumors & Lore",
+      "freeEntries": "Journal Entries",
+      "addClue": "Add Clue",
+      "addNpc": "Add NPC",
+      "addRumor": "Add Rumor",
+      "addEntry": "Add Entry",
+      "newClue": "New Clue",
+      "newNpc": "New NPC",
+      "newEntry": "New Entry",
+      "clueTitle": "Clue title",
+      "clueDescription": "Detailed description of the clue...",
+      "npcName": "NPC name",
+      "npcNotes": "Notes about this NPC...",
+      "rumorText": "Rumor or lore...",
+      "rumorSource": "Source",
+      "entryTitle": "Entry title",
+      "entryBody": "Write your journal entry here...",
+      "entryDate": "Date",
+      "noClues": "No clues or leads recorded yet.",
+      "noNpcs": "No NPCs or factions recorded yet.",
+      "noRumors": "No rumors or lore recorded yet.",
+      "noEntries": "No journal entries yet.",
+      "confirmDelete": "Are you sure you want to delete this entry?",
+      "unsolved": "Unsolved",
+      "investigating": "Investigating",
+      "resolved": "Resolved",
+      "unknown": "Unknown",
+      "ally": "Ally",
+      "neutral": "Neutral",
+      "enemy": "Enemy",
+      "doubtful": "Doubtful",
+      "confirmed": "Confirmed"
     }
   }
 }

@@ -38,6 +38,7 @@
     "tabs": {
       "main": "Informations",
       "equipment": "Inventaire",
+      "journal": "Journal",
       "settings": "Paramètres"
     },
     "character": {
@@ -147,6 +148,45 @@
         "dark": "Sombre (Nuit fantastique)",
         "light": "Clair (Bleu épuré)"
       }
+    },
+    "journal": {
+      "title": "Journal du Personnage",
+      "quickNotes": "Notes Rapides",
+      "quickNotesPlaceholder": "Notez des notes temporaires, rappels ou tâches...",
+      "clues": "Indices & Pistes Importantes",
+      "npcs": "PNJ & Factions",
+      "rumors": "Rumeurs & Légendes",
+      "freeEntries": "Entrées de Journal",
+      "addClue": "Ajouter un Indice",
+      "addNpc": "Ajouter un PNJ",
+      "addRumor": "Ajouter une Rumeur",
+      "addEntry": "Ajouter une Entrée",
+      "newClue": "Nouvel Indice",
+      "newNpc": "Nouveau PNJ",
+      "newEntry": "Nouvelle Entrée",
+      "clueTitle": "Titre de l'indice",
+      "clueDescription": "Description détaillée de l'indice...",
+      "npcName": "Nom du PNJ",
+      "npcNotes": "Notes sur ce PNJ...",
+      "rumorText": "Rumeur ou légende...",
+      "rumorSource": "Source",
+      "entryTitle": "Titre de l'entrée",
+      "entryBody": "Écrivez votre entrée de journal ici...",
+      "entryDate": "Date",
+      "noClues": "Aucun indice ou piste enregistré pour le moment.",
+      "noNpcs": "Aucun PNJ ou faction enregistré pour le moment.",
+      "noRumors": "Aucune rumeur ou légende enregistrée pour le moment.",
+      "noEntries": "Aucune entrée de journal pour le moment.",
+      "confirmDelete": "Êtes-vous sûr de vouloir supprimer cette entrée ?",
+      "unsolved": "Non résolu",
+      "investigating": "En cours d'enquête",
+      "resolved": "Résolu",
+      "unknown": "Inconnu",
+      "ally": "Allié",
+      "neutral": "Neutre",
+      "enemy": "Ennemi",
+      "doubtful": "Douteux",
+      "confirmed": "Confirmé"
     }
   }
 }

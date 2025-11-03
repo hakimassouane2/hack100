@@ -1889,6 +1889,291 @@
   margin-left: 40px;
 }
 
+/* ===== JOURNAL SECTION STYLES ===== */
+
+/* Quick Notes Section */
+.hack100 .quick-notes-section .collapsible-content {
+  padding: var(--hack100-spacing-md);
+}
+
+.hack100 .quick-notes-section.collapsed .collapsible-content {
+  padding: 0;
+}
+
+.hack100 .journal-quick-textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: var(--hack100-spacing-sm);
+  border: 1px solid var(--hack100-border);
+  border-radius: var(--hack100-radius-sm);
+  background: var(--hack100-bg-primary);
+  color: var(--hack100-text);
+  font-family: inherit;
+  font-size: 13px;
+  resize: vertical;
+  transition: border-color 0.2s;
+}
+
+.hack100 .journal-quick-textarea:focus {
+  outline: none;
+  border-color: var(--hack100-accent);
+  box-shadow: 0 0 0 2px rgba(107, 142, 35, 0.1);
+}
+
+/* Journal Items Header with Add Button */
+.hack100 .journal .items-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Journal add buttons use .item-create class, no custom styling needed */
+
+/* Empty Message */
+.hack100 .journal .empty-message {
+  text-align: center;
+  color: var(--hack100-text-muted);
+  font-style: italic;
+  padding: var(--hack100-spacing-md);
+  margin: 0;
+}
+
+/* Journal Entry List Items */
+.hack100 .journal .items-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hack100-spacing-sm);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Individual Journal Entry */
+.hack100 .journal-entry {
+  background: var(--hack100-bg-primary);
+  border: 1px solid var(--hack100-border);
+  border-radius: var(--hack100-radius-md);
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+}
+
+.hack100 .journal-entry:hover {
+  box-shadow: var(--hack100-shadow-sm);
+}
+
+.hack100 .journal-entry .entry-header {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  gap: var(--hack100-spacing-sm);
+  align-items: center;
+  padding: var(--hack100-spacing-sm);
+  background: var(--hack100-bg-secondary);
+  border-bottom: 1px solid var(--hack100-border);
+}
+
+.hack100 .journal-entry.collapsed .entry-header {
+  border-bottom: none;
+}
+
+.hack100 .journal-entry .entry-toggle {
+  cursor: pointer;
+  color: var(--hack100-text-light);
+  font-size: 12px;
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+
+.hack100 .journal-entry.collapsed .entry-toggle {
+  transform: rotate(0deg);
+}
+
+.hack100 .journal-entry:not(.collapsed) .entry-toggle {
+  transform: rotate(90deg);
+}
+
+.hack100 .journal-entry .entry-body {
+  padding: var(--hack100-spacing-md);
+}
+
+.hack100 .journal-entry.collapsed .entry-body {
+  display: none;
+}
+
+/* Entry Input Fields */
+.hack100 .journal-entry .entry-title,
+.hack100 .journal-entry .entry-text {
+  flex: 1;
+  padding: var(--hack100-spacing-xs) var(--hack100-spacing-sm);
+  border: 1px solid var(--hack100-border);
+  border-radius: var(--hack100-radius-sm);
+  background: white;
+  color: var(--hack100-text);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.hack100 .journal-entry .entry-title:focus,
+.hack100 .journal-entry .entry-text:focus {
+  outline: none;
+  border-color: var(--hack100-accent);
+  box-shadow: 0 0 0 1px var(--hack100-accent);
+}
+
+.hack100 .journal-entry .entry-status,
+.hack100 .journal-entry .entry-relationship,
+.hack100 .journal-entry .entry-credibility {
+  padding: var(--hack100-spacing-xs) var(--hack100-spacing-sm);
+  border: 1px solid var(--hack100-border);
+  border-radius: var(--hack100-radius-sm);
+  background: white;
+  color: var(--hack100-text);
+  font-size: 12px;
+  font-weight: 500;
+  min-width: 100px;
+  cursor: pointer;
+}
+
+.hack100 .journal-entry .entry-source,
+.hack100 .journal-entry .entry-date {
+  padding: var(--hack100-spacing-xs) var(--hack100-spacing-sm);
+  border: 1px solid var(--hack100-border);
+  border-radius: var(--hack100-radius-sm);
+  background: white;
+  color: var(--hack100-text-light);
+  font-size: 11px;
+  min-width: 120px;
+}
+
+.hack100 .journal-entry .entry-description {
+  width: 100%;
+  min-height: 60px;
+  padding: var(--hack100-spacing-sm);
+  border: 1px solid var(--hack100-border);
+  border-radius: var(--hack100-radius-sm);
+  background: white;
+  color: var(--hack100-text);
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.hack100 .journal-entry .entry-description:focus {
+  outline: none;
+  border-color: var(--hack100-accent);
+  box-shadow: 0 0 0 1px var(--hack100-accent);
+}
+
+/* Delete Button */
+.hack100 .journal-delete {
+  flex-shrink: 0;
+  width: auto;
+  padding: var(--hack100-spacing-xs) var(--hack100-spacing-sm);
+  background: transparent;
+  color: var(--hack100-danger);
+  border: none;
+  border-radius: var(--hack100-radius-sm);
+  cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.2s;
+  justify-self: end;
+}
+
+.hack100 .journal-delete:hover {
+  background: var(--hack100-danger-bg);
+}
+
+.hack100 .journal-delete i {
+  font-size: 12px;
+}
+
+/* Rumor Entry - Simpler layout (no collapsible body, 5 columns) */
+.hack100 .rumor-entry .entry-body {
+  display: none;
+}
+
+.hack100 .rumor-entry .entry-toggle {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.hack100 .rumor-entry .entry-header {
+  grid-template-columns: auto 1fr auto auto auto;
+}
+
+/* Free Entry - Has date field (4 columns) */
+.hack100 .free-entry .entry-header {
+  grid-template-columns: auto 1fr auto auto;
+}
+
+/* Status Badge Colors */
+.hack100 .entry-status option[value="unsolved"],
+.hack100 .entry-status[value="unsolved"] {
+  color: var(--hack100-warning);
+}
+
+.hack100 .entry-status option[value="investigating"],
+.hack100 .entry-status[value="investigating"] {
+  color: var(--hack100-info);
+}
+
+.hack100 .entry-status option[value="resolved"],
+.hack100 .entry-status[value="resolved"] {
+  color: var(--hack100-success);
+}
+
+.hack100 .entry-relationship option[value="ally"],
+.hack100 .entry-relationship[value="ally"] {
+  color: var(--hack100-success);
+}
+
+.hack100 .entry-relationship option[value="enemy"],
+.hack100 .entry-relationship[value="enemy"] {
+  color: var(--hack100-danger);
+}
+
+.hack100 .entry-relationship option[value="neutral"],
+.hack100 .entry-relationship[value="neutral"] {
+  color: var(--hack100-info);
+}
+
+.hack100 .entry-credibility option[value="confirmed"],
+.hack100 .entry-credibility[value="confirmed"] {
+  color: var(--hack100-success);
+}
+
+.hack100 .entry-credibility option[value="doubtful"],
+.hack100 .entry-credibility[value="doubtful"] {
+  color: var(--hack100-danger);
+}
+
+/* Dark Theme Overrides for Journal */
+.hack100.color-scheme-dark .quick-notes-section .collapsible-content {
+  background: var(--hack100-bg-panel);
+}
+
+.hack100.color-scheme-dark .journal-entry {
+  background: var(--hack100-bg-secondary);
+}
+
+.hack100.color-scheme-dark .journal-entry .entry-header {
+  background: var(--hack100-bg-tertiary);
+}
+
+.hack100.color-scheme-dark .journal-quick-textarea,
+.hack100.color-scheme-dark .journal-entry .entry-title,
+.hack100.color-scheme-dark .journal-entry .entry-text,
+.hack100.color-scheme-dark .journal-entry .entry-status,
+.hack100.color-scheme-dark .journal-entry .entry-relationship,
+.hack100.color-scheme-dark .journal-entry .entry-credibility,
+.hack100.color-scheme-dark .journal-entry .entry-source,
+.hack100.color-scheme-dark .journal-entry .entry-date,
+.hack100.color-scheme-dark .journal-entry .entry-description {
+  background: var(--hack100-bg-input);
+  color: var(--hack100-text);
+  border-color: var(--hack100-border);
+}
+
 /* Item Sheet Responsive */
 @media (max-width: 600px) {
   .hack100 .item-stats-row {
@@ -1905,5 +2190,19 @@
 
   .hack100.sheet.item .sheet-header .item-img {
     margin: 0 auto;
+  }
+
+  /* Journal Responsive */
+  .hack100 .journal-entry .entry-header {
+    flex-wrap: wrap;
+  }
+
+  .hack100 .journal-entry .entry-status,
+  .hack100 .journal-entry .entry-relationship,
+  .hack100 .journal-entry .entry-credibility,
+  .hack100 .journal-entry .entry-source,
+  .hack100 .journal-entry .entry-date {
+    min-width: auto;
+    flex: 1;
   }
 }
