@@ -231,7 +231,7 @@
 .hack100 .window-content {
   background: var(--hack100-bg-primary);
   padding: var(--hack100-spacing-lg);
-  overflow-y: auto;
+  overflow-y: scroll;
   overflow-x: hidden;
 }
 
@@ -399,7 +399,7 @@
   border-bottom: none;
   border-radius: var(--hack100-radius-md) var(--hack100-radius-md) 0 0;
   cursor: pointer;
-  transition: all 0.2s ease;
+  /* transition: all 0.2s ease; */
   margin-bottom: -3px;
   line-height: 1;
   flex-grow: 1;
@@ -1649,7 +1649,7 @@
 }
 
 .hack100 .tab[data-tab].active {
-  animation: fadeIn 0.3s ease;
+  /* animation: fadeIn 0.3s ease; */
 }
 
 /* ===== ITEM SHEET SPECIFIC STYLES ===== */

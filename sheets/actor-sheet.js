@@ -38,7 +38,10 @@ export class Hack100ActorSheet extends ActorSheet {
     // Calculate health percentage for gradient display
     const healthMax = actorData.system.health.max || 1;
     const healthValue = actorData.system.health.value || 0;
-    context.system.healthPercent = Math.max(0, Math.min(100, Math.round((healthValue / healthMax) * 100)));
+    context.system.healthPercent = Math.max(
+      0,
+      Math.min(100, Math.round((healthValue / healthMax) * 100))
+    );
 
     // Prepare character data and items.
     if (actorData.type == "character") {
@@ -81,17 +84,21 @@ export class Hack100ActorSheet extends ActorSheet {
       const collapsedSections = JSON.parse(stored);
       const element = this.element[0];
 
-      Object.entries(collapsedSections).forEach(([sectionName, isCollapsed]) => {
-        if (isCollapsed) {
-          const toggle = element.querySelector(`.section-toggle[data-section="${sectionName}"]`);
-          if (toggle) {
-            const section = toggle.closest(".items-section");
-            if (section) {
-              section.classList.add("collapsed");
+      Object.entries(collapsedSections).forEach(
+        ([sectionName, isCollapsed]) => {
+          if (isCollapsed) {
+            const toggle = element.querySelector(
+              `.section-toggle[data-section="${sectionName}"]`
+            );
+            if (toggle) {
+              const section = toggle.closest(".items-section");
+              if (section) {
+                section.classList.add("collapsed");
+              }
             }
           }
         }
-      });
+      );
     } catch (e) {
       console.error("Error restoring collapsed sections:", e);
     }
@@ -105,7 +112,11 @@ export class Hack100ActorSheet extends ActorSheet {
     const element = this.element[0];
 
     // Remove all color scheme classes
-    element.classList.remove("color-scheme-default", "color-scheme-dark", "color-scheme-light");
+    element.classList.remove(
+      "color-scheme-default",
+      "color-scheme-dark",
+      "color-scheme-light"
+    );
 
     // Add the current color scheme class
     if (colorScheme !== "default") {
@@ -167,15 +178,16 @@ export class Hack100ActorSheet extends ActorSheet {
     const fieldName = event.target.name;
 
     // For certain fields that change frequently, update without re-render
-    if (fieldName && (
-      fieldName.includes("abilities") ||
-      fieldName.includes("specialisms") ||
-      fieldName === "name" ||
-      fieldName.includes("background")
-    )) {
+    if (
+      fieldName &&
+      (fieldName.includes("abilities") ||
+        fieldName.includes("specialisms") ||
+        fieldName === "name" ||
+        fieldName.includes("background"))
+    ) {
       event.preventDefault();
       const formData = this._getSubmitData();
-      await this.actor.update(formData, {render: false});
+      await this.actor.update(formData);
       return;
     }
 
@@ -236,7 +248,7 @@ export class Hack100ActorSheet extends ActorSheet {
 
     // Color scheme change handler
     html.find('select[name="system.colorScheme"]').change(async (ev) => {
-      await this.actor.update({ "system.colorScheme": ev.target.value }, {render: false});
+      await this.actor.update({ "system.colorScheme": ev.target.value });
       this._applyColorScheme();
     });
 
@@ -254,14 +266,16 @@ export class Hack100ActorSheet extends ActorSheet {
     });
 
     // Toggle equipped status for items
-    html.find(".equipped-checkbox input[type='checkbox']").change(async (ev) => {
-      const checkbox = ev.currentTarget;
-      const li = $(checkbox).closest(".item");
-      const item = this.actor.items.get(li.data("itemId"));
-      if (item) {
-        await item.update({ "system.equipped": checkbox.checked }, {render: false});
-      }
-    });
+    html
+      .find(".equipped-checkbox input[type='checkbox']")
+      .change(async (ev) => {
+        const checkbox = ev.currentTarget;
+        const li = $(checkbox).closest(".item");
+        const item = this.actor.items.get(li.data("itemId"));
+        if (item) {
+          await item.update({ "system.equipped": checkbox.checked });
+        }
+      });
 
     // Active Effect management
     html
@@ -313,7 +327,10 @@ export class Hack100ActorSheet extends ActorSheet {
     delete itemData.system["type"];
 
     // Create the item without triggering re-render
-    const item = await Item.create(itemData, { parent: this.actor, renderSheet: false });
+    const item = await Item.create(itemData, {
+      parent: this.actor,
+      renderSheet: false,
+    });
 
     // Manually add the item to the list without full re-render
     // (Foundry will handle this through its reactive system)
@@ -390,12 +407,12 @@ export class Hack100ActorSheet extends ActorSheet {
       [`system.specialisms.${newKey}`]: {
         name: game.i18n.localize("hack100.character.newSpecialism"),
         value: 10,
-        experienceCheck: false
-      }
+        experienceCheck: false,
+      },
     };
 
     try {
-      await this.actor.update(updateData, {render: false});
+      await this.actor.update(updateData);
       console.log("Hack100 | Specialism added successfully");
       this.render(false); // Soft refresh to show new specialism
     } catch (error) {
@@ -416,17 +433,17 @@ export class Hack100ActorSheet extends ActorSheet {
     if (specialism.name) {
       const confirm = await Dialog.confirm({
         title: game.i18n.localize("hack100.buttons.delete"),
-        content: `<p>Delete specialism "${specialism.name}"?</p>`
+        content: `<p>Delete specialism "${specialism.name}"?</p>`,
       });
       if (!confirm) return;
     }
 
     // Remove the specialism by setting it to null, then clean up
     const updateData = {
-      [`system.specialisms.-=${specialismKey}`]: null
+      [`system.specialisms.-=${specialismKey}`]: null,
     };
 
-    await this.actor.update(updateData, {render: false});
+    await this.actor.update(updateData);
     this.render(false); // Soft refresh to remove deleted specialism
   }
 
@@ -447,7 +464,7 @@ export class Hack100ActorSheet extends ActorSheet {
       tokenId: this.actor.isToken ? this.actor.token.id : null,
       type: "Item",
       uuid: item.uuid,
-      data: item.toObject()
+      data: item.toObject(),
     };
 
     // Set data transfer
