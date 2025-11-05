@@ -19,6 +19,12 @@ Hooks.once("init", async function () {
   CONFIG.Actor.documentClass = Hack100Actor;
   CONFIG.Item.documentClass = Hack100Item;
 
+  // Configure Combat initiative
+  CONFIG.Combat.initiative = {
+    formula: "1d10 + @abilities.agility.bonus",
+    decimals: 2,
+  };
+
   // Register sheet application classes
   Actors.unregisterSheet("core", ActorSheet);
   Actors.registerSheet("hack100", Hack100ActorSheet, { makeDefault: true });
@@ -206,11 +212,16 @@ async function createHack100Macro(data, slot) {
 
   // Get the Item from the UUID
   const item = await fromUuid(data.uuid);
-  if (!item) return ui.notifications.warn("You can only create macro buttons for owned Items");
+  if (!item)
+    return ui.notifications.warn(
+      "You can only create macro buttons for owned Items"
+    );
 
   // Only create macros for weapons
   if (item.type !== "weapon") {
-    return ui.notifications.warn("You can only create macro buttons for weapons");
+    return ui.notifications.warn(
+      "You can only create macro buttons for weapons"
+    );
   }
 
   // Create the macro command
@@ -223,14 +234,16 @@ if (item) {
 }`;
 
   // Create or update the macro
-  let macro = game.macros.find(m => (m.name === item.name) && (m.command === command));
+  let macro = game.macros.find(
+    (m) => m.name === item.name && m.command === command
+  );
   if (!macro) {
     macro = await Macro.create({
       name: item.name,
       type: "script",
       img: item.img,
       command: command,
-      flags: { "hack100.itemMacro": true }
+      flags: { "hack100.itemMacro": true },
     });
   }
 

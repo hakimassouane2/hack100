@@ -210,6 +210,15 @@ export class Hack100Actor extends Actor {
   }
 
   /**
+   * Get the initiative formula for this actor
+   * Initiative = 1d10 + Agility Bonus
+   * @override
+   */
+  _getInitiativeFormula() {
+    return "1d10 + @abilities.agility.bonus";
+  }
+
+  /**
    * Roll for experience improvement
    * @param {string} abilityId - The ability/specialism to improve
    */
