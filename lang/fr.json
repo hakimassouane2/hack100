@@ -86,7 +86,10 @@
       "currentlyEquipped": "Actuellement équipé",
       "equippedInUse": "Équipé",
       "protectionValue": "Valeur de protection",
-      "movementPenalty": "Pénalité de mouvement"
+      "movementPenalty": "Pénalité de mouvement",
+      "noWeapons": "Aucune arme dans l'inventaire.",
+      "noArmor": "Aucune armure dans l'inventaire.",
+      "noEquipment": "Aucun équipement dans l'inventaire."
     },
     "buttons": {
       "roll": "Jet de",

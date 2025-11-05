@@ -1930,7 +1930,7 @@
 /* Journal add buttons use .item-create class, no custom styling needed */
 
 /* Empty Message */
-.hack100 .journal .empty-message {
+.hack100 .empty-message {
   text-align: center;
   color: var(--hack100-text-muted);
   font-style: italic;

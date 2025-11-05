@@ -86,7 +86,10 @@
       "currentlyEquipped": "Currently Equipped",
       "equippedInUse": "Equipped / In Use",
       "protectionValue": "Protection Value",
-      "movementPenalty": "Movement Penalty"
+      "movementPenalty": "Movement Penalty",
+      "noWeapons": "No weapons in inventory.",
+      "noArmor": "No armor in inventory.",
+      "noEquipment": "No equipment in inventory."
     },
     "buttons": {
       "roll": "Roll",
