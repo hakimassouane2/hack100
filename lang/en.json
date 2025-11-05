@@ -85,8 +85,9 @@
       "price": "Price",
       "currentlyEquipped": "Currently Equipped",
       "equippedInUse": "Equipped / In Use",
-      "protectionValue": "Protection Value",
+      "protectionValue": "Protection",
       "movementPenalty": "Movement Penalty",
+      "agilityPenalty": "Agility Penalty",
       "noWeapons": "No weapons in inventory.",
       "noArmor": "No armor in inventory.",
       "noEquipment": "No equipment in inventory."
@@ -107,7 +108,9 @@
       "hard": "Hard (-20%)",
       "normal": "Normal (0%)",
       "easy": "Easy (+20%)",
-      "difficultyModifier": "Difficulty Modifier"
+      "difficultyModifier": "Difficulty Modifier",
+      "alreadyApplied": "already applied",
+      "fromArmor": "from equipped armors"
     },
     "tooltips": {
       "xpAvailable": "Experience check available - Roll to improve this ability",
@@ -126,6 +129,7 @@
       "weaponEquipped": "Check this box if the weapon is currently equipped and ready for use",
       "armorProtection": "Damage reduction provided",
       "armorMovementPenalty": "Squares reduced from base movement",
+      "armorAgilityPenalty": "Percentage penalty applied to agility rolls when worn",
       "armorLocation": "E.g., \"worn\", \"backpack\", \"mount's saddlebag\"",
       "armorEquipped": "Check this box if the armor is currently being worn",
       "itemLocation": "E.g., \"backpack\", \"belt pouch\", \"left hand\", \"pocket\", \"horse saddlebag\"",

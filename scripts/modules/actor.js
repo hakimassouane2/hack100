@@ -104,6 +104,20 @@ export class Hack100Actor extends Actor {
   }
 
   /**
+   * Calculate total agility penalty from equipped armor
+   * @returns {number} Total agility penalty percentage
+   */
+  getTotalAgilityPenalty() {
+    let totalPenalty = 0;
+    for (let item of this.items) {
+      if (item.type === "armor" && item.system.equipped) {
+        totalPenalty += item.system.agilityPenalty || 0;
+      }
+    }
+    return totalPenalty;
+  }
+
+  /**
    * Roll an ability or specialism check
    * @param {string} abilityId - The ability/specialism to roll
    * @param {object} options - Roll options
@@ -127,11 +141,21 @@ export class Hack100Actor extends Actor {
       return;
     }
 
+    // Apply agility penalty from equipped armor if rolling agility
+    let agilityPenalty = 0;
+    if (abilityId === "agility") {
+      agilityPenalty = this.getTotalAgilityPenalty();
+      if (agilityPenalty > 0) {
+        target = Math.max(0, target - agilityPenalty);
+      }
+    }
+
     const modifier = options.modifier || 0;
     const dialogData = {
       title: `${game.i18n.localize("hack100.global.roll")} ${label}`,
       target: target,
       modifier: modifier,
+      agilityPenalty: agilityPenalty,
     };
 
     // Show dialog for modifier input

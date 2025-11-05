@@ -85,8 +85,9 @@
       "price": "Prix",
       "currentlyEquipped": "Actuellement équipé",
       "equippedInUse": "Équipé",
-      "protectionValue": "Valeur de protection",
+      "protectionValue": "Protection",
       "movementPenalty": "Pénalité de mouvement",
+      "agilityPenalty": "Pénalité d'agilité",
       "noWeapons": "Aucune arme dans l'inventaire.",
       "noArmor": "Aucune armure dans l'inventaire.",
       "noEquipment": "Aucun équipement dans l'inventaire."
@@ -107,7 +108,9 @@
       "hard": "Difficile (-20%)",
       "normal": "Normal (0%)",
       "easy": "Facile (+20%)",
-      "difficultyModifier": "Modificateur de difficulté"
+      "difficultyModifier": "Modificateur de difficulté",
+      "alreadyApplied": "déjà appliqué",
+      "fromArmor": "des armures équipées"
     },
     "tooltips": {
       "xpAvailable": "Vérification d'expérience disponible - Fait un jet pour améliorer cette compétence",
@@ -126,6 +129,7 @@
       "weaponEquipped": "Cochez cette case si l'arme est actuellement équipée et prête à l'emploi",
       "armorProtection": "Réduction de dégâts fournie",
       "armorMovementPenalty": "Cases réduites du mouvement de base",
+      "armorAgilityPenalty": "Pénalité en pourcentage appliquée aux jets d'agilité lorsque portée",
       "armorLocation": "Ex : \"porté\", \"sac à dos\", \"sacoche de monture\"",
       "armorEquipped": "Cochez cette case si l'armure est actuellement portée",
       "itemLocation": "Ex : \"sac à dos\", \"bourse de ceinture\", \"main gauche\", \"poche\", \"sacoche de cheval\"",

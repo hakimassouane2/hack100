@@ -4,6 +4,12 @@
     <input type="number" name="target" value="{{target}}" readonly />
   </div>
 
+  {{#if agilityPenalty}}
+  <div class="form-group">
+    <p class="hint" style="color: #c53030; font-style: italic;">{{localize "hack100.items.agilityPenalty"}} {{localize "hack100.rollDialog.fromArmor"}}: -{{agilityPenalty}}% ({{localize "hack100.rollDialog.alreadyApplied"}})</p>
+  </div>
+  {{/if}}
+
   <div class="form-group">
     <label>{{localize "hack100.rollDialog.modifier"}}</label>
     <select name="modifier">

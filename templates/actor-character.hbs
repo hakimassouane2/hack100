@@ -204,6 +204,10 @@
                   <span class="stat-label">{{localize "hack100.items.movementPenalty"}}:</span>
                   <span class="stat-value penalty-value">-{{item.system.movementPenalty}}</span>
                 </div>
+                <div class="stat-group">
+                  <span class="stat-label">{{localize "hack100.items.agilityPenalty"}}:</span>
+                  <span class="stat-value penalty-value">{{#if item.system.agilityPenalty}}-{{item.system.agilityPenalty}}%{{else}}0%{{/if}}</span>
+                </div>
               </div>
               <div class="item-controls">
                 <a class="item-control item-edit" title="{{localize "hack100.buttons.edit"}}"><i class="fas fa-edit"></i></a>
