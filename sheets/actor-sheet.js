@@ -35,6 +35,31 @@ export class Hack100ActorSheet extends ActorSheet {
     context.system = actorData.system;
     context.flags = actorData.flags;
 
+    // Fix journal arrays that may have been converted to objects by Foundry
+    if (context.system.journal) {
+      const journal = context.system.journal;
+
+      // Convert object-based arrays back to proper arrays
+      ['clues', 'npcs', 'rumors', 'freeEntries'].forEach(arrayKey => {
+        if (journal[arrayKey] && !Array.isArray(journal[arrayKey])) {
+          // Convert object to array, preserving order by numeric keys
+          const obj = journal[arrayKey];
+          const arr = [];
+          Object.keys(obj).sort((a, b) => parseInt(a) - parseInt(b)).forEach(key => {
+            arr.push(obj[key]);
+          });
+          journal[arrayKey] = arr;
+        }
+        // Ensure array exists
+        if (!journal[arrayKey]) {
+          journal[arrayKey] = [];
+        }
+      });
+    }
+
+    // Debug: Log journal data when sheet is rendered
+    console.log("Hack100 | getData() - Journal data:", actorData.system.journal);
+
     // Calculate health percentage for gradient display
     const healthMax = actorData.system.health.max || 1;
     const healthValue = actorData.system.health.value || 0;
@@ -222,9 +247,14 @@ export class Hack100ActorSheet extends ActorSheet {
       (fieldName.includes("abilities") ||
         fieldName.includes("specialisms") ||
         fieldName === "name" ||
-        fieldName.includes("background"))
+        fieldName.includes("background") ||
+        fieldName.includes("journal"))
     ) {
       event.preventDefault();
+      // Journal fields are handled by _onJournalFieldChange
+      if (fieldName.includes("journal")) {
+        return;
+      }
       const formData = this._getSubmitData();
       await this.actor.update(formData);
       return;
@@ -342,6 +372,9 @@ export class Hack100ActorSheet extends ActorSheet {
     html.find(".journal-quick-textarea").on("blur", this._onJournalFieldChange.bind(this));
     html.find(".journal-entry input, .journal-entry textarea, .journal-entry select").on("change", this._onJournalFieldChange.bind(this));
 
+    // Update entry toggle icon color when status/relationship/credibility changes
+    html.find(".entry-status, .entry-relationship, .entry-credibility").on("change", this._onStatusChange.bind(this));
+
     // Drag events for macros.
     if (this.actor.isOwner) {
       let handler = (ev) => this._onDragStart(ev);
@@ -361,10 +394,18 @@ export class Hack100ActorSheet extends ActorSheet {
     const header = event.currentTarget;
     // Get the type of item to create.
     const type = header.dataset.type;
+
+    // Skip if this is a journal add button (it has different handling)
+    if (!type) {
+      return;
+    }
+
     // Grab any data associated with this control.
     const data = duplicate(header.dataset);
     // Initialize a default name using localization.
-    const name = game.i18n.localize(`hack100.items.new${type.capitalize()}`);
+    // Capitalize the first letter of type
+    const capitalizedType = type.charAt(0).toUpperCase() + type.slice(1);
+    const name = game.i18n.localize(`hack100.items.new${capitalizedType}`);
     // Prepare the item object.
     const itemData = {
       name: name,
@@ -693,13 +734,87 @@ export class Hack100ActorSheet extends ActorSheet {
     const field = event.currentTarget;
     const fieldName = field.name;
 
-    if (!fieldName) return;
+    console.log("Hack100 | Journal field change:", fieldName, "=", field.value);
 
-    // Build update data
-    const updateData = {};
-    updateData[fieldName] = field.value;
+    if (!fieldName || !fieldName.startsWith("system.journal")) {
+      console.log("Hack100 | Ignoring non-journal field");
+      return;
+    }
 
-    // Update without re-render to avoid losing focus
-    await this.actor.update(updateData, { render: false });
+    // Parse the field name to extract journal type, index, and property
+    // Format: system.journal.clues.0.title or system.journal.quickNotes
+    const parts = fieldName.split(".");
+
+    if (parts.length === 3 && parts[2] === "quickNotes") {
+      // Simple case: quickNotes
+      console.log("Hack100 | Updating quickNotes");
+      await this.actor.update({ [fieldName]: field.value }, { render: false });
+      return;
+    }
+
+    if (parts.length < 5) {
+      console.log("Hack100 | Invalid field path length:", parts.length);
+      return; // Invalid path
+    }
+
+    const arrayType = parts[2]; // clues, npcs, rumors, freeEntries
+    const index = parseInt(parts[3]);
+    const property = parts[4];
+
+    console.log("Hack100 | Parsed:", { arrayType, index, property });
+
+    // Get current journal data
+    const journal = foundry.utils.duplicate(this.actor.system.journal);
+
+    console.log("Hack100 | Current journal:", journal);
+
+    // Ensure the array exists
+    if (!Array.isArray(journal[arrayType])) {
+      console.log("Hack100 | Array doesn't exist, creating:", arrayType);
+      journal[arrayType] = [];
+    }
+
+    // Ensure the entry exists at this index
+    if (!journal[arrayType][index]) {
+      console.warn(`Hack100 | Journal entry at index ${index} does not exist in ${arrayType}`);
+      console.log("Hack100 | Available entries:", journal[arrayType]);
+      return;
+    }
+
+    // Update the specific property
+    journal[arrayType][index][property] = field.value;
+
+    console.log("Hack100 | Updated journal:", journal);
+
+    // Update the entire journal object
+    const updateData = { "system.journal": journal };
+    console.log("Hack100 | Sending update:", updateData);
+    const result = await this.actor.update(updateData, { render: false });
+    console.log("Hack100 | Update result:", result);
+    console.log("Hack100 | Actor journal after update:", this.actor.system.journal);
+  }
+
+  /**
+   * Handle status/relationship/credibility changes to update toggle icon color
+   */
+  _onStatusChange(event) {
+    const select = event.currentTarget;
+    const value = select.value;
+    const entry = select.closest(".journal-entry");
+    const toggle = entry.querySelector(".entry-toggle");
+
+    if (!toggle) return;
+
+    // Determine which attribute to update based on select class
+    if (select.classList.contains("entry-status")) {
+      toggle.setAttribute("data-status", value);
+      entry.setAttribute("data-status", value);
+    } else if (select.classList.contains("entry-relationship")) {
+      toggle.setAttribute("data-relationship", value);
+      entry.setAttribute("data-relationship", value);
+    } else if (select.classList.contains("entry-credibility")) {
+      toggle.setAttribute("data-credibility", value);
+      entry.setAttribute("data-credibility", value);
+    }
   }
 }

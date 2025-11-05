@@ -273,9 +273,9 @@
         <ol class="items-list collapsible-content">
           {{#if system.journal.clues.length}}
             {{#each system.journal.clues as |clue index|}}
-            <div class="journal-entry clue-entry" data-index="{{index}}">
+            <div class="journal-entry clue-entry" data-index="{{index}}" data-status="{{clue.status}}">
               <div class="entry-header">
-                <i class="fas fa-chevron-right entry-toggle"></i>
+                <i class="fas fa-chevron-right entry-toggle" data-status="{{clue.status}}"></i>
                 <input
                   type="text"
                   name="system.journal.clues.{{index}}.title"
@@ -327,9 +327,9 @@
         <ol class="items-list collapsible-content">
           {{#if system.journal.npcs.length}}
             {{#each system.journal.npcs as |npc index|}}
-            <div class="journal-entry npc-entry" data-index="{{index}}">
+            <div class="journal-entry npc-entry" data-index="{{index}}" data-relationship="{{npc.relationship}}">
               <div class="entry-header">
-                <i class="fas fa-chevron-right entry-toggle"></i>
+                <i class="fas fa-chevron-right entry-toggle" data-relationship="{{npc.relationship}}"></i>
                 <input
                   type="text"
                   name="system.journal.npcs.{{index}}.name"
@@ -382,9 +382,9 @@
         <ol class="items-list collapsible-content">
           {{#if system.journal.rumors.length}}
             {{#each system.journal.rumors as |rumor index|}}
-            <div class="journal-entry rumor-entry" data-index="{{index}}">
+            <div class="journal-entry rumor-entry" data-index="{{index}}" data-credibility="{{rumor.credibility}}">
               <div class="entry-header">
-                <i class="fas fa-chevron-right entry-toggle"></i>
+                <i class="fas fa-chevron-right entry-toggle" data-credibility="{{rumor.credibility}}"></i>
                 <input
                   type="text"
                   name="system.journal.rumors.{{index}}.text"

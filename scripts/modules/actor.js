@@ -23,6 +23,26 @@ export class Hack100Actor extends Actor {
   _prepareCharacterData() {
     const systemData = this.system;
 
+    // Clean up journal data - ensure arrays are actual arrays not objects
+    if (systemData.journal) {
+      const journal = systemData.journal;
+      ['clues', 'npcs', 'rumors', 'freeEntries'].forEach(arrayKey => {
+        if (journal[arrayKey] && !Array.isArray(journal[arrayKey])) {
+          // Convert object to array, preserving order by numeric keys
+          const obj = journal[arrayKey];
+          const arr = [];
+          Object.keys(obj).sort((a, b) => parseInt(a) - parseInt(b)).forEach(key => {
+            arr.push(obj[key]);
+          });
+          journal[arrayKey] = arr;
+        }
+        // Ensure array exists
+        if (!journal[arrayKey]) {
+          journal[arrayKey] = [];
+        }
+      });
+    }
+
     // Clean up corrupted specialism data
     if (systemData.specialisms) {
       for (let [key, specialism] of Object.entries(systemData.specialisms)) {

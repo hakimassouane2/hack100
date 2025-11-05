@@ -1906,7 +1906,7 @@
   padding: var(--hack100-spacing-sm);
   border: 1px solid var(--hack100-border);
   border-radius: var(--hack100-radius-sm);
-  background: var(--hack100-bg-primary);
+  background: white;
   color: var(--hack100-text);
   font-family: inherit;
   font-size: 13px;
@@ -2056,6 +2056,7 @@
   font-size: 13px;
   line-height: 1.5;
   resize: vertical;
+  field-sizing: content;
 }
 
 .hack100 .journal-entry .entry-description:focus {
@@ -2145,6 +2146,220 @@
 .hack100 .entry-credibility option[value="doubtful"],
 .hack100 .entry-credibility[value="doubtful"] {
   color: var(--hack100-danger);
+}
+
+/* Entry Colors Based on Status/Relationship/Credibility */
+/* Clues - Status colors */
+.hack100 .clue-entry[data-status="unsolved"] {
+  border-left: 4px solid var(--hack100-warning);
+  background: linear-gradient(
+    to right,
+    rgba(255, 165, 0, 0.1),
+    transparent 50%
+  );
+}
+
+.hack100 .clue-entry[data-status="unsolved"] .entry-header {
+  background: linear-gradient(
+    to right,
+    rgba(255, 165, 0, 0.2),
+    rgba(255, 165, 0, 0.05)
+  );
+}
+
+.hack100 .clue-entry[data-status="unsolved"] .entry-toggle {
+  color: var(--hack100-warning);
+}
+
+.hack100 .clue-entry[data-status="investigating"] {
+  border-left: 4px solid var(--hack100-info);
+  background: linear-gradient(
+    to right,
+    rgba(0, 123, 255, 0.1),
+    transparent 50%
+  );
+}
+
+.hack100 .clue-entry[data-status="investigating"] .entry-header {
+  background: linear-gradient(
+    to right,
+    rgba(0, 123, 255, 0.2),
+    rgba(0, 123, 255, 0.05)
+  );
+}
+
+.hack100 .clue-entry[data-status="investigating"] .entry-toggle {
+  color: var(--hack100-info);
+}
+
+.hack100 .clue-entry[data-status="resolved"] {
+  border-left: 4px solid var(--hack100-success);
+  background: linear-gradient(
+    to right,
+    rgba(40, 167, 69, 0.1),
+    transparent 50%
+  );
+}
+
+.hack100 .clue-entry[data-status="resolved"] .entry-header {
+  background: linear-gradient(
+    to right,
+    rgba(40, 167, 69, 0.2),
+    rgba(40, 167, 69, 0.05)
+  );
+}
+
+.hack100 .clue-entry[data-status="resolved"] .entry-toggle {
+  color: var(--hack100-success);
+}
+
+/* NPCs - Relationship colors */
+.hack100 .npc-entry[data-relationship="ally"] {
+  border-left: 4px solid var(--hack100-success);
+  background: linear-gradient(
+    to right,
+    rgba(40, 167, 69, 0.1),
+    transparent 50%
+  );
+}
+
+.hack100 .npc-entry[data-relationship="ally"] .entry-header {
+  background: linear-gradient(
+    to right,
+    rgba(40, 167, 69, 0.2),
+    rgba(40, 167, 69, 0.05)
+  );
+}
+
+.hack100 .npc-entry[data-relationship="ally"] .entry-toggle {
+  color: var(--hack100-success);
+}
+
+.hack100 .npc-entry[data-relationship="enemy"] {
+  border-left: 4px solid var(--hack100-danger);
+  background: linear-gradient(
+    to right,
+    rgba(220, 53, 69, 0.1),
+    transparent 50%
+  );
+}
+
+.hack100 .npc-entry[data-relationship="enemy"] .entry-header {
+  background: linear-gradient(
+    to right,
+    rgba(220, 53, 69, 0.2),
+    rgba(220, 53, 69, 0.05)
+  );
+}
+
+.hack100 .npc-entry[data-relationship="enemy"] .entry-toggle {
+  color: var(--hack100-danger);
+}
+
+.hack100 .npc-entry[data-relationship="neutral"] {
+  border-left: 4px solid var(--hack100-info);
+  background: linear-gradient(
+    to right,
+    rgba(0, 123, 255, 0.1),
+    transparent 50%
+  );
+}
+
+.hack100 .npc-entry[data-relationship="neutral"] .entry-header {
+  background: linear-gradient(
+    to right,
+    rgba(0, 123, 255, 0.2),
+    rgba(0, 123, 255, 0.05)
+  );
+}
+
+.hack100 .npc-entry[data-relationship="neutral"] .entry-toggle {
+  color: var(--hack100-info);
+}
+
+.hack100 .npc-entry[data-relationship="unknown"] {
+  border-left: 4px solid var(--hack100-text-muted);
+  background: linear-gradient(
+    to right,
+    rgba(128, 128, 128, 0.1),
+    transparent 50%
+  );
+}
+
+.hack100 .npc-entry[data-relationship="unknown"] .entry-header {
+  background: linear-gradient(
+    to right,
+    rgba(128, 128, 128, 0.2),
+    rgba(128, 128, 128, 0.05)
+  );
+}
+
+.hack100 .npc-entry[data-relationship="unknown"] .entry-toggle {
+  color: var(--hack100-text-muted);
+}
+
+/* Rumors - Credibility colors */
+.hack100 .rumor-entry[data-credibility="confirmed"] {
+  border-left: 4px solid var(--hack100-success);
+  background: linear-gradient(
+    to right,
+    rgba(40, 167, 69, 0.1),
+    transparent 50%
+  );
+}
+
+.hack100 .rumor-entry[data-credibility="confirmed"] .entry-header {
+  background: linear-gradient(
+    to right,
+    rgba(40, 167, 69, 0.2),
+    rgba(40, 167, 69, 0.05)
+  );
+}
+
+.hack100 .rumor-entry[data-credibility="confirmed"] .entry-toggle {
+  color: var(--hack100-success);
+}
+
+.hack100 .rumor-entry[data-credibility="doubtful"] {
+  border-left: 4px solid var(--hack100-danger);
+  background: linear-gradient(
+    to right,
+    rgba(220, 53, 69, 0.1),
+    transparent 50%
+  );
+}
+
+.hack100 .rumor-entry[data-credibility="doubtful"] .entry-header {
+  background: linear-gradient(
+    to right,
+    rgba(220, 53, 69, 0.2),
+    rgba(220, 53, 69, 0.05)
+  );
+}
+
+.hack100 .rumor-entry[data-credibility="doubtful"] .entry-toggle {
+  color: var(--hack100-danger);
+}
+
+.hack100 .rumor-entry[data-credibility="unknown"] {
+  border-left: 4px solid var(--hack100-text-muted);
+  background: linear-gradient(
+    to right,
+    rgba(128, 128, 128, 0.1),
+    transparent 50%
+  );
+}
+
+.hack100 .rumor-entry[data-credibility="unknown"] .entry-header {
+  background: linear-gradient(
+    to right,
+    rgba(128, 128, 128, 0.2),
+    rgba(128, 128, 128, 0.05)
+  );
+}
+
+.hack100 .rumor-entry[data-credibility="unknown"] .entry-toggle {
+  color: var(--hack100-text-muted);
 }
 
 /* Dark Theme Overrides for Journal */
