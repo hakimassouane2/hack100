@@ -3,6 +3,12 @@
     "Actor": {
       "character": "PJ",
       "npc": "PNJ"
+    },
+    "Item": {
+      "item": "Objet",
+      "weapon": "Arme",
+      "armor": "Armure",
+      "specialism": "Spécialité"
     }
   },
   "hack100": {

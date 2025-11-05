@@ -3,6 +3,12 @@
     "Actor": {
       "character": "PC",
       "npc": "NPC"
+    },
+    "Item": {
+      "item": "Item",
+      "weapon": "Weapon",
+      "armor": "Armor",
+      "specialism": "Specialism"
     }
   },
   "hack100": {
