@@ -8,6 +8,7 @@
     "verified": "13",
     "maximum": "13"
   },
+  "socket": true,
   "authors": [
     {
       "name": "Hakim Assouane",
@@ -46,5 +47,17 @@
   "manifest": "https://raw.githubusercontent.com/hakimassouane2/hack100/refs/heads/staging/system.json",
   "download": "https://github.com/hakimassouane2/hack100/archive/refs/tags/v1.0.1.zip",
   "license": "LICENSE",
-  "readme": "README.md"
+  "readme": "README.md",
+  "relationships": {
+    "requires": [
+      {
+        "id": "socketlib",
+        "type": "module",
+        "manifest": "https://raw.githubusercontent.com/manuelVo/foundryvtt-socketlib/master/module.json",
+        "compatibility": {
+          "minimum": "1.0.0"
+        }
+      }
+    ]
+  }
 }

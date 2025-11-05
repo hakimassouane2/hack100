@@ -27,7 +27,9 @@
       "damage": "Dégâts",
       "xp": "XP",
       "applyDamage": "Appliquer les dégâts",
-      "damageApplied": "Dégâts appliqués"
+      "damageApplied": "Dégâts appliqués",
+      "applying": "Application...",
+      "error": "Erreur"
     },
     "abilities": {
       "strength": "Force",
@@ -119,7 +121,8 @@
     "notifications": {
       "experienceAwarded": "Vérification d'expérience accordée pour {ability} !",
       "damageApplied": "{damage} dégâts appliqués à {name} (Santé : {health})",
-      "damageAppliedWithArmor": "{damage} dégâts - {armor} armure = {finalDamage} dégâts appliqués à {name} (Santé : {health})"
+      "damageAppliedWithArmor": "{damage} dégâts - {armor} armure = {finalDamage} dégâts appliqués à {name} (Santé : {health})",
+      "damageAppliedPlayer": "{damage} dégâts infligés à {name}"
     },
     "hints": {
       "weaponDamage": "Bonus de dégâts ajouté",
