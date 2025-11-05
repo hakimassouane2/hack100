@@ -42,9 +42,9 @@
       }
     }
   },
-  "url": "https://github.com/hakimassouane2/hack100-foundryvtt",
-  "manifest": "https://raw.githubusercontent.com/hakimassouane2/hack100-foundryvtt/refs/heads/staging/system.json",
-  "download": "https://github.com/hakimassouane2/hack100-foundryvtt/archive/refs/tags/v1.0.1.zip",
+  "url": "https://github.com/hakimassouane2/hack100",
+  "manifest": "https://raw.githubusercontent.com/hakimassouane2/hack100/refs/heads/staging/system.json",
+  "download": "https://github.com/hakimassouane2/hack100/archive/refs/tags/v1.0.1.zip",
   "license": "LICENSE",
   "readme": "README.md"
 }
