@@ -203,12 +203,6 @@ export async function rollDamage(weaponDamage, attackRoll) {
  * @returns {Object} Result object with success, oldHP, newHP, targetName, finalDamage, armor
  */
 async function applyDamage(targetId, damage, attackerName) {
-  console.log(`Hack100 | applyDamage called on ${game.user.name}'s client:`, {
-    targetId,
-    damage,
-    attackerName,
-  });
-
   try {
     // Get the token
     const token = canvas.tokens?.get(targetId);
@@ -242,10 +236,6 @@ async function applyDamage(targetId, damage, attackerName) {
 
     // Update actor health
     await actor.update({ "system.health.value": newHP });
-
-    console.log(
-      `Hack100 | Successfully applied ${finalDamage} damage to ${actor.name}: ${oldHP} → ${newHP}`
-    );
 
     return {
       success: true,
@@ -369,7 +359,8 @@ Hooks.on("renderChatMessage", (message, html, data) => {
     // Prevent multiple clicks
     if (button.disabled) return;
     button.disabled = true;
-    button.textContent = game.i18n.localize("hack100.global.applying") || "Applying...";
+    button.textContent =
+      game.i18n.localize("hack100.global.applying") || "Applying...";
 
     const damage = parseInt(button.dataset.damage);
     const targetIds = button.dataset.targets.split(",");
@@ -389,12 +380,6 @@ Hooks.on("renderChatMessage", (message, html, data) => {
     // Apply damage to each targeted token
     for (const targetId of targetIds) {
       try {
-        console.log(`Hack100 | Calling executeAsGM with:`, {
-          targetId,
-          damage,
-          attackerName,
-        });
-
         // Execute applyDamage on GM's client
         const result = await game.hack100.socket.executeAsGM(
           "applyDamage",
@@ -403,11 +388,11 @@ Hooks.on("renderChatMessage", (message, html, data) => {
           attackerName
         );
 
-        console.log(`Hack100 | Received result from executeAsGM:`, result);
-
         if (result.success) {
           // Update button text
-          button.textContent = game.i18n.localize("hack100.global.damageApplied");
+          button.textContent = game.i18n.localize(
+            "hack100.global.damageApplied"
+          );
 
           // Show notification - only show HP to GM
           let chatContent = "";
@@ -446,10 +431,6 @@ Hooks.on("renderChatMessage", (message, html, data) => {
           }
 
           ui.notifications.info(chatContent);
-
-          console.log(
-            `Hack100 | ${result.finalDamage} damage applied to ${result.targetName} by ${attackerName}. HP: ${result.oldHP} → ${result.newHP}`
-          );
         } else {
           // Handle error
           console.error(`Hack100 | Failed to apply damage:`, result.error);
@@ -457,7 +438,8 @@ Hooks.on("renderChatMessage", (message, html, data) => {
             `Failed to apply damage: ${result.error || "Unknown error"}`
           );
           button.disabled = false;
-          button.textContent = game.i18n.localize("hack100.global.error") || "Error";
+          button.textContent =
+            game.i18n.localize("hack100.global.error") || "Error";
           return;
         }
       } catch (error) {
@@ -468,7 +450,8 @@ Hooks.on("renderChatMessage", (message, html, data) => {
             : "Failed to apply damage. Check console for details."
         );
         button.disabled = false;
-        button.textContent = game.i18n.localize("hack100.global.error") || "Error";
+        button.textContent =
+          game.i18n.localize("hack100.global.error") || "Error";
         return;
       }
     }

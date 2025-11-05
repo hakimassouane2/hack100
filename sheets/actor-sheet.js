@@ -40,14 +40,16 @@ export class Hack100ActorSheet extends ActorSheet {
       const journal = context.system.journal;
 
       // Convert object-based arrays back to proper arrays
-      ['clues', 'npcs', 'rumors', 'freeEntries'].forEach(arrayKey => {
+      ["clues", "npcs", "rumors", "freeEntries"].forEach((arrayKey) => {
         if (journal[arrayKey] && !Array.isArray(journal[arrayKey])) {
           // Convert object to array, preserving order by numeric keys
           const obj = journal[arrayKey];
           const arr = [];
-          Object.keys(obj).sort((a, b) => parseInt(a) - parseInt(b)).forEach(key => {
-            arr.push(obj[key]);
-          });
+          Object.keys(obj)
+            .sort((a, b) => parseInt(a) - parseInt(b))
+            .forEach((key) => {
+              arr.push(obj[key]);
+            });
           journal[arrayKey] = arr;
         }
         // Ensure array exists
@@ -56,9 +58,6 @@ export class Hack100ActorSheet extends ActorSheet {
         }
       });
     }
-
-    // Debug: Log journal data when sheet is rendered
-    console.log("Hack100 | getData() - Journal data:", actorData.system.journal);
 
     // Calculate health percentage for gradient display
     const healthMax = actorData.system.health.max || 1;
@@ -119,7 +118,9 @@ export class Hack100ActorSheet extends ActorSheet {
               `.section-toggle[data-section="${sectionName}"]`
             );
             if (toggle) {
-              const section = toggle.closest(".items-section, .journal-section");
+              const section = toggle.closest(
+                ".items-section, .journal-section"
+              );
               if (section) {
                 section.classList.add("collapsed");
               }
@@ -359,7 +360,6 @@ export class Hack100ActorSheet extends ActorSheet {
 
     // Specialism management
     const addButton = html.find(".specialism-add");
-    console.log("Hack100 | Found specialism-add buttons:", addButton.length);
     addButton.click(this._onSpecialismAdd.bind(this));
     html.find(".specialism-delete").click(this._onSpecialismDelete.bind(this));
 
@@ -369,11 +369,19 @@ export class Hack100ActorSheet extends ActorSheet {
     html.find(".entry-toggle").click(this._onEntryToggle.bind(this));
 
     // Journal autosave on input change
-    html.find(".journal-quick-textarea").on("blur", this._onJournalFieldChange.bind(this));
-    html.find(".journal-entry input, .journal-entry textarea, .journal-entry select").on("change", this._onJournalFieldChange.bind(this));
+    html
+      .find(".journal-quick-textarea")
+      .on("blur", this._onJournalFieldChange.bind(this));
+    html
+      .find(
+        ".journal-entry input, .journal-entry textarea, .journal-entry select"
+      )
+      .on("change", this._onJournalFieldChange.bind(this));
 
     // Update entry toggle icon color when status/relationship/credibility changes
-    html.find(".entry-status, .entry-relationship, .entry-credibility").on("change", this._onStatusChange.bind(this));
+    html
+      .find(".entry-status, .entry-relationship, .entry-credibility")
+      .on("change", this._onStatusChange.bind(this));
 
     // Drag events for macros.
     if (this.actor.isOwner) {
@@ -479,8 +487,6 @@ export class Hack100ActorSheet extends ActorSheet {
    */
   async _onSpecialismAdd(event) {
     event.preventDefault();
-    console.log("Hack100 | Adding new specialism");
-
     const specialisms = this.actor.system.specialisms;
 
     // Find the next available specialism slot number
@@ -490,7 +496,6 @@ export class Hack100ActorSheet extends ActorSheet {
     }
 
     const newKey = `specialism${nextNum}`;
-    console.log(`Hack100 | Creating specialism with key: ${newKey}`);
 
     const updateData = {
       [`system.specialisms.${newKey}`]: {
@@ -502,7 +507,6 @@ export class Hack100ActorSheet extends ActorSheet {
 
     try {
       await this.actor.update(updateData);
-      console.log("Hack100 | Specialism added successfully");
       this.render(false); // Soft refresh to show new specialism
     } catch (error) {
       console.error("Hack100 | Error adding specialism:", error);
@@ -573,7 +577,7 @@ export class Hack100ActorSheet extends ActorSheet {
       clues: [],
       npcs: [],
       rumors: [],
-      freeEntries: []
+      freeEntries: [],
     };
     let newEntry;
     let arrayKey;
@@ -673,12 +677,15 @@ export class Hack100ActorSheet extends ActorSheet {
     // Confirm deletion if there's content
     const entry = journal[arrayKey][index];
     const hasContent =
-      entry && Object.values(entry).some((val) => val && val.trim?.().length > 0);
+      entry &&
+      Object.values(entry).some((val) => val && val.trim?.().length > 0);
 
     if (hasContent) {
       const confirm = await Dialog.confirm({
         title: game.i18n.localize("hack100.buttons.delete"),
-        content: `<p>${game.i18n.localize("hack100.journal.confirmDelete")}</p>`,
+        content: `<p>${game.i18n.localize(
+          "hack100.journal.confirmDelete"
+        )}</p>`,
       });
       if (!confirm) return;
     }
@@ -734,10 +741,7 @@ export class Hack100ActorSheet extends ActorSheet {
     const field = event.currentTarget;
     const fieldName = field.name;
 
-    console.log("Hack100 | Journal field change:", fieldName, "=", field.value);
-
     if (!fieldName || !fieldName.startsWith("system.journal")) {
-      console.log("Hack100 | Ignoring non-journal field");
       return;
     }
 
@@ -747,13 +751,11 @@ export class Hack100ActorSheet extends ActorSheet {
 
     if (parts.length === 3 && parts[2] === "quickNotes") {
       // Simple case: quickNotes
-      console.log("Hack100 | Updating quickNotes");
       await this.actor.update({ [fieldName]: field.value }, { render: false });
       return;
     }
 
     if (parts.length < 5) {
-      console.log("Hack100 | Invalid field path length:", parts.length);
       return; // Invalid path
     }
 
@@ -761,37 +763,25 @@ export class Hack100ActorSheet extends ActorSheet {
     const index = parseInt(parts[3]);
     const property = parts[4];
 
-    console.log("Hack100 | Parsed:", { arrayType, index, property });
-
     // Get current journal data
     const journal = foundry.utils.duplicate(this.actor.system.journal);
 
-    console.log("Hack100 | Current journal:", journal);
-
     // Ensure the array exists
     if (!Array.isArray(journal[arrayType])) {
-      console.log("Hack100 | Array doesn't exist, creating:", arrayType);
       journal[arrayType] = [];
     }
 
     // Ensure the entry exists at this index
     if (!journal[arrayType][index]) {
-      console.warn(`Hack100 | Journal entry at index ${index} does not exist in ${arrayType}`);
-      console.log("Hack100 | Available entries:", journal[arrayType]);
       return;
     }
 
     // Update the specific property
     journal[arrayType][index][property] = field.value;
 
-    console.log("Hack100 | Updated journal:", journal);
-
     // Update the entire journal object
     const updateData = { "system.journal": journal };
-    console.log("Hack100 | Sending update:", updateData);
-    const result = await this.actor.update(updateData, { render: false });
-    console.log("Hack100 | Update result:", result);
-    console.log("Hack100 | Actor journal after update:", this.actor.system.journal);
+    await this.actor.update(updateData, { render: false });
   }
 
   /**
