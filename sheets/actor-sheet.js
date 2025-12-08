@@ -383,6 +383,10 @@ export class Hack100ActorSheet extends ActorSheet {
       .find(".entry-status, .entry-relationship, .entry-credibility")
       .on("change", this._onStatusChange.bind(this));
 
+    // Currency convert and transfer
+    html.find(".currency-convert").click(this._onCurrencyConvert.bind(this));
+    html.find(".currency-transfer").click(this._onCurrencyTransfer.bind(this));
+
     // Drag events for macros.
     if (this.actor.isOwner) {
       let handler = (ev) => this._onDragStart(ev);
@@ -806,5 +810,118 @@ export class Hack100ActorSheet extends ActorSheet {
       toggle.setAttribute("data-credibility", value);
       entry.setAttribute("data-credibility", value);
     }
+  }
+
+  /**
+   * Handle currency conversion dialog
+   */
+  async _onCurrencyConvert(event) {
+    event.preventDefault();
+
+    const content = `
+      <form class="currency-convert-form">
+        <p>${game.i18n.localize("hack100.currency.convertTitle")}</p>
+        <div class="form-group">
+          <button type="button" class="convert-option" data-target="gold">
+            <i class="fas fa-coins" style="color: #d4af37;"></i>
+            ${game.i18n.localize("hack100.currency.convertToGold")}
+          </button>
+        </div>
+        <div class="form-group">
+          <button type="button" class="convert-option" data-target="silver">
+            <i class="fas fa-coins" style="color: #a8a8a8;"></i>
+            ${game.i18n.localize("hack100.currency.convertToSilver")}
+          </button>
+        </div>
+        <div class="form-group">
+          <button type="button" class="convert-option" data-target="copper">
+            <i class="fas fa-coins" style="color: #b87333;"></i>
+            ${game.i18n.localize("hack100.currency.convertToCopper")}
+          </button>
+        </div>
+      </form>
+    `;
+
+    const dialog = new Dialog({
+      title: game.i18n.localize("hack100.currency.convertTitle"),
+      content: content,
+      buttons: {
+        cancel: {
+          label: game.i18n.localize("hack100.buttons.cancel"),
+        },
+      },
+      render: (html) => {
+        html.find(".convert-option").click(async (ev) => {
+          const target = ev.currentTarget.dataset.target;
+          await this.actor.convertCurrency(target);
+          dialog.close();
+        });
+      },
+    });
+    dialog.render(true);
+  }
+
+  /**
+   * Handle currency transfer dialog
+   */
+  async _onCurrencyTransfer(event) {
+    event.preventDefault();
+
+    // Get list of other actors (characters) that can receive money
+    const actors = game.actors.filter(
+      (a) => a.id !== this.actor.id && (a.type === "character" || a.type === "npc") && a.hasPlayerOwner
+    );
+
+    if (actors.length === 0) {
+      ui.notifications.warn(game.i18n.localize("hack100.currency.transferNoTarget"));
+      return;
+    }
+
+    const actorOptions = actors
+      .map((a) => `<option value="${a.id}">${a.name}</option>`)
+      .join("");
+
+    const content = `
+      <form class="currency-transfer-form">
+        <div class="form-group">
+          <label>${game.i18n.localize("hack100.currency.transferTo")}</label>
+          <select name="targetActor">${actorOptions}</select>
+        </div>
+        <div class="form-group">
+          <label>${game.i18n.localize("hack100.currency.transferType")}</label>
+          <select name="currencyType">
+            <option value="gold">${game.i18n.localize("hack100.currency.gold")}</option>
+            <option value="silver">${game.i18n.localize("hack100.currency.silver")}</option>
+            <option value="copper">${game.i18n.localize("hack100.currency.copper")}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>${game.i18n.localize("hack100.currency.transferAmount")}</label>
+          <input type="number" name="amount" value="1" min="1"/>
+        </div>
+      </form>
+    `;
+
+    new Dialog({
+      title: game.i18n.localize("hack100.currency.transferTitle"),
+      content: content,
+      buttons: {
+        transfer: {
+          icon: '<i class="fas fa-paper-plane"></i>',
+          label: game.i18n.localize("hack100.currency.transferSend"),
+          callback: async (html) => {
+            const form = html[0].querySelector("form");
+            const targetActorId = form.targetActor.value;
+            const currencyType = form.currencyType.value;
+            const amount = parseInt(form.amount.value) || 0;
+            await this.actor.transferCurrency(targetActorId, currencyType, amount);
+          },
+        },
+        cancel: {
+          label: game.i18n.localize("hack100.buttons.cancel"),
+        },
+      },
+      default: "transfer",
+    }).render(true);
   }
 }

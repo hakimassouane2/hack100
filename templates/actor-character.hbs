@@ -108,7 +108,40 @@
 
     {{!-- Equipment Tab --}}
     <div class="tab equipment" data-group="primary" data-tab="equipment">
-      
+
+      {{!-- Currency Section --}}
+      <div class="currency-row">
+        <div class="currency-item gold">
+          <label>{{localize "hack100.currency.gold"}}</label>
+          <div class="currency-input-group">
+            <i class="fas fa-coins currency-icon"></i>
+            <input type="number" name="system.currency.gold" value="{{system.currency.gold}}" min="0"/>
+          </div>
+        </div>
+        <div class="currency-item silver">
+          <label>{{localize "hack100.currency.silver"}}</label>
+          <div class="currency-input-group">
+            <i class="fas fa-coins currency-icon"></i>
+            <input type="number" name="system.currency.silver" value="{{system.currency.silver}}" min="0"/>
+          </div>
+        </div>
+        <div class="currency-item copper">
+          <label>{{localize "hack100.currency.copper"}}</label>
+          <div class="currency-input-group">
+            <i class="fas fa-coins currency-icon"></i>
+            <input type="number" name="system.currency.copper" value="{{system.currency.copper}}" min="0"/>
+          </div>
+        </div>
+        <div class="currency-actions">
+          <button type="button" class="currency-convert" title="{{localize "hack100.currency.convert"}}">
+            <i class="fas fa-exchange-alt"></i>
+          </button>
+          <button type="button" class="currency-transfer" title="{{localize "hack100.currency.transfer"}}">
+            <i class="fas fa-paper-plane"></i>
+          </button>
+        </div>
+      </div>
+
       {{!-- Weapons --}}
       <div class="items-section weapons-section">
         <div class="items-header">

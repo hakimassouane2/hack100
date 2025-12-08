@@ -990,6 +990,223 @@
   transform: translateY(-1px);
 }
 
+/* ===== CURRENCY SECTION ===== */
+.hack100 .currency-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr) auto;
+  gap: var(--hack100-spacing-lg);
+  align-items: center;
+  margin-bottom: var(--hack100-spacing-xl);
+  padding: var(--hack100-spacing-md) var(--hack100-spacing-lg);
+  background: white;
+  border: 2px solid var(--hack100-border);
+  border-radius: var(--hack100-radius-md);
+  box-shadow: var(--hack100-shadow-sm);
+}
+
+/* Dark theme for currency row */
+.hack100.color-scheme-dark .currency-row {
+  background: var(--hack100-bg-secondary);
+}
+
+.hack100 .currency-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--hack100-spacing-xs);
+}
+
+.hack100 .currency-item label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--hack100-text-muted);
+  width: 100%;
+  text-align: center;
+  padding-left: 28px;
+}
+
+.hack100 .currency-input-group {
+  display: flex;
+  align-items: center;
+  gap: var(--hack100-spacing-sm);
+}
+
+.hack100 .currency-icon {
+  font-size: 20px;
+  width: 20px;
+  flex-shrink: 0;
+}
+
+.hack100 .currency-item.gold .currency-icon {
+  color: #d4af37;
+}
+
+.hack100 .currency-item.silver .currency-icon {
+  color: #a8a8a8;
+}
+
+.hack100 .currency-item.copper .currency-icon {
+  color: #b87333;
+}
+
+.hack100 .currency-item input {
+  width: 70px;
+  height: 36px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 700;
+  border: 2px solid var(--hack100-border);
+  border-radius: var(--hack100-radius-md);
+  box-shadow: var(--hack100-shadow-inset);
+  transition: all 0.2s ease;
+}
+
+.hack100 .currency-item input:focus {
+  outline: none;
+  border-color: var(--hack100-accent);
+}
+
+.hack100 .currency-item.gold input {
+  background: linear-gradient(135deg, #fef6e8 0%, #fdefd0 100%);
+  color: #b8860b;
+}
+
+.hack100 .currency-item.silver input {
+  background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+  color: #708090;
+}
+
+.hack100 .currency-item.copper input {
+  background: linear-gradient(135deg, #fbe8dc 0%, #f5d4c0 100%);
+  color: #b87333;
+}
+
+/* Currency action buttons */
+.hack100 .currency-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--hack100-spacing-xs);
+  margin-left: auto;
+}
+
+.hack100 .currency-actions button {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--hack100-bg-tertiary);
+  border: 1px solid var(--hack100-border);
+  border-radius: var(--hack100-radius-sm);
+  color: var(--hack100-text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.hack100 .currency-actions button:hover {
+  background: var(--hack100-accent);
+  border-color: var(--hack100-accent-dark);
+  color: white;
+}
+
+.hack100 .currency-actions button i {
+  font-size: 14px;
+}
+
+/* Currency convert dialog */
+.currency-convert-form .form-group {
+  margin-bottom: var(--hack100-spacing-sm);
+}
+
+.currency-convert-form .convert-option {
+  width: 100%;
+  padding: var(--hack100-spacing-md);
+  display: flex;
+  align-items: center;
+  gap: var(--hack100-spacing-md);
+  background: var(--hack100-bg-secondary);
+  border: 2px solid var(--hack100-border);
+  border-radius: var(--hack100-radius-md);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.currency-convert-form .convert-option:hover {
+  background: var(--hack100-accent);
+  border-color: var(--hack100-accent-dark);
+  color: white;
+}
+
+.currency-convert-form .convert-option i {
+  font-size: 18px;
+}
+
+/* Currency transfer chat message */
+.hack100-currency-transfer {
+  background: linear-gradient(135deg, var(--hack100-warning-bg) 0%, var(--hack100-bg-primary) 100%);
+  border: 2px solid var(--hack100-border);
+  border-left: 4px solid var(--hack100-warning);
+  border-radius: var(--hack100-radius-md);
+  padding: var(--hack100-spacing-md);
+}
+
+.hack100-currency-transfer h3 {
+  margin: 0 0 var(--hack100-spacing-sm) 0;
+  font-size: 14px;
+  color: var(--hack100-primary-dark);
+}
+
+.hack100-currency-transfer h3 i {
+  color: var(--hack100-warning);
+  margin-right: var(--hack100-spacing-xs);
+}
+
+.hack100-currency-transfer p {
+  margin: 0;
+  font-size: 13px;
+}
+
+.hack100-currency-transfer .transfer-amount {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--hack100-warning);
+  margin-top: var(--hack100-spacing-sm);
+}
+
+/* Dark theme for currency */
+.hack100.color-scheme-dark .currency-item.gold input {
+  background: linear-gradient(135deg, #3d3520 0%, #4a4025 100%);
+  color: #d4af37;
+}
+
+.hack100.color-scheme-dark .currency-item.silver input {
+  background: linear-gradient(135deg, #2a2a2a 0%, #353535 100%);
+  color: #c0c0c0;
+}
+
+.hack100.color-scheme-dark .currency-item.copper input {
+  background: linear-gradient(135deg, #3d2a20 0%, #4a3525 100%);
+  color: #cd7f32;
+}
+
+/* Responsive currency */
+@media (max-width: 500px) {
+  .hack100 .currency-row {
+    grid-template-columns: 1fr;
+    gap: var(--hack100-spacing-md);
+  }
+
+  .hack100 .currency-item {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
 /* ===== ITEMS/EQUIPMENT SECTION ===== */
 .hack100 .items-section {
   margin-bottom: var(--hack100-spacing-xl);

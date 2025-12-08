@@ -243,6 +243,95 @@ export class Hack100Actor extends Actor {
   }
 
   /**
+   * Convert all currency to a single type
+   * @param {string} targetType - The currency type to convert to (gold, silver, copper)
+   */
+  async convertCurrency(targetType) {
+    const currency = this.system.currency || { gold: 0, silver: 0, copper: 0 };
+
+    // Calculate total value in copper (base unit)
+    const totalCopper = (currency.gold || 0) * 100 + (currency.silver || 0) * 10 + (currency.copper || 0);
+
+    let newCurrency = { gold: 0, silver: 0, copper: 0 };
+
+    switch (targetType) {
+      case "gold":
+        newCurrency.gold = Math.floor(totalCopper / 100);
+        newCurrency.silver = Math.floor((totalCopper % 100) / 10);
+        newCurrency.copper = totalCopper % 10;
+        break;
+      case "silver":
+        newCurrency.silver = Math.floor(totalCopper / 10);
+        newCurrency.copper = totalCopper % 10;
+        break;
+      case "copper":
+        newCurrency.copper = totalCopper;
+        break;
+    }
+
+    await this.update({ "system.currency": newCurrency });
+    ui.notifications.info(game.i18n.localize("hack100.currency.convertSuccess"));
+  }
+
+  /**
+   * Transfer currency to another actor
+   * @param {string} targetActorId - The ID of the target actor
+   * @param {string} currencyType - The type of currency (gold, silver, copper)
+   * @param {number} amount - The amount to transfer
+   */
+  async transferCurrency(targetActorId, currencyType, amount) {
+    amount = Math.floor(Math.abs(amount));
+    if (amount <= 0) return;
+
+    const targetActor = game.actors.get(targetActorId);
+    if (!targetActor) {
+      ui.notifications.error(game.i18n.localize("hack100.currency.transferNoTarget"));
+      return;
+    }
+
+    const currentAmount = this.system.currency?.[currencyType] || 0;
+    if (currentAmount < amount) {
+      ui.notifications.error(game.i18n.localize("hack100.currency.transferError"));
+      return;
+    }
+
+    // Deduct from sender
+    const senderUpdate = {};
+    senderUpdate[`system.currency.${currencyType}`] = currentAmount - amount;
+    await this.update(senderUpdate);
+
+    // Add to receiver
+    const targetCurrentAmount = targetActor.system.currency?.[currencyType] || 0;
+    const targetUpdate = {};
+    targetUpdate[`system.currency.${currencyType}`] = targetCurrentAmount + amount;
+    await targetActor.update(targetUpdate);
+
+    // Get localized currency name
+    const currencyName = game.i18n.localize(`hack100.currency.${currencyType}`);
+
+    // Notify sender
+    ui.notifications.info(
+      game.i18n.format("hack100.currency.transferSuccess", {
+        amount: amount,
+        type: currencyName,
+        target: targetActor.name
+      })
+    );
+
+    // Create chat message for the transfer
+    const chatContent = `<div class="hack100-currency-transfer">
+      <h3><i class="fas fa-coins"></i> ${game.i18n.localize("hack100.currency.transferTitle")}</h3>
+      <p><strong>${this.name}</strong> → <strong>${targetActor.name}</strong></p>
+      <p class="transfer-amount">${amount} ${currencyName}</p>
+    </div>`;
+
+    ChatMessage.create({
+      speaker: ChatMessage.getSpeaker({ actor: this }),
+      content: chatContent
+    });
+  }
+
+  /**
    * Roll for experience improvement
    * @param {string} abilityId - The ability/specialism to improve
    */
