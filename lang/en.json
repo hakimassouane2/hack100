@@ -149,6 +149,13 @@
       "damageAppliedWithArmor": "{damage} damage - {armor} armor = {finalDamage} damage applied to {name} (Health: {health})",
       "damageAppliedPlayer": "{damage} damage dealt to {name}"
     },
+    "experience": {
+      "rollTitle": "Experience Roll: {ability}",
+      "rollingVs": "Rolling vs {value}%...",
+      "improvementTitle": "Improvement Roll",
+      "improvementSuccess": "Success! {ability} improved from {oldValue}% to {newValue}%",
+      "noImprovement": "No improvement - rolled {roll} vs {value}%"
+    },
     "hints": {
       "weaponDamage": "Damage bonus added to attack roll",
       "weaponAttackBonus": "Bonus to attack rolls",

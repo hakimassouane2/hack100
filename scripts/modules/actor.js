@@ -339,13 +339,16 @@ export class Hack100Actor extends Actor {
     const systemData = this.system;
     let currentValue = 0;
     let hasCheck = false;
+    let label = "";
 
     if (systemData.abilities[abilityId]) {
       currentValue = systemData.abilities[abilityId].value;
       hasCheck = systemData.abilities[abilityId].experienceCheck;
+      label = game.i18n.localize(`hack100.abilities.${abilityId}`);
     } else if (systemData.specialisms[abilityId]) {
       currentValue = systemData.specialisms[abilityId].value;
       hasCheck = systemData.specialisms[abilityId].experienceCheck;
+      label = systemData.specialisms[abilityId].name || abilityId;
     }
 
     if (!hasCheck) {
@@ -355,6 +358,10 @@ export class Hack100Actor extends Actor {
 
     const roll = new Roll("1d100");
     await roll.evaluate();
+
+    // Build localized strings
+    const rollTitle = game.i18n.format("hack100.experience.rollTitle", { ability: label });
+    const rollingVs = game.i18n.format("hack100.experience.rollingVs", { value: currentValue });
 
     if (roll.total > currentValue) {
       // Improvement roll
@@ -374,14 +381,21 @@ export class Hack100Actor extends Actor {
 
       await this.update(updateData);
 
+      const improvementTitle = game.i18n.localize("hack100.experience.improvementTitle");
+      const improvementSuccess = game.i18n.format("hack100.experience.improvementSuccess", {
+        ability: label,
+        oldValue: currentValue,
+        newValue: newValue
+      });
+
       // Show both dice rolls
       await roll.toMessage({
-        flavor: `<h3>Experience Roll: ${abilityId}</h3><p>Rolling vs ${currentValue}%...</p>`,
+        flavor: `<h3>${rollTitle}</h3><p>${rollingVs}</p>`,
         speaker: ChatMessage.getSpeaker({ actor: this }),
       });
 
       await improvementRoll.toMessage({
-        flavor: `<h3>Improvement Roll</h3><p><strong>Success!</strong> ${abilityId} improved from ${currentValue}% to ${newValue}%</p>`,
+        flavor: `<h3>${improvementTitle}</h3><p><strong>${improvementSuccess}</strong></p>`,
         speaker: ChatMessage.getSpeaker({ actor: this }),
       });
     } else {
@@ -395,8 +409,13 @@ export class Hack100Actor extends Actor {
 
       await this.update(updateData);
 
+      const noImprovement = game.i18n.format("hack100.experience.noImprovement", {
+        roll: roll.total,
+        value: currentValue
+      });
+
       await roll.toMessage({
-        flavor: `<h3>Experience Roll: ${abilityId}</h3><p>No improvement - rolled ${roll.total} vs ${currentValue}%</p>`,
+        flavor: `<h3>${rollTitle}</h3><p>${noImprovement}</p>`,
         speaker: ChatMessage.getSpeaker({ actor: this }),
       });
     }

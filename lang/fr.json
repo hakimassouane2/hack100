@@ -149,6 +149,13 @@
       "damageAppliedWithArmor": "{damage} dégâts - {armor} armure = {finalDamage} dégâts appliqués à {name} (Santé : {health})",
       "damageAppliedPlayer": "{damage} dégâts infligés à {name}"
     },
+    "experience": {
+      "rollTitle": "Jet d'expérience : {ability}",
+      "rollingVs": "Jet contre {value}%...",
+      "improvementTitle": "Jet d'amélioration",
+      "improvementSuccess": "Succès ! {ability} amélioré de {oldValue}% à {newValue}%",
+      "noImprovement": "Pas d'amélioration - {roll} contre {value}%"
+    },
     "hints": {
       "weaponDamage": "Bonus de dégâts ajouté",
       "weaponAttackBonus": "Bonus aux jets d'attaque",
