@@ -80,7 +80,14 @@
           <div class="ability-block">
             <div class="ability-header">
               <h4>{{localize (concat "hack100.abilities." key)}}</h4>
-              <span class="ability-bonus">{{localize "hack100.global.bonus"}}: {{ability.bonus}}</span>
+              <div class="ability-bonus-wrapper">
+                {{#if ability.experienceCheck}}
+                <a class="xp-reset" data-ability="{{key}}" title="{{localize "hack100.tooltips.xpReset"}}">
+                  <i class="fas fa-eraser"></i>
+                </a>
+                {{/if}}
+                <span class="ability-bonus">{{localize "hack100.global.bonus"}}: {{ability.bonus}}</span>
+              </div>
             </div>
             <div class="ability-value">
               <input type="number" name="system.abilities.{{key}}.value" value="{{ability.value}}" min="0" max="100"/>

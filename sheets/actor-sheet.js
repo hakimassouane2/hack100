@@ -358,6 +358,9 @@ export class Hack100ActorSheet extends ActorSheet {
     // Experience rolls
     html.find(".experience-roll").click(this._onExperienceRoll.bind(this));
 
+    // XP reset (clear experience check)
+    html.find(".xp-reset").click(this._onXpReset.bind(this));
+
     // Specialism management
     const addButton = html.find(".specialism-add");
     addButton.click(this._onSpecialismAdd.bind(this));
@@ -490,6 +493,19 @@ export class Hack100ActorSheet extends ActorSheet {
 
     if (abilityId) {
       return this.actor.rollExperience(abilityId);
+    }
+  }
+
+  /**
+   * Handle XP reset (clear experience check without rolling)
+   */
+  async _onXpReset(event) {
+    event.preventDefault();
+    const element = event.currentTarget;
+    const abilityId = element.dataset.ability;
+
+    if (abilityId) {
+      return this.actor.resetExperienceCheck(abilityId);
     }
   }
 

@@ -160,10 +160,12 @@
     },
     "tooltips": {
       "xpAvailable": "Experience check available - Roll to improve this ability",
-      "xpNotAvailable": "No experience check available - Succeed on a roll to earn an experience check"
+      "xpNotAvailable": "No experience check available - Succeed on a roll to earn an experience check",
+      "xpReset": "Clear experience check without rolling"
     },
     "notifications": {
       "experienceAwarded": "Experience check awarded for {ability}!",
+      "experienceReset": "Experience check cleared for {ability}",
       "damageApplied": "{damage} damage applied to {name} (Health: {health})",
       "damageAppliedWithArmor": "{damage} damage - {armor} armor = {finalDamage} damage applied to {name} (Health: {health})",
       "damageAppliedPlayer": "{damage} damage dealt to {name}"

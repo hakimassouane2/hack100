@@ -160,10 +160,12 @@
     },
     "tooltips": {
       "xpAvailable": "Vérification d'expérience disponible - Fait un jet pour améliorer cette compétence",
-      "xpNotAvailable": "Aucune vérification d'expérience disponible - Réussis un jet pour obtenir une vérification d'expérience"
+      "xpNotAvailable": "Aucune vérification d'expérience disponible - Réussis un jet pour obtenir une vérification d'expérience",
+      "xpReset": "Effacer la vérification d'expérience sans lancer"
     },
     "notifications": {
       "experienceAwarded": "Vérification d'expérience accordée pour {ability} !",
+      "experienceReset": "Vérification d'expérience effacée pour {ability}",
       "damageApplied": "{damage} dégâts appliqués à {name} (Santé : {health})",
       "damageAppliedWithArmor": "{damage} dégâts - {armor} armure = {finalDamage} dégâts appliqués à {name} (Santé : {health})",
       "damageAppliedPlayer": "{damage} dégâts infligés à {name}"

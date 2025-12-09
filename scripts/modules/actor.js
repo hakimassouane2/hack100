@@ -284,6 +284,33 @@ export class Hack100Actor extends Actor {
   }
 
   /**
+   * Reset (clear) an experience check without rolling
+   * @param {string} abilityId - The ability/specialism to clear
+   */
+  async resetExperienceCheck(abilityId) {
+    const systemData = this.system;
+    let updateData = {};
+    let label = "";
+
+    if (systemData.abilities[abilityId]) {
+      updateData[`system.abilities.${abilityId}.experienceCheck`] = false;
+      label = game.i18n.localize(`hack100.abilities.${abilityId}`);
+    } else if (systemData.specialisms[abilityId]) {
+      updateData[`system.specialisms.${abilityId}.experienceCheck`] = false;
+      label = systemData.specialisms[abilityId].name || abilityId;
+    }
+
+    if (Object.keys(updateData).length > 0) {
+      await this.update(updateData);
+      ui.notifications.info(
+        game.i18n.format("hack100.notifications.experienceReset", {
+          ability: label,
+        })
+      );
+    }
+  }
+
+  /**
    * Get the initiative formula for this actor
    * Initiative = 1d10 + Agility Bonus
    * @override
