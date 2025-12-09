@@ -7,6 +7,7 @@ import { Hack100ActorSheet } from "../sheets/actor-sheet.js";
 import { Hack100ItemSheet } from "../sheets/item-sheet.js";
 import { Hack100Actor } from "./modules/actor.js";
 import { Hack100Item } from "./modules/item.js";
+import { Hack100Token } from "./modules/token.js";
 
 /* -------------------------------------------- */
 /*  Foundry VTT Initialization                  */
@@ -18,6 +19,27 @@ Hooks.once("init", async function () {
   // Define custom Entity classes
   CONFIG.Actor.documentClass = Hack100Actor;
   CONFIG.Item.documentClass = Hack100Item;
+  CONFIG.Token.objectClass = Hack100Token;
+
+  // Patch TokenDocument.getBarAttribute to include temp HP
+  const originalGetBarAttribute = TokenDocument.prototype.getBarAttribute;
+  TokenDocument.prototype.getBarAttribute = function (barName, options = {}) {
+    const data = originalGetBarAttribute.call(this, barName, options);
+    if (!data || data.attribute !== "health") return data;
+
+    const actor = this.actor;
+    if (!actor) return data;
+
+    const temp = actor.system.health?.temp || 0;
+    if (temp > 0) {
+      return {
+        ...data,
+        value: data.value + temp,
+        max: data.max + temp
+      };
+    }
+    return data;
+  };
 
   // Configure Combat initiative
   CONFIG.Combat.initiative = {
@@ -230,17 +252,42 @@ async function applyDamage(targetId, damage, attackerName) {
     // Calculate damage after armor reduction
     const finalDamage = Math.max(0, damage - armorProtection);
 
-    // Get current HP
+    // Get current HP and temp HP
     const oldHP = actor.system.health.value;
-    const newHP = Math.max(0, oldHP - finalDamage);
+    const oldTempHP = actor.system.health.temp || 0;
+
+    // Apply damage to temp HP first, then regular HP
+    let remainingDamage = finalDamage;
+    let newTempHP = oldTempHP;
+    let newHP = oldHP;
+
+    if (oldTempHP > 0) {
+      if (remainingDamage <= oldTempHP) {
+        // Temp HP absorbs all damage
+        newTempHP = oldTempHP - remainingDamage;
+        remainingDamage = 0;
+      } else {
+        // Temp HP is depleted, remaining damage goes to regular HP
+        remainingDamage -= oldTempHP;
+        newTempHP = 0;
+      }
+    }
+
+    // Apply remaining damage to regular HP
+    newHP = Math.max(0, oldHP - remainingDamage);
 
     // Update actor health
-    await actor.update({ "system.health.value": newHP });
+    await actor.update({
+      "system.health.value": newHP,
+      "system.health.temp": newTempHP
+    });
 
     return {
       success: true,
       oldHP: oldHP,
       newHP: newHP,
+      oldTempHP: oldTempHP,
+      newTempHP: newTempHP,
       targetName: actor.name,
       finalDamage: finalDamage,
       armor: armorProtection,
@@ -260,6 +307,79 @@ async function applyDamage(targetId, damage, attackerName) {
 
 Hooks.once("ready", async function () {
   console.log(`Hack100 | System Ready`);
+});
+
+/* -------------------------------------------- */
+/*  Pre-Update Actor Hook for Temp HP           */
+/* -------------------------------------------- */
+
+/**
+ * Intercept HP changes to handle temp HP depletion
+ * When HP is manually reduced, temp HP should be consumed first
+ */
+Hooks.on("preUpdateActor", (actor, changes, options, userId) => {
+  // Only process if health value is being changed
+  if (!changes.system?.health?.value) return;
+
+  const currentHP = actor.system.health.value;
+  const currentTempHP = actor.system.health.temp || 0;
+  const newHP = changes.system.health.value;
+
+  // Only process if HP is being reduced (damage)
+  if (newHP >= currentHP) return;
+
+  // If there's no temp HP, let the change proceed normally
+  if (currentTempHP <= 0) return;
+
+  // Calculate the damage being dealt
+  const damage = currentHP - newHP;
+
+  // Apply damage to temp HP first
+  if (damage <= currentTempHP) {
+    // Temp HP absorbs all the damage
+    changes.system.health.value = currentHP; // Keep HP the same
+    changes.system.health = changes.system.health || {};
+    changes.system.health.temp = currentTempHP - damage;
+  } else {
+    // Temp HP is depleted, remaining damage goes to HP
+    const remainingDamage = damage - currentTempHP;
+    changes.system.health.value = currentHP - remainingDamage;
+    changes.system.health = changes.system.health || {};
+    changes.system.health.temp = 0;
+  }
+});
+
+/* -------------------------------------------- */
+/*  Token HUD Hook for Temp HP Display          */
+/* -------------------------------------------- */
+
+/**
+ * Modify the Token HUD to display current HP + temp HP
+ */
+Hooks.on("renderTokenHUD", (hud, html) => {
+  const actor = hud.object?.actor;
+  if (!actor) return;
+
+  const temp = actor.system.health?.temp || 0;
+  if (temp <= 0) return;
+
+  const currentHP = actor.system.health?.value || 0;
+  const effectiveHP = currentHP + temp;
+
+  // In Foundry v13, find all inputs in the HUD and update bar1
+  const inputs = html.find("input");
+  inputs.each(function () {
+    const input = $(this);
+    const name = input.attr("name") || "";
+    if (name.includes("bar1")) {
+      input.val(effectiveHP);
+    }
+  });
+
+  // Also try to find any span/div showing the value
+  html.find(".bar1 .value, .bar1-value, [data-bar='bar1']").each(function () {
+    $(this).text(effectiveHP);
+  });
 });
 
 /* -------------------------------------------- */

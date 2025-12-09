@@ -56,6 +56,7 @@
       "specialisms": "Specialisms",
       "newSpecialism": "New specialism",
       "health": "Health",
+      "tempHP": "Temp HP",
       "movement": "Movement",
       "equipment": "Equipment",
       "squaresPerRound": "squares per round",

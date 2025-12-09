@@ -152,6 +152,12 @@
   color: var(--hack100-text);
 }
 
+.hack100.color-scheme-dark .health-temp input {
+  background: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+  border-color: #60a5fa;
+}
+
 /* Dark theme select dropdown - including options */
 .hack100.color-scheme-dark select,
 .hack100.color-scheme-dark select option {
@@ -603,20 +609,22 @@
 
 .hack100 .health-tracker {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: var(--hack100-spacing-lg);
   align-items: center;
 }
 
 .hack100 .health-current,
-.hack100 .health-max {
+.hack100 .health-max,
+.hack100 .health-temp {
   display: flex;
   flex-direction: column;
   gap: var(--hack100-spacing-xs);
 }
 
 .hack100 .health-current label,
-.hack100 .health-max label {
+.hack100 .health-max label,
+.hack100 .health-temp label {
   font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
@@ -779,6 +787,31 @@
   background: var(--hack100-bg-secondary);
   border: 2px solid var(--hack100-border);
   border-radius: var(--hack100-radius-md);
+}
+
+.hack100 .health-temp input {
+  width: 100%;
+  height: 50px;
+  text-align: center;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--hack100-secondary);
+  border: 2px solid var(--hack100-secondary);
+  border-radius: var(--hack100-radius-md);
+  box-shadow: var(--hack100-shadow-inset);
+  transition: all 0.3s ease;
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.hack100 .health-temp input:focus {
+  outline: none;
+  border-color: var(--hack100-secondary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.hack100 .health-temp input::placeholder {
+  color: var(--hack100-text-muted);
+  font-weight: 400;
 }
 
 .hack100 .health-calculation {

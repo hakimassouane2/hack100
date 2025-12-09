@@ -6,7 +6,8 @@
         "health": {
           "value": 12,
           "min": 0,
-          "max": 12
+          "max": 12,
+          "temp": 0
         },
         "abilities": {
           "strength": {

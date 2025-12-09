@@ -79,6 +79,20 @@ export class Hack100Actor extends Actor {
       systemData.health.value = systemData.health.max;
     }
 
+    // Ensure temp HP is initialized
+    if (typeof systemData.health.temp !== "number") {
+      systemData.health.temp = 0;
+    }
+
+    // Calculate effective health for token bar display
+    // effectiveHealth.value = current HP + temp HP (total effective health pool)
+    // effectiveHealth.max = max HP + temp HP (so the bar shows temp HP as extra)
+    const tempHP = systemData.health.temp || 0;
+    systemData.effectiveHealth = {
+      value: systemData.health.value + tempHP,
+      max: systemData.health.max + tempHP
+    };
+
     // Calculate movement (base 8, modified by armor)
     let movement = 8;
     for (let item of this.items) {
