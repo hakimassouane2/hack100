@@ -269,6 +269,7 @@
   border-bottom: 2px solid var(--hack100-accent);
   padding-bottom: var(--hack100-spacing-xs);
   margin-bottom: var(--hack100-spacing-md);
+  text-align: center;
 }
 .hack100 h4 {
   font-size: 14px;
@@ -605,6 +606,8 @@
   border-radius: var(--hack100-radius-md);
   padding: var(--hack100-spacing-lg);
   box-shadow: var(--hack100-shadow-sm);
+  display: flex;
+  flex-direction: column;
 }
 
 .hack100 .health-tracker {
@@ -612,6 +615,7 @@
   grid-template-columns: 1fr 1fr 1fr;
   gap: var(--hack100-spacing-lg);
   align-items: center;
+  flex: 1;
 }
 
 .hack100 .health-current,
@@ -814,15 +818,6 @@
   font-weight: 400;
 }
 
-.hack100 .health-calculation {
-  grid-column: 1 / -1;
-  text-align: center;
-  margin-top: var(--hack100-spacing-sm);
-  font-size: 12px;
-  color: var(--hack100-text-muted);
-  font-style: italic;
-}
-
 /* ===== MOVEMENT SECTION ===== */
 .hack100 .movement-section {
   background: white;
@@ -831,6 +826,8 @@
   border-radius: var(--hack100-radius-md);
   padding: var(--hack100-spacing-lg);
   box-shadow: var(--hack100-shadow-sm);
+  display: flex;
+  flex-direction: column;
 }
 
 .hack100 .movement-value {
@@ -838,6 +835,10 @@
   font-size: 24px;
   font-weight: 700;
   color: var(--hack100-primary-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
 }
 
 .hack100 .movement-value span:first-child {
@@ -1181,7 +1182,11 @@
 
 /* Currency transfer chat message */
 .hack100-currency-transfer {
-  background: linear-gradient(135deg, var(--hack100-warning-bg) 0%, var(--hack100-bg-primary) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--hack100-warning-bg) 0%,
+    var(--hack100-bg-primary) 100%
+  );
   border: 2px solid var(--hack100-border);
   border-left: 4px solid var(--hack100-warning);
   border-radius: var(--hack100-radius-md);
