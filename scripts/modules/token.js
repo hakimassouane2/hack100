@@ -1,8 +1,18 @@
 /**
  * Custom Token class for Hack100 system
  * Extends the base Token to render temp HP as a light blue overlay on the health bar
+ * and provides movement speed data for the ruler color system
  */
 export class Hack100Token extends Token {
+  /**
+   * Get the movement speed of this token's actor in grid units (squares)
+   * @returns {number} Movement speed in squares
+   */
+  getMovementSpeed() {
+    const actor = this.document?.actor || this.actor;
+    if (!actor) return 8; // Default movement
+    return actor.system?.movement ?? 8;
+  }
   /**
    * Override getBarAttribute to include temp HP in the displayed value
    * This makes the HP display show current + temp HP

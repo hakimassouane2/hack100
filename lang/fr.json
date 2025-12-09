@@ -63,6 +63,12 @@
       "power": "Pouvoir",
       "isPower": "Est-ce un pouvoir/capacité surnaturelle?"
     },
+    "speeds": {
+      "walk": "Déplacement Normal",
+      "dash": "Course",
+      "beyond": "Hors Portée",
+      "squares": "cases"
+    },
     "currency": {
       "title": "Monnaie",
       "gold": "Or",

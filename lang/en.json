@@ -63,6 +63,12 @@
       "power": "Power",
       "isPower": "Is this a power/supernatural ability?"
     },
+    "speeds": {
+      "walk": "Normal Movement",
+      "dash": "Dash",
+      "beyond": "Beyond Range",
+      "squares": "sq."
+    },
     "currency": {
       "title": "Currency",
       "gold": "Gold",
@@ -112,7 +118,7 @@
       "weightPerItem": "Weight (per item)",
       "price": "Price",
       "currentlyEquipped": "Currently Equipped",
-      "equippedInUse": "Equipped / In Use",
+      "equippedInUse": "Equipped",
       "protectionValue": "Protection",
       "movementPenalty": "Movement Penalty",
       "agilityPenalty": "Agility Penalty",

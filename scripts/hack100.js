@@ -8,6 +8,7 @@ import { Hack100ItemSheet } from "../sheets/item-sheet.js";
 import { Hack100Actor } from "./modules/actor.js";
 import { Hack100Item } from "./modules/item.js";
 import { Hack100Token } from "./modules/token.js";
+import { Hack100TokenRuler } from "./modules/ruler.js";
 
 /* -------------------------------------------- */
 /*  Foundry VTT Initialization                  */
@@ -20,6 +21,7 @@ Hooks.once("init", async function () {
   CONFIG.Actor.documentClass = Hack100Actor;
   CONFIG.Item.documentClass = Hack100Item;
   CONFIG.Token.objectClass = Hack100Token;
+  CONFIG.Token.rulerClass = Hack100TokenRuler;
 
   // Patch TokenDocument.getBarAttribute to include temp HP
   const originalGetBarAttribute = TokenDocument.prototype.getBarAttribute;
