@@ -67,13 +67,14 @@
     "luck": {
       "title": "Chance",
       "useLuck": "Utiliser un point de chance",
-      "useLuckHint": "Lancer deux fois et garder le meilleur résultat",
+      "useLuckHint": "Lancer deux fois et garder le meilleur (plus bas) résultat",
       "used": "Point de chance utilisé !",
       "reset": "Points de chance réinitialisés à 1",
       "resetButton": "Nouvelle Session",
       "resetTooltip": "Réinitialiser les points de chance à 1 (début de session)",
       "clickHint": "Clic gauche pour ajouter, clic droit pour retirer",
-      "advantage": "Chance"
+      "rolled": "Lancé",
+      "kept": "Gardé"
     },
     "speeds": {
       "walk": "Déplacement Normal",
@@ -149,18 +150,11 @@
     "rollDialog": {
       "target": "Cible",
       "modifier": "Difficulté",
-      "nearlyImpossible": "Quasi impossible (-50%)",
       "veryHard": "Très difficile (-40%)",
-      "hard": "Difficile (-30%)",
-      "challenging": "Ardu (-20%)",
-      "difficult": "Complexe (-10%)",
+      "hard": "Difficile (-20%)",
       "normal": "Normal (0%)",
-      "favorable": "Favorable (+10%)",
       "easy": "Facile (+20%)",
-      "veryEasy": "Très facile (+30%)",
-      "trivial": "Trivial (+40%)",
-      "automatic": "Automatique (+50%)",
-      "difficultyModifier": "Modificateur de difficulté",
+      "veryEasy": "Très facile (+40%)",
       "alreadyApplied": "déjà appliqué",
       "fromArmor": "des armures équipées"
     },

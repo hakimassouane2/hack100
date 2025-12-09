@@ -2792,6 +2792,17 @@
   color: #4ade80;
 }
 
+.hack100-roll .advantage-info .luck-kept {
+  color: #16a34a;
+  font-weight: bold;
+}
+
+.hack100-roll .advantage-info .luck-discarded {
+  color: #9ca3af;
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
 /* Dark theme support for luck */
 .hack100.color-scheme-dark .luck-section {
   background: var(--hack100-bg-panel);

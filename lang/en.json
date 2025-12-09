@@ -67,13 +67,14 @@
     "luck": {
       "title": "Luck",
       "useLuck": "Use Luck Point",
-      "useLuckHint": "Roll twice and keep the better result",
+      "useLuckHint": "Roll twice and keep the better (lower) result",
       "used": "Luck point used!",
       "reset": "Luck points reset to 1",
       "resetButton": "New Session",
       "resetTooltip": "Reset luck points to 1 (beginning of session)",
       "clickHint": "Left click to add, right click to remove",
-      "advantage": "Luck"
+      "rolled": "Rolled",
+      "kept": "Kept"
     },
     "speeds": {
       "walk": "Normal Movement",
@@ -149,18 +150,11 @@
     "rollDialog": {
       "target": "Target",
       "modifier": "Difficulty",
-      "nearlyImpossible": "Nearly Impossible (-50%)",
       "veryHard": "Very Hard (-40%)",
-      "hard": "Hard (-30%)",
-      "challenging": "Challenging (-20%)",
-      "difficult": "Difficult (-10%)",
+      "hard": "Hard (-20%)",
       "normal": "Normal (0%)",
-      "favorable": "Favorable (+10%)",
       "easy": "Easy (+20%)",
-      "veryEasy": "Very Easy (+30%)",
-      "trivial": "Trivial (+40%)",
-      "automatic": "Automatic (+50%)",
-      "difficultyModifier": "Difficulty Modifier",
+      "veryEasy": "Very Easy (+40%)",
       "alreadyApplied": "already applied",
       "fromArmor": "from equipped armors"
     },

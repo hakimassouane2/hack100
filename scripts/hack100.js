@@ -131,7 +131,10 @@ export async function rollTask(target, label, modifier = 0, withAdvantage = fals
       result = result2;
     }
 
-    advantageInfo = `<div class="advantage-info"><i class="fas fa-clover"></i> ${game.i18n.localize("hack100.luck.advantage")}: ${result1}, ${result2} → ${result}</div>`;
+    // Format: show both rolls with the kept one highlighted
+    const roll1Class = result1 <= result2 ? "luck-kept" : "luck-discarded";
+    const roll2Class = result2 < result1 ? "luck-kept" : "luck-discarded";
+    advantageInfo = `<div class="advantage-info"><i class="fas fa-clover"></i> ${game.i18n.localize("hack100.luck.rolled")}: <span class="${roll1Class}">${result1}</span> / <span class="${roll2Class}">${result2}</span> — ${game.i18n.localize("hack100.luck.kept")}: <strong>${result}</strong></div>`;
   } else {
     roll = new Roll("1d100");
     await roll.evaluate();
