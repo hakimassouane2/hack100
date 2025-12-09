@@ -1,29 +1,44 @@
-<form>
-  <div class="form-group">
+<form class="hack100-roll-dialog {{#if colorScheme}}theme-{{colorScheme}}{{/if}}">
+  <div class="form-group target-group">
     <label>{{localize "hack100.rollDialog.target"}}</label>
     <input type="number" name="target" value="{{target}}" readonly />
   </div>
 
   {{#if agilityPenalty}}
-  <div class="form-group">
-    <p class="hint" style="color: #c53030; font-style: italic;">{{localize "hack100.items.agilityPenalty"}} {{localize "hack100.rollDialog.fromArmor"}}: -{{agilityPenalty}}% ({{localize "hack100.rollDialog.alreadyApplied"}})</p>
+  <div class="form-group agility-warning">
+    <p class="hint warning-text">
+      <i class="fas fa-exclamation-triangle"></i>
+      {{localize "hack100.items.agilityPenalty"}} {{localize "hack100.rollDialog.fromArmor"}}: -{{agilityPenalty}}% ({{localize "hack100.rollDialog.alreadyApplied"}})
+    </p>
   </div>
   {{/if}}
 
-  <div class="form-group">
+  <div class="form-group modifier-group">
     <label>{{localize "hack100.rollDialog.modifier"}}</label>
     <select name="modifier">
+      <option value="-50">{{localize "hack100.rollDialog.nearlyImpossible"}}</option>
       <option value="-40">{{localize "hack100.rollDialog.veryHard"}}</option>
-      <option value="-20">{{localize "hack100.rollDialog.hard"}}</option>
-      <option value="0" selected>{{localize
-          "hack100.rollDialog.normal"
-        }}</option>
+      <option value="-30">{{localize "hack100.rollDialog.hard"}}</option>
+      <option value="-20">{{localize "hack100.rollDialog.challenging"}}</option>
+      <option value="-10">{{localize "hack100.rollDialog.difficult"}}</option>
+      <option value="0" selected>{{localize "hack100.rollDialog.normal"}}</option>
+      <option value="10">{{localize "hack100.rollDialog.favorable"}}</option>
       <option value="20">{{localize "hack100.rollDialog.easy"}}</option>
+      <option value="30">{{localize "hack100.rollDialog.veryEasy"}}</option>
+      <option value="40">{{localize "hack100.rollDialog.trivial"}}</option>
+      <option value="50">{{localize "hack100.rollDialog.automatic"}}</option>
     </select>
   </div>
 
-  <div class="form-group">
-    <label>{{localize "hack100.rollDialog.customModifier"}}</label>
-    <input type="number" name="customModifier" value="0" />
+  {{#if hasLuck}}
+  <div class="form-group luck-option">
+    <label class="checkbox-label">
+      <input type="checkbox" name="useLuck" />
+      <i class="fas fa-clover"></i>
+      {{localize "hack100.luck.useLuck"}}
+      <span class="luck-count">({{luckPoints}}/3)</span>
+    </label>
+    <p class="hint">{{localize "hack100.luck.useLuckHint"}}</p>
   </div>
+  {{/if}}
 </form>

@@ -60,8 +60,20 @@
       "movement": "Movement",
       "equipment": "Equipment",
       "squaresPerRound": "squares per round",
+      "squares": "squares",
       "power": "Power",
       "isPower": "Is this a power/supernatural ability?"
+    },
+    "luck": {
+      "title": "Luck",
+      "useLuck": "Use Luck Point",
+      "useLuckHint": "Roll twice and keep the better result",
+      "used": "Luck point used!",
+      "reset": "Luck points reset to 1",
+      "resetButton": "New Session",
+      "resetTooltip": "Reset luck points to 1 (beginning of session)",
+      "clickHint": "Left click to add, right click to remove",
+      "advantage": "Luck"
     },
     "speeds": {
       "walk": "Normal Movement",
@@ -136,12 +148,18 @@
     },
     "rollDialog": {
       "target": "Target",
-      "modifier": "Difficulty Modifier",
-      "customModifier": "Custom Modifier",
+      "modifier": "Difficulty",
+      "nearlyImpossible": "Nearly Impossible (-50%)",
       "veryHard": "Very Hard (-40%)",
-      "hard": "Hard (-20%)",
+      "hard": "Hard (-30%)",
+      "challenging": "Challenging (-20%)",
+      "difficult": "Difficult (-10%)",
       "normal": "Normal (0%)",
+      "favorable": "Favorable (+10%)",
       "easy": "Easy (+20%)",
+      "veryEasy": "Very Easy (+30%)",
+      "trivial": "Trivial (+40%)",
+      "automatic": "Automatic (+50%)",
       "difficultyModifier": "Difficulty Modifier",
       "alreadyApplied": "already applied",
       "fromArmor": "from equipped armors"

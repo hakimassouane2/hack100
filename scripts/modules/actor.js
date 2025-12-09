@@ -165,11 +165,18 @@ export class Hack100Actor extends Actor {
     }
 
     const modifier = options.modifier || 0;
+    const luckPoints = this.system.luck?.value || 0;
+    // colorScheme is stored directly on system, not in settings
+    const colorScheme = this.system.colorScheme || "default";
+
     const dialogData = {
       title: `${game.i18n.localize("hack100.global.roll")} ${label}`,
       target: target,
       modifier: modifier,
       agilityPenalty: agilityPenalty,
+      luckPoints: luckPoints,
+      hasLuck: luckPoints > 0,
+      colorScheme: colorScheme,
     };
 
     // Show dialog for modifier input
@@ -178,8 +185,13 @@ export class Hack100Actor extends Actor {
       dialogData
     );
 
+    // Determine dialog classes based on color scheme
+    // Include "dialog" to preserve Foundry's base dialog styling
+    // Always add a theme class to override Foundry's default theming
+    const dialogClasses = ["dialog", "hack100-roll-dialog-wrapper", `theme-${colorScheme}`];
+
     return new Promise((resolve) => {
-      new Dialog({
+      const dialog = new Dialog({
         title: dialogData.title,
         content: html,
         buttons: {
@@ -188,10 +200,17 @@ export class Hack100Actor extends Actor {
             callback: async (html) => {
               const form = html[0].querySelector("form");
               const modifier = parseInt(form.modifier.value) || 0;
+              const useLuck = form.useLuck?.checked || false;
+
+              // If using luck, consume a luck point
+              if (useLuck && this.system.luck?.value > 0) {
+                await this.update({ "system.luck.value": this.system.luck.value - 1 });
+                ui.notifications.info(game.i18n.localize("hack100.luck.used"));
+              }
 
               // Import the rollTask and rollDamage functions
               const { rollTask, rollDamage } = await import("../hack100.js");
-              const result = await rollTask(target, label, modifier);
+              const result = await rollTask(target, label, modifier, useLuck);
 
               // Award experience check if successful
               if (result.success) {
@@ -219,6 +238,23 @@ export class Hack100Actor extends Actor {
           },
         },
         default: "roll",
+        render: (html) => {
+          // Remove Foundry's automatic theming classes that override ours
+          // "themed" triggers Foundry's default theme styles
+          // Foundry may also add "theme-light" or "theme-dark" automatically
+          const dialogElement = html.closest(".app.window-app");
+          if (dialogElement.length) {
+            // Remove Foundry's classes but preserve our theme-{colorScheme} class
+            dialogElement.removeClass("themed");
+            // If we're using our default theme, remove Foundry's theme-light/dark
+            // that might have been auto-added
+            if (colorScheme === "default") {
+              dialogElement.removeClass("theme-light theme-dark");
+            }
+          }
+        },
+      }, {
+        classes: dialogClasses,
       }).render(true);
     });
   }
@@ -254,6 +290,25 @@ export class Hack100Actor extends Actor {
    */
   _getInitiativeFormula() {
     return "1d10 + @abilities.agility.bonus";
+  }
+
+  /**
+   * Reset luck points to the starting session value (1)
+   */
+  async resetLuck() {
+    await this.update({ "system.luck.value": 1 });
+    ui.notifications.info(game.i18n.localize("hack100.luck.reset"));
+  }
+
+  /**
+   * Modify luck points
+   * @param {number} delta - Amount to add (positive) or remove (negative)
+   */
+  async modifyLuck(delta) {
+    const current = this.system.luck?.value || 0;
+    const max = this.system.luck?.max || 3;
+    const newValue = Math.max(0, Math.min(max, current + delta));
+    await this.update({ "system.luck.value": newValue });
   }
 
   /**

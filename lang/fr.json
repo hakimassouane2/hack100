@@ -60,8 +60,20 @@
       "movement": "Déplacement",
       "equipment": "Équipement",
       "squaresPerRound": "cases par tour",
+      "squares": "cases",
       "power": "Pouvoir",
       "isPower": "Est-ce un pouvoir/capacité surnaturelle?"
+    },
+    "luck": {
+      "title": "Chance",
+      "useLuck": "Utiliser un point de chance",
+      "useLuckHint": "Lancer deux fois et garder le meilleur résultat",
+      "used": "Point de chance utilisé !",
+      "reset": "Points de chance réinitialisés à 1",
+      "resetButton": "Nouvelle Session",
+      "resetTooltip": "Réinitialiser les points de chance à 1 (début de session)",
+      "clickHint": "Clic gauche pour ajouter, clic droit pour retirer",
+      "advantage": "Chance"
     },
     "speeds": {
       "walk": "Déplacement Normal",
@@ -136,12 +148,18 @@
     },
     "rollDialog": {
       "target": "Cible",
-      "modifier": "Modificateur",
-      "customModifier": "Modificateur personnalisé",
+      "modifier": "Difficulté",
+      "nearlyImpossible": "Quasi impossible (-50%)",
       "veryHard": "Très difficile (-40%)",
-      "hard": "Difficile (-20%)",
+      "hard": "Difficile (-30%)",
+      "challenging": "Ardu (-20%)",
+      "difficult": "Complexe (-10%)",
       "normal": "Normal (0%)",
+      "favorable": "Favorable (+10%)",
       "easy": "Facile (+20%)",
+      "veryEasy": "Très facile (+30%)",
+      "trivial": "Trivial (+40%)",
+      "automatic": "Automatique (+50%)",
       "difficultyModifier": "Modificateur de difficulté",
       "alreadyApplied": "déjà appliqué",
       "fromArmor": "des armures équipées"

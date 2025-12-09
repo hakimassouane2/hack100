@@ -82,6 +82,18 @@ Hooks.once("init", async function () {
   Handlebars.registerHelper("checked", function (value) {
     return value ? "checked" : "";
   });
+
+  // Helper for creating arrays (used for luck pips)
+  Handlebars.registerHelper("array", function (...args) {
+    // Remove the Handlebars options object from the end
+    args.pop();
+    return args;
+  });
+
+  // Helper for less than or equal comparison
+  Handlebars.registerHelper("lte", function (a, b) {
+    return a <= b;
+  });
 });
 
 /* -------------------------------------------- */
@@ -93,13 +105,39 @@ Hooks.once("init", async function () {
  * @param {number} target - Target percentage
  * @param {string} label - Label for the roll
  * @param {number} modifier - Difficulty modifier
+ * @param {boolean} withAdvantage - Whether to roll with advantage (luck)
  */
-export async function rollTask(target, label, modifier = 0) {
+export async function rollTask(target, label, modifier = 0, withAdvantage = false) {
   const modifiedTarget = target + modifier;
-  const roll = new Roll("1d100");
-  await roll.evaluate();
 
-  const result = roll.total;
+  let roll, result, advantageInfo = "";
+
+  if (withAdvantage) {
+    // Roll 2d100 and take the better result (lower is better in d100 systems)
+    const roll1 = new Roll("1d100");
+    const roll2 = new Roll("1d100");
+    await roll1.evaluate();
+    await roll2.evaluate();
+
+    const result1 = roll1.total;
+    const result2 = roll2.total;
+
+    // Take the lower roll (better for success)
+    if (result1 <= result2) {
+      roll = roll1;
+      result = result1;
+    } else {
+      roll = roll2;
+      result = result2;
+    }
+
+    advantageInfo = `<div class="advantage-info"><i class="fas fa-clover"></i> ${game.i18n.localize("hack100.luck.advantage")}: ${result1}, ${result2} → ${result}</div>`;
+  } else {
+    roll = new Roll("1d100");
+    await roll.evaluate();
+    result = roll.total;
+  }
+
   const success = result <= modifiedTarget;
   const criticalSuccess = result >= 1 && result <= 10;
   const criticalFailure = result >= 91 && result <= 100;
@@ -118,6 +156,7 @@ export async function rollTask(target, label, modifier = 0) {
   const flavor = `
     <div class="hack100-roll">
       <h3>${label}</h3>
+      ${advantageInfo}
       <div class="roll-result">
         <strong>${result}</strong> vs ${game.i18n.localize(
     "hack100.rollDialog.target"

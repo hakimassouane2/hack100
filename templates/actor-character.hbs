@@ -49,11 +49,25 @@
           </div>
         </div>
 
+        {{!-- Luck Section --}}
+        <div class="luck-section">
+          <h3>{{localize "hack100.luck.title"}}</h3>
+          <div class="luck-tracker">
+            <div class="luck-pips" title="{{localize "hack100.luck.clickHint"}}">
+              {{#each (array 1 2 3) as |pip|}}
+              <span class="luck-pip {{#if (lte pip ../system.luck.value)}}filled{{/if}}" data-pip="{{pip}}">
+                <i class="{{#if (lte pip ../system.luck.value)}}fas{{else}}far{{/if}} fa-clover"></i>
+              </span>
+              {{/each}}
+            </div>
+          </div>
+        </div>
+
         {{!-- Movement Section --}}
         <div class="movement-section">
           <h3>{{localize "hack100.character.movement"}}</h3>
           <div class="movement-value">
-            <span>{{system.movement}}</span> {{localize "hack100.character.squaresPerRound"}}
+            <span>{{system.movement}}</span> {{localize "hack100.character.squares"}}
           </div>
         </div>
       </div>

@@ -443,15 +443,16 @@
   box-shadow: var(--hack100-shadow-sm);
 }
 
-/* Health and Movement Row - Side by Side */
+/* Health, Luck and Movement Row - Side by Side */
 .hack100 .health-movement-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 2fr 1fr 1fr;
   gap: var(--hack100-spacing-lg);
   margin-bottom: var(--hack100-spacing-xl);
 }
 
 .hack100 .health-movement-row .health-section,
+.hack100 .health-movement-row .luck-section,
 .hack100 .health-movement-row .movement-section {
   margin-bottom: 0;
 }
@@ -2675,4 +2676,513 @@
     min-width: auto;
     flex: 1;
   }
+}
+
+/* ===== LUCK SECTION ===== */
+.hack100 .luck-section {
+  background: white;
+  border: 2px solid var(--hack100-border);
+  border-left: 4px solid #4ade80;
+  border-radius: var(--hack100-radius-md);
+  padding: var(--hack100-spacing-lg);
+  box-shadow: var(--hack100-shadow-sm);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--hack100-spacing-sm);
+}
+
+.hack100 .luck-section h3 {
+  margin: 0 0 var(--hack100-spacing-sm) 0;
+  font-size: 18px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--hack100-primary);
+}
+
+.hack100 .luck-tracker {
+  display: flex;
+  align-items: center;
+  gap: var(--hack100-spacing-md);
+}
+
+.hack100 .luck-pips {
+  display: flex;
+  gap: var(--hack100-spacing-sm);
+  cursor: pointer;
+  padding: var(--hack100-spacing-sm);
+}
+
+.hack100 .luck-pip {
+  font-size: 24px;
+  color: var(--hack100-border);
+  transition: all 0.2s ease;
+}
+
+.hack100 .luck-pip:hover {
+  transform: scale(1.15);
+}
+
+.hack100 .luck-pip.filled {
+  color: #4ade80;
+}
+
+.hack100 .luck-pip.filled i {
+  text-shadow: 0 0 8px rgba(74, 222, 128, 0.4);
+}
+
+/* Roll Dialog Luck Option */
+.luck-option {
+  margin-top: var(--hack100-spacing-md);
+  padding: var(--hack100-spacing-md);
+  background: linear-gradient(
+    135deg,
+    rgba(74, 222, 128, 0.1),
+    rgba(74, 222, 128, 0.05)
+  );
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  border-radius: var(--hack100-radius-md);
+}
+
+.luck-option .checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: var(--hack100-spacing-sm);
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--hack100-primary-dark);
+}
+
+.luck-option .checkbox-label i {
+  color: #4ade80;
+}
+
+.luck-option .luck-count {
+  font-size: 12px;
+  color: var(--hack100-text-muted);
+}
+
+.luck-option .hint {
+  margin-top: var(--hack100-spacing-xs);
+  font-size: 11px;
+  color: var(--hack100-text-muted);
+  font-style: italic;
+}
+
+/* Chat Message Advantage Info */
+.hack100-roll .advantage-info {
+  display: flex;
+  align-items: center;
+  gap: var(--hack100-spacing-sm);
+  padding: var(--hack100-spacing-xs) var(--hack100-spacing-sm);
+  margin-bottom: var(--hack100-spacing-sm);
+  background: linear-gradient(
+    135deg,
+    rgba(74, 222, 128, 0.15),
+    rgba(74, 222, 128, 0.05)
+  );
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  border-radius: var(--hack100-radius-sm);
+  font-size: 12px;
+  color: #16a34a;
+}
+
+.hack100-roll .advantage-info i {
+  color: #4ade80;
+}
+
+/* Dark theme support for luck */
+.hack100.color-scheme-dark .luck-section {
+  background: var(--hack100-bg-panel);
+}
+
+.hack100.color-scheme-dark .luck-input {
+  background: var(--hack100-bg-input);
+  color: var(--hack100-text);
+}
+
+.hack100.color-scheme-dark .luck-reset {
+  background: var(--hack100-bg-input);
+  color: var(--hack100-text-muted);
+}
+
+/* ===== ROLL DIALOG WRAPPER STYLES ===== */
+.hack100-roll-dialog-wrapper {
+  border-radius: 8px !important;
+  overflow: hidden !important;
+}
+
+.hack100-roll-dialog-wrapper .window-header {
+  padding: 8px 12px !important;
+}
+
+.hack100-roll-dialog-wrapper .window-header .window-title {
+  font-weight: 600 !important;
+}
+
+.hack100-roll-dialog-wrapper .window-content {
+  padding: 12px !important;
+  background: #f4f1ea !important;
+}
+
+.hack100-roll-dialog-wrapper form.hack100-roll-dialog {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.hack100-roll-dialog-wrapper .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0 !important;
+}
+
+.hack100-roll-dialog-wrapper .form-group > label {
+  font-weight: 600 !important;
+  font-size: 12px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  color: #5d4a3a !important;
+  flex: none !important;
+}
+
+.hack100-roll-dialog-wrapper .form-group input[type="number"],
+.hack100-roll-dialog-wrapper .form-group select {
+  width: 100% !important;
+  height: 36px !important;
+  padding: 6px 12px !important;
+  font-size: 14px !important;
+  border: 2px solid #b5a894 !important;
+  border-radius: 5px !important;
+  background: #f4f1ea !important;
+  color: #2d2520 !important;
+  box-shadow: inset 0 1px 3px rgba(61, 47, 36, 0.1) !important;
+  box-sizing: border-box !important;
+  line-height: 1.2 !important;
+}
+
+.hack100-roll-dialog-wrapper .form-group input[readonly] {
+  background: #e8e3d6 !important;
+  color: #5d5449 !important;
+  font-weight: 600 !important;
+}
+
+.hack100-roll-dialog-wrapper .target-group input {
+  font-weight: 700 !important;
+  text-align: center !important;
+  color: #3d2f24 !important;
+}
+
+.hack100-roll-dialog-wrapper .modifier-group select {
+  cursor: pointer;
+}
+
+.hack100-roll-dialog-wrapper .agility-warning .warning-text {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 8px 12px;
+  background: rgba(168, 77, 77, 0.1);
+  border: 1px solid rgba(168, 77, 77, 0.3);
+  border-radius: 5px;
+  color: #a84d4d;
+  font-size: 12px;
+  font-style: italic;
+}
+
+.hack100-roll-dialog-wrapper .form-group.luck-option {
+  flex-direction: column !important;
+  margin-top: 4px !important;
+  padding: 8px 12px !important;
+  background: linear-gradient(135deg, rgba(74, 222, 128, 0.1), rgba(74, 222, 128, 0.05)) !important;
+  border: 1px solid rgba(74, 222, 128, 0.3) !important;
+  border-radius: 5px !important;
+}
+
+.hack100-roll-dialog-wrapper .luck-option .checkbox-label {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  gap: 6px !important;
+  cursor: pointer;
+  font-weight: 600;
+  color: #3d2f24;
+  white-space: nowrap !important;
+}
+
+.hack100-roll-dialog-wrapper .luck-option .checkbox-label input[type="checkbox"] {
+  width: 16px !important;
+  height: 16px !important;
+  margin: 0 !important;
+  flex-shrink: 0;
+}
+
+.hack100-roll-dialog-wrapper .luck-option .checkbox-label i {
+  color: #4ade80;
+  flex-shrink: 0;
+}
+
+.hack100-roll-dialog-wrapper .luck-option .luck-count {
+  font-size: 12px;
+  color: #877f72;
+  font-weight: normal;
+  margin-left: auto;
+}
+
+.hack100-roll-dialog-wrapper .luck-option .hint {
+  margin: 4px 0 0 0 !important;
+  font-size: 11px;
+  color: #877f72;
+  font-style: italic;
+}
+
+/* Roll Dialog Buttons */
+.hack100-roll-dialog-wrapper .dialog-buttons {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 8px !important;
+  margin-top: 12px !important;
+  padding-top: 12px !important;
+  border-top: 1px solid #b5a894 !important;
+}
+
+.hack100-roll-dialog-wrapper .dialog-buttons button {
+  flex: 1 !important;
+  padding: 8px 16px !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  border-radius: 5px !important;
+}
+
+.hack100-roll-dialog-wrapper .dialog-buttons button[data-button="roll"] {
+  background: linear-gradient(135deg, #6b8e23, #556b2f) !important;
+  color: white !important;
+  border: 2px solid #556b2f !important;
+}
+
+.hack100-roll-dialog-wrapper .dialog-buttons button[data-button="cancel"] {
+  background: #e8e3d6 !important;
+  color: #5d4a3a !important;
+  border: 2px solid #b5a894 !important;
+}
+
+/* ===== ROLL DIALOG DEFAULT THEME (explicit override) ===== */
+.hack100-roll-dialog-wrapper.theme-default .window-header {
+  background: linear-gradient(135deg, #8b7355 0%, #6b5344 100%) !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-default .window-header .window-title {
+  color: #f4f1ea !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-default .window-header a {
+  color: #f4f1ea !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-default .window-content {
+  background: #f4f1ea !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-default .form-group > label {
+  color: #5d4a3a !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-default .form-group input[type="number"],
+.hack100-roll-dialog-wrapper.theme-default .form-group select {
+  background: #f4f1ea !important;
+  border-color: #b5a894 !important;
+  color: #2d2520 !important;
+  box-shadow: inset 0 1px 3px rgba(61, 47, 36, 0.1) !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-default .form-group input[readonly] {
+  background: #e8e3d6 !important;
+  color: #5d5449 !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-default .target-group input {
+  color: #3d2f24 !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-default .luck-option .checkbox-label {
+  color: #3d2f24 !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-default .luck-option .checkbox-label input[type="checkbox"] {
+  accent-color: #6b8e23 !important;
+  background: #ffffff !important;
+  border: 2px solid #8b7355 !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-default .luck-option .luck-count,
+.hack100-roll-dialog-wrapper.theme-default .luck-option .hint {
+  color: #877f72 !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-default .dialog-buttons {
+  border-top-color: #b5a894 !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-default .dialog-buttons button[data-button="roll"] {
+  background: linear-gradient(135deg, #6b8e23, #556b2f) !important;
+  color: white !important;
+  border-color: #556b2f !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-default .dialog-buttons button[data-button="cancel"] {
+  background: #e8e3d6 !important;
+  color: #5d4a3a !important;
+  border-color: #b5a894 !important;
+}
+
+/* ===== ROLL DIALOG DARK THEME ===== */
+.hack100-roll-dialog-wrapper.theme-dark .window-header {
+  background: linear-gradient(135deg, #2d2520 0%, #1a1612 100%) !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-dark .window-header .window-title {
+  color: #c9b89a !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-dark .window-header a {
+  color: #c9b89a !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-dark .window-content {
+  background: #0d0b09 !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-dark .form-group > label {
+  color: #a08870 !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-dark .form-group input[type="number"],
+.hack100-roll-dialog-wrapper.theme-dark .form-group select {
+  background: #1a1612 !important;
+  border-color: #3d2f24 !important;
+  color: #e8e3d6 !important;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5) !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-dark .form-group input[readonly] {
+  background: #2d2520 !important;
+  color: #d9d3c3 !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-dark .target-group input {
+  color: #c9b89a !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-dark .modifier-group select option {
+  background: #1a1612 !important;
+  color: #e8e3d6 !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-dark .agility-warning .warning-text {
+  background: rgba(212, 95, 95, 0.15) !important;
+  border-color: rgba(212, 95, 95, 0.4) !important;
+  color: #d45f5f !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-dark .form-group.luck-option {
+  background: linear-gradient(135deg, rgba(74, 222, 128, 0.15), rgba(74, 222, 128, 0.05)) !important;
+  border-color: rgba(74, 222, 128, 0.4) !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-dark .luck-option .checkbox-label {
+  color: #e8e3d6 !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-dark .luck-option .luck-count,
+.hack100-roll-dialog-wrapper.theme-dark .luck-option .hint {
+  color: #8b7d6b !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-dark .dialog-buttons {
+  border-top-color: #3d2f24 !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-dark .dialog-buttons button[data-button="roll"] {
+  background: linear-gradient(135deg, #88b04b, #6b8e23) !important;
+  border-color: #6b8e23 !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-dark .dialog-buttons button[data-button="cancel"] {
+  background: #2d2520 !important;
+  color: #d9d3c3 !important;
+  border-color: #3d2f24 !important;
+}
+
+/* ===== ROLL DIALOG LIGHT THEME ===== */
+.hack100-roll-dialog-wrapper.theme-light .window-header {
+  background: linear-gradient(135deg, #3d5a80 0%, #293241 100%) !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-light .window-header .window-title {
+  color: #ffffff !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-light .window-header a {
+  color: #ffffff !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-light .window-content {
+  background: #ffffff !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-light .form-group > label {
+  color: #3d5a80 !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-light .form-group input[type="number"],
+.hack100-roll-dialog-wrapper.theme-light .form-group select {
+  background: #ffffff !important;
+  border-color: #dee2e6 !important;
+  color: #212529 !important;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-light .form-group input[readonly] {
+  background: #f8f9fa !important;
+  color: #495057 !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-light .target-group input {
+  color: #293241 !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-light .luck-option .checkbox-label {
+  color: #293241 !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-light .luck-option .checkbox-label input[type="checkbox"] {
+  accent-color: #3d5a80 !important;
+  background: #ffffff !important;
+  border: 2px solid #3d5a80 !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-light .luck-option .luck-count,
+.hack100-roll-dialog-wrapper.theme-light .luck-option .hint {
+  color: #6c757d !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-light .dialog-buttons {
+  border-top-color: #dee2e6 !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-light .dialog-buttons button[data-button="roll"] {
+  background: linear-gradient(135deg, #3d5a80, #293241) !important;
+  border-color: #293241 !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-light .dialog-buttons button[data-button="cancel"] {
+  background: #f8f9fa !important;
+  color: #495057 !important;
+  border-color: #dee2e6 !important;
 }

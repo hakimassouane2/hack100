@@ -387,6 +387,13 @@ export class Hack100ActorSheet extends ActorSheet {
     html.find(".currency-convert").click(this._onCurrencyConvert.bind(this));
     html.find(".currency-transfer").click(this._onCurrencyTransfer.bind(this));
 
+    // Luck reset button
+    html.find(".luck-reset").click(this._onLuckReset.bind(this));
+
+    // Luck pips click handlers (left click = increment, right click = decrement)
+    html.find(".luck-pips").on("click", this._onLuckIncrement.bind(this));
+    html.find(".luck-pips").on("contextmenu", this._onLuckDecrement.bind(this));
+
     // Drag events for macros.
     if (this.actor.isOwner) {
       let handler = (ev) => this._onDragStart(ev);
@@ -859,6 +866,30 @@ export class Hack100ActorSheet extends ActorSheet {
       },
     });
     dialog.render(true);
+  }
+
+  /**
+   * Handle luck reset button
+   */
+  async _onLuckReset(event) {
+    event.preventDefault();
+    await this.actor.resetLuck();
+  }
+
+  /**
+   * Handle luck increment (left click)
+   */
+  async _onLuckIncrement(event) {
+    event.preventDefault();
+    await this.actor.modifyLuck(1);
+  }
+
+  /**
+   * Handle luck decrement (right click)
+   */
+  async _onLuckDecrement(event) {
+    event.preventDefault();
+    await this.actor.modifyLuck(-1);
   }
 
   /**
