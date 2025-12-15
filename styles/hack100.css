@@ -443,17 +443,30 @@
   box-shadow: var(--hack100-shadow-sm);
 }
 
-/* Health, Luck and Movement Row - Side by Side */
-.hack100 .health-movement-row {
+/* Row 1: Health and SP (2 columns) */
+.hack100 .resources-row {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--hack100-spacing-lg);
+  margin-bottom: var(--hack100-spacing-lg);
+}
+
+.hack100 .resources-row .health-section,
+.hack100 .resources-row .sp-section {
+  margin-bottom: 0;
+}
+
+/* Row 2: Luck, Movement, Rest (3 columns) */
+.hack100 .secondary-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: var(--hack100-spacing-lg);
   margin-bottom: var(--hack100-spacing-xl);
 }
 
-.hack100 .health-movement-row .health-section,
-.hack100 .health-movement-row .luck-section,
-.hack100 .health-movement-row .movement-section {
+.hack100 .secondary-row .luck-section,
+.hack100 .secondary-row .movement-section,
+.hack100 .secondary-row .rest-section {
   margin-bottom: 0;
 }
 
@@ -1051,6 +1064,7 @@
   border-color: #8b3a3a;
   transform: translateY(-1px);
 }
+
 
 /* ===== CURRENCY SECTION ===== */
 .hack100 .currency-row {
@@ -1889,7 +1903,11 @@
     grid-template-columns: 1fr;
   }
 
-  .hack100 .health-movement-row {
+  .hack100 .resources-row {
+    grid-template-columns: 1fr;
+  }
+
+  .hack100 .secondary-row {
     grid-template-columns: 1fr;
   }
 }
@@ -2797,6 +2815,54 @@
   font-style: italic;
 }
 
+/* Roll Dialog SP Spend Option */
+.sp-spend-option {
+  margin-top: var(--hack100-spacing-md);
+  padding: var(--hack100-spacing-md);
+  background: linear-gradient(
+    135deg,
+    rgba(139, 92, 246, 0.1),
+    rgba(139, 92, 246, 0.05)
+  );
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: var(--hack100-radius-md);
+}
+
+.sp-spend-option label {
+  display: flex;
+  align-items: center;
+  gap: var(--hack100-spacing-sm);
+  font-weight: 600;
+  color: var(--hack100-primary-dark);
+  margin-bottom: var(--hack100-spacing-xs);
+}
+
+.sp-spend-option label i {
+  color: #8b5cf6;
+}
+
+.sp-spend-option .sp-count {
+  font-size: 12px;
+  color: var(--hack100-text-muted);
+  font-weight: normal;
+  margin-left: auto;
+}
+
+.sp-spend-option select {
+  width: 100%;
+  padding: var(--hack100-spacing-sm);
+  border: 1px solid rgba(139, 92, 246, 0.4);
+  border-radius: var(--hack100-radius-sm);
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.sp-spend-option .hint {
+  margin-top: var(--hack100-spacing-xs);
+  font-size: 11px;
+  color: var(--hack100-text-muted);
+  font-style: italic;
+}
+
 /* Chat Message Advantage Info */
 .hack100-roll .advantage-info {
   display: flex;
@@ -2845,6 +2911,318 @@
   color: var(--hack100-text-muted);
 }
 
+/* ===== SPECIALISM POINTS SECTION ===== */
+.hack100 .sp-section {
+  background: white;
+  border: 2px solid var(--hack100-border);
+  border-left: 4px solid #8b5cf6;
+  border-radius: var(--hack100-radius-md);
+  padding: var(--hack100-spacing-lg);
+  box-shadow: var(--hack100-shadow-sm);
+  display: flex;
+  flex-direction: column;
+}
+
+.hack100 .sp-section h3 {
+  margin: 0 0 var(--hack100-spacing-sm) 0;
+  font-size: 18px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--hack100-primary);
+}
+
+.hack100 .sp-tracker {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--hack100-spacing-lg);
+  align-items: center;
+  flex: 1;
+}
+
+.hack100 .sp-current,
+.hack100 .sp-max {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hack100-spacing-xs);
+}
+
+.hack100 .sp-current label,
+.hack100 .sp-max label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--hack100-text-muted);
+}
+
+.hack100 .sp-current input {
+  width: 100%;
+  height: 50px;
+  text-align: center;
+  font-size: 28px;
+  font-weight: 700;
+  border: 2px solid var(--hack100-border);
+  border-radius: var(--hack100-radius-md);
+  box-shadow: var(--hack100-shadow-inset);
+  transition: all 0.3s ease;
+  background: linear-gradient(135deg, #f3f0ff 0%, #ede9fe 100%);
+  color: #6d28d9;
+}
+
+.hack100 .sp-current input:focus {
+  outline: none;
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
+}
+
+/* SP low (1-2) - Warning state */
+.hack100 .sp-current input.sp-low {
+  background: linear-gradient(135deg, #fef6e8 0%, #fdefd0 100%);
+  color: #c9a05f;
+  border-color: #f59e0b;
+}
+
+/* SP empty (0) - Critical state */
+.hack100 .sp-current input.sp-empty {
+  background: linear-gradient(135deg, #f8e6e6 0%, #f5d0d0 100%);
+  color: #a84d4d;
+  border-color: #ef4444;
+}
+
+.hack100 .sp-max span {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--hack100-text-muted);
+  background: var(--hack100-bg-surface);
+  border: 2px solid var(--hack100-border);
+  border-radius: var(--hack100-radius-md);
+}
+
+/* Dark theme support for SP */
+.hack100.color-scheme-dark .sp-section {
+  background: var(--hack100-bg-panel);
+}
+
+.hack100.color-scheme-dark .sp-current input {
+  background: linear-gradient(135deg, #2e2350 0%, #3d2d5e 100%);
+  color: #c4b5fd;
+  border-color: var(--hack100-border);
+}
+
+.hack100.color-scheme-dark .sp-current input.sp-low {
+  background: linear-gradient(135deg, #4a3a20 0%, #5c4a2a 100%);
+  color: #fcd34d;
+}
+
+.hack100.color-scheme-dark .sp-current input.sp-empty {
+  background: linear-gradient(135deg, #4a2020 0%, #5c2a2a 100%);
+  color: #fca5a5;
+}
+
+.hack100.color-scheme-dark .sp-max span {
+  background: var(--hack100-bg-input);
+  color: var(--hack100-text-muted);
+}
+
+/* ===== REST SECTION ===== */
+.hack100 .rest-section {
+  background: white;
+  border: 2px solid var(--hack100-border);
+  border-left: 4px solid #06b6d4;
+  border-radius: var(--hack100-radius-md);
+  padding: var(--hack100-spacing-lg);
+  box-shadow: var(--hack100-shadow-sm);
+  display: flex;
+  flex-direction: column;
+}
+
+.hack100 .rest-section h3 {
+  margin: 0 0 var(--hack100-spacing-sm) 0;
+  font-size: 18px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--hack100-primary);
+}
+
+.hack100 .rest-buttons {
+  display: flex;
+  gap: var(--hack100-spacing-md);
+  flex-wrap: wrap;
+}
+
+.hack100 .rest-button {
+  flex: 1;
+  min-width: 100px;
+  padding: var(--hack100-spacing-sm) var(--hack100-spacing-md);
+  font-size: 13px;
+  font-weight: 600;
+  border: 2px solid var(--hack100-border);
+  border-radius: var(--hack100-radius-md);
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  color: var(--hack100-text);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--hack100-spacing-xs);
+}
+
+.hack100 .rest-button:hover:not(:disabled) {
+  background: linear-gradient(135deg, #ecfeff 0%, #cffafe 100%);
+  border-color: #06b6d4;
+  color: #0891b2;
+}
+
+.hack100 .rest-button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.hack100 .rest-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: var(--hack100-bg-surface);
+}
+
+.hack100 .rest-button i {
+  font-size: 14px;
+}
+
+.hack100 .rest-button.short-rest i {
+  color: #f59e0b;
+}
+
+.hack100 .rest-button.long-rest i {
+  color: #3b82f6;
+}
+
+.hack100 .rest-button:hover:not(:disabled) i {
+  color: inherit;
+}
+
+/* Dark theme support for rest */
+.hack100.color-scheme-dark .rest-section {
+  background: var(--hack100-bg-panel);
+}
+
+.hack100.color-scheme-dark .rest-button {
+  background: var(--hack100-bg-input);
+  color: var(--hack100-text);
+  border-color: var(--hack100-border);
+}
+
+.hack100.color-scheme-dark .rest-button:hover:not(:disabled) {
+  background: linear-gradient(135deg, #164e63 0%, #0e4457 100%);
+  border-color: #06b6d4;
+  color: #cffafe;
+}
+
+/* Chat message styling for rest */
+.hack100-rest-message {
+  padding: var(--hack100-spacing-sm);
+}
+
+.hack100-rest-message h3 {
+  display: flex;
+  align-items: center;
+  gap: var(--hack100-spacing-sm);
+  margin: 0 0 var(--hack100-spacing-sm) 0;
+  color: #0891b2;
+}
+
+.hack100-rest-message h3 i {
+  color: #06b6d4;
+}
+
+.hack100-rest-message .rest-result {
+  font-weight: 600;
+  color: #16a34a;
+}
+
+/* Long Rest Dialog - Base styles with default theme colors */
+.hack100-rest-dialog {
+  padding: 8px;
+}
+
+.hack100-rest-dialog > p {
+  margin: 0 0 12px 0;
+  font-weight: 500;
+  color: #3d2f24;
+}
+
+.hack100-rest-dialog .rest-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.hack100-rest-dialog .rest-option {
+  padding: 12px;
+  border: 2px solid #b5a894;
+  border-radius: 5px;
+  background: #faf8f5;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.hack100-rest-dialog .rest-option:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.hack100-rest-dialog .rest-option.safe-rest {
+  border-color: #b5a894;
+  border-left: 4px solid #16a34a;
+}
+
+.hack100-rest-dialog .rest-option.unsafe-rest {
+  border-color: #b5a894;
+  border-left: 4px solid #f59e0b;
+}
+
+/* Selected state */
+.hack100-rest-dialog .rest-option.selected {
+  border-width: 2px;
+}
+
+.hack100-rest-dialog .rest-option.safe-rest.selected {
+  border-color: #16a34a;
+  background: rgba(22, 163, 74, 0.15);
+}
+
+.hack100-rest-dialog .rest-option.unsafe-rest.selected {
+  border-color: #f59e0b;
+  background: rgba(245, 158, 11, 0.15);
+}
+
+.hack100-rest-dialog .rest-option h4 {
+  margin: 0 0 4px 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+}
+
+.hack100-rest-dialog .rest-option.safe-rest h4 {
+  color: #16a34a;
+}
+
+.hack100-rest-dialog .rest-option.unsafe-rest h4 {
+  color: #f59e0b;
+}
+
+.hack100-rest-dialog .rest-description {
+  margin: 0;
+  font-size: 12px;
+  color: #5d5449;
+}
+
 /* ===== ROLL DIALOG WRAPPER STYLES ===== */
 .hack100-roll-dialog-wrapper {
   border-radius: 8px !important;
@@ -2864,10 +3242,12 @@
   background: #f4f1ea !important;
 }
 
-.hack100-roll-dialog-wrapper form.hack100-roll-dialog {
+.hack100-roll-dialog-wrapper form.hack100-roll-dialog,
+.hack100-roll-dialog-wrapper form.hack100-rest-dialog {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  background: transparent !important;
 }
 
 .hack100-roll-dialog-wrapper .form-group {
@@ -2976,6 +3356,53 @@
   font-size: 11px;
   color: #877f72;
   font-style: italic;
+}
+
+/* SP Spend Option in Roll Dialog */
+.hack100-roll-dialog-wrapper .form-group.sp-spend-option {
+  flex-direction: column !important;
+  margin-top: 4px !important;
+  padding: 8px 12px !important;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(139, 92, 246, 0.05)) !important;
+  border: 1px solid rgba(139, 92, 246, 0.3) !important;
+  border-radius: 5px !important;
+}
+
+.hack100-roll-dialog-wrapper .sp-spend-option label {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  gap: 6px !important;
+  cursor: default;
+  font-weight: 600;
+  color: #3d2f24;
+  white-space: nowrap !important;
+  margin-bottom: 6px !important;
+}
+
+.hack100-roll-dialog-wrapper .sp-spend-option label i {
+  color: #8b5cf6;
+  flex-shrink: 0;
+}
+
+.hack100-roll-dialog-wrapper .sp-spend-option .sp-count {
+  font-size: 12px;
+  color: #877f72;
+  font-weight: normal;
+  margin-left: auto;
+}
+
+.hack100-roll-dialog-wrapper .sp-spend-option input[type="number"] {
+  width: 100% !important;
+  padding: 6px 10px !important;
+  border: 1px solid rgba(139, 92, 246, 0.4) !important;
+  border-radius: 4px !important;
+  background: rgba(255, 255, 255, 0.9) !important;
+  color: #3d2f24 !important;
+  text-align: center !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
 }
 
 /* Roll Dialog Buttons */
@@ -3142,6 +3569,32 @@
   color: #8b7d6b !important;
 }
 
+.hack100-roll-dialog-wrapper.theme-dark .form-group.sp-spend-option {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(139, 92, 246, 0.05)) !important;
+  border-color: rgba(139, 92, 246, 0.4) !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-dark .sp-spend-option label {
+  color: #e8e3d6 !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-dark .sp-spend-option input[type="number"],
+.hack100-roll-dialog-wrapper.theme-dark .sp-spend-option select {
+  background: #1a1612 !important;
+  border-color: rgba(139, 92, 246, 0.4) !important;
+  color: #e8e3d6 !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-dark .sp-spend-option select option {
+  background: #1a1612 !important;
+  color: #e8e3d6 !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-dark .sp-spend-option .sp-count,
+.hack100-roll-dialog-wrapper.theme-dark .sp-spend-option .hint {
+  color: #8b7d6b !important;
+}
+
 .hack100-roll-dialog-wrapper.theme-dark .dialog-buttons {
   border-top-color: #3d2f24 !important;
 }
@@ -3210,6 +3663,26 @@
   color: #6c757d !important;
 }
 
+.hack100-roll-dialog-wrapper.theme-light .form-group.sp-spend-option {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(139, 92, 246, 0.05)) !important;
+  border-color: rgba(139, 92, 246, 0.3) !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-light .sp-spend-option label {
+  color: #293241 !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-light .sp-spend-option input[type="number"] {
+  background: #ffffff !important;
+  border-color: rgba(139, 92, 246, 0.4) !important;
+  color: #212529 !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-light .sp-spend-option .sp-count,
+.hack100-roll-dialog-wrapper.theme-light .sp-spend-option .hint {
+  color: #6c757d !important;
+}
+
 .hack100-roll-dialog-wrapper.theme-light .dialog-buttons {
   border-top-color: #dee2e6 !important;
 }
@@ -3223,4 +3696,180 @@
   background: #f8f9fa !important;
   color: #495057 !important;
   border-color: #dee2e6 !important;
+}
+
+/* ===== REST DIALOG THEME STYLES ===== */
+/* Note: Default/base theme colors are defined in .hack100-rest-dialog above */
+
+/* Confirm button style for rest dialog (all themes) */
+.hack100-roll-dialog-wrapper .dialog-buttons button[data-button="confirm"] {
+  background: linear-gradient(135deg, #88b04b, #6b8e23) !important;
+  border-color: #6b8e23 !important;
+  color: white !important;
+}
+
+.hack100-roll-dialog-wrapper .dialog-buttons button[data-button="confirm"]:hover {
+  background: linear-gradient(135deg, #9bc45d, #7da32a) !important;
+}
+
+/* Dark theme rest dialog */
+.hack100-roll-dialog-wrapper.theme-dark .hack100-rest-dialog,
+.hack100-roll-dialog-wrapper .hack100-rest-dialog.theme-dark {
+  color: #e8e3d6 !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-dark .hack100-rest-dialog > p,
+.hack100-roll-dialog-wrapper .hack100-rest-dialog.theme-dark > p {
+  color: #e8e3d6 !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-dark .hack100-rest-dialog .rest-option,
+.hack100-roll-dialog-wrapper .hack100-rest-dialog.theme-dark .rest-option {
+  background: #1a1612 !important;
+  border-color: #3d2f24 !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-dark .hack100-rest-dialog .rest-option.safe-rest,
+.hack100-roll-dialog-wrapper .hack100-rest-dialog.theme-dark .rest-option.safe-rest {
+  border-color: #3d2f24 !important;
+  border-left-color: #16a34a !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-dark .hack100-rest-dialog .rest-option.unsafe-rest,
+.hack100-roll-dialog-wrapper .hack100-rest-dialog.theme-dark .rest-option.unsafe-rest {
+  border-color: #3d2f24 !important;
+  border-left-color: #f59e0b !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-dark .hack100-rest-dialog .rest-option.safe-rest.selected,
+.hack100-roll-dialog-wrapper .hack100-rest-dialog.theme-dark .rest-option.safe-rest.selected {
+  border-color: #16a34a !important;
+  background: rgba(22, 163, 74, 0.2) !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-dark .hack100-rest-dialog .rest-option.unsafe-rest.selected,
+.hack100-roll-dialog-wrapper .hack100-rest-dialog.theme-dark .rest-option.unsafe-rest.selected {
+  border-color: #f59e0b !important;
+  background: rgba(245, 158, 11, 0.2) !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-dark .hack100-rest-dialog .rest-description,
+.hack100-roll-dialog-wrapper .hack100-rest-dialog.theme-dark .rest-description {
+  color: #8b7d6b !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-dark .dialog-buttons button[data-button="confirm"] {
+  background: linear-gradient(135deg, #88b04b, #6b8e23) !important;
+  border-color: #6b8e23 !important;
+  color: white !important;
+}
+
+/* Light theme rest dialog */
+.hack100-roll-dialog-wrapper.theme-light .hack100-rest-dialog,
+.hack100-roll-dialog-wrapper .hack100-rest-dialog.theme-light {
+  color: #293241 !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-light .hack100-rest-dialog > p,
+.hack100-roll-dialog-wrapper .hack100-rest-dialog.theme-light > p {
+  color: #293241 !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-light .hack100-rest-dialog .rest-option,
+.hack100-roll-dialog-wrapper .hack100-rest-dialog.theme-light .rest-option {
+  background: #ffffff !important;
+  border-color: #dee2e6 !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-light .hack100-rest-dialog .rest-option.safe-rest,
+.hack100-roll-dialog-wrapper .hack100-rest-dialog.theme-light .rest-option.safe-rest {
+  border-color: #dee2e6 !important;
+  border-left-color: #16a34a !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-light .hack100-rest-dialog .rest-option.unsafe-rest,
+.hack100-roll-dialog-wrapper .hack100-rest-dialog.theme-light .rest-option.unsafe-rest {
+  border-color: #dee2e6 !important;
+  border-left-color: #f59e0b !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-light .hack100-rest-dialog .rest-option.safe-rest.selected,
+.hack100-roll-dialog-wrapper .hack100-rest-dialog.theme-light .rest-option.safe-rest.selected {
+  border-color: #16a34a !important;
+  background: rgba(22, 163, 74, 0.1) !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-light .hack100-rest-dialog .rest-option.unsafe-rest.selected,
+.hack100-roll-dialog-wrapper .hack100-rest-dialog.theme-light .rest-option.unsafe-rest.selected {
+  border-color: #f59e0b !important;
+  background: rgba(245, 158, 11, 0.1) !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-light .hack100-rest-dialog .rest-description,
+.hack100-roll-dialog-wrapper .hack100-rest-dialog.theme-light .rest-description {
+  color: #6c757d !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-light .dialog-buttons button[data-button="confirm"] {
+  background: linear-gradient(135deg, #3d5a80, #293241) !important;
+  border-color: #293241 !important;
+  color: white !important;
+}
+
+/* Default theme overrides - MUST come after theme-light to win when both classes present */
+/* Foundry adds 'themed theme-light' to all dialogs, so we need explicit .theme-default rules */
+.hack100-roll-dialog-wrapper.theme-default .hack100-rest-dialog {
+  color: #3d2f24 !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-default .hack100-rest-dialog > p {
+  color: #3d2f24 !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-default .hack100-rest-dialog .rest-option {
+  background: #faf8f5 !important;
+  border-color: #b5a894 !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-default .hack100-rest-dialog .rest-option.safe-rest {
+  border-color: #b5a894 !important;
+  border-left-color: #16a34a !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-default .hack100-rest-dialog .rest-option.unsafe-rest {
+  border-color: #b5a894 !important;
+  border-left-color: #f59e0b !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-default .hack100-rest-dialog .rest-option.safe-rest.selected {
+  border-color: #16a34a !important;
+  background: rgba(22, 163, 74, 0.15) !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-default .hack100-rest-dialog .rest-option.unsafe-rest.selected {
+  border-color: #f59e0b !important;
+  background: rgba(245, 158, 11, 0.15) !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-default .hack100-rest-dialog .rest-description {
+  color: #5d5449 !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-default .dialog-buttons button[data-button="confirm"] {
+  background: linear-gradient(135deg, #88b04b, #6b8e23) !important;
+  border-color: #6b8e23 !important;
+  color: white !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-default .window-header {
+  background: linear-gradient(135deg, #5d4a3a, #3d2f24) !important;
+  border-bottom: 1px solid #8b7d6b !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-default .window-header .window-title {
+  color: #f4f1ea !important;
+}
+
+.hack100-roll-dialog-wrapper.theme-default .window-header a {
+  color: #d9d3c3 !important;
 }

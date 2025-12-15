@@ -101,6 +101,52 @@ export class Hack100Actor extends Actor {
       }
     }
     systemData.movement = Math.max(movement, 0);
+
+    // Calculate SP max (3 + highest specialism bonus)
+    this._calculateSPMax();
+  }
+
+  /**
+   * Calculate maximum Specialism Points
+   * sp.max = 3 + highestSpecialismBonus
+   * where highestSpecialismBonus = floor(highestSpecialismValue / 10)
+   *
+   * NOTE: This method only calculates derived values for display.
+   * It does NOT modify sp.value to avoid overwriting user edits.
+   * The only exception is clamping to valid bounds (0 to max).
+   */
+  _calculateSPMax() {
+    const systemData = this.system;
+
+    // Initialize sp if it doesn't exist
+    if (!systemData.sp) {
+      systemData.sp = { value: 3, max: 3 };
+    }
+
+    // Find highest specialism value
+    let highestSpecialismValue = 0;
+    if (systemData.specialisms) {
+      for (const specialism of Object.values(systemData.specialisms)) {
+        if (specialism.value > highestSpecialismValue) {
+          highestSpecialismValue = specialism.value;
+        }
+      }
+    }
+
+    const highestSpecialismBonus = Math.floor(highestSpecialismValue / 10);
+    const newMax = 3 + highestSpecialismBonus;
+
+    systemData.sp.max = newMax;
+
+    // Only clamp sp.value to valid bounds - don't auto-adjust otherwise
+    // This prevents overwriting user's manual edits
+    if (typeof systemData.sp.value !== 'number' || isNaN(systemData.sp.value)) {
+      systemData.sp.value = newMax; // Default to max if invalid
+    } else if (systemData.sp.value > systemData.sp.max) {
+      systemData.sp.value = systemData.sp.max;
+    } else if (systemData.sp.value < 0) {
+      systemData.sp.value = 0;
+    }
   }
 
   /**
@@ -140,6 +186,7 @@ export class Hack100Actor extends Actor {
     const systemData = this.system;
     let target = 0;
     let label = "";
+    let isSpecialism = false;
 
     // Check if it's a core ability
     if (systemData.abilities[abilityId]) {
@@ -150,6 +197,14 @@ export class Hack100Actor extends Actor {
     else if (systemData.specialisms[abilityId]) {
       target = systemData.specialisms[abilityId].value;
       label = systemData.specialisms[abilityId].name || abilityId;
+      isSpecialism = true;
+
+      // Block specialism rolls if no SP available
+      const spCurrent = this.system.sp?.value || 0;
+      if (spCurrent <= 0) {
+        ui.notifications.warn(game.i18n.localize("hack100.sp.noSP"));
+        return;
+      }
     } else {
       ui.notifications.warn(`Unknown ability: ${abilityId}`);
       return;
@@ -169,6 +224,12 @@ export class Hack100Actor extends Actor {
     // colorScheme is stored directly on system, not in settings
     const colorScheme = this.system.colorScheme || "default";
 
+    // SP data for specialism rolls
+    const spCurrent = this.system.sp?.value || 0;
+    const spMax = this.system.sp?.max || 3;
+    // Generate options array [1, 2, ...spCurrent] (only if SP available)
+    const spOptions = spCurrent > 0 ? Array.from({ length: spCurrent }, (_, i) => i + 1) : [];
+
     const dialogData = {
       title: `${game.i18n.localize("hack100.global.roll")} ${label}`,
       target: target,
@@ -177,6 +238,10 @@ export class Hack100Actor extends Actor {
       luckPoints: luckPoints,
       hasLuck: luckPoints > 0,
       colorScheme: colorScheme,
+      isSpecialism: isSpecialism && spCurrent > 0,
+      spCurrent: spCurrent,
+      spMax: spMax,
+      spOptions: spOptions,
     };
 
     // Show dialog for modifier input
@@ -199,8 +264,11 @@ export class Hack100Actor extends Actor {
             label: game.i18n.localize("hack100.global.roll"),
             callback: async (html) => {
               const form = html[0].querySelector("form");
-              const modifier = parseInt(form.modifier.value) || 0;
+              const difficultyModifier = parseInt(form.modifier.value) || 0;
               const useLuck = form.useLuck?.checked || false;
+              // Clamp SP spend to available SP (in case user manually typed a higher value)
+              const currentSP = this.system.sp?.value || 0;
+              const spSpend = Math.min(Math.max(0, parseInt(form.spSpend?.value) || 0), currentSP);
 
               // If using luck, consume a luck point
               if (useLuck && this.system.luck?.value > 0) {
@@ -208,9 +276,17 @@ export class Hack100Actor extends Actor {
                 ui.notifications.info(game.i18n.localize("hack100.luck.used"));
               }
 
+              // If spending SP, consume SP
+              if (spSpend > 0 && this.system.sp?.value >= spSpend) {
+                await this.update({ "system.sp.value": this.system.sp.value - spSpend });
+                ui.notifications.info(
+                  game.i18n.format("hack100.sp.spent", { amount: spSpend })
+                );
+              }
+
               // Import the rollTask and rollDamage functions
               const { rollTask, rollDamage } = await import("../hack100.js");
-              const result = await rollTask(target, label, modifier, useLuck);
+              const result = await rollTask(target, label, difficultyModifier, useLuck);
 
               // Award experience check if successful
               if (result.success) {
@@ -515,5 +591,193 @@ export class Hack100Actor extends Actor {
         speaker: ChatMessage.getSpeaker({ actor: this }),
       });
     }
+  }
+
+  /**
+   * Long Rest - show dialog for safe/unsafe rest choice
+   */
+  async longRest() {
+    const colorScheme = this.system.colorScheme || "default";
+
+    const content = `
+      <form class="hack100-rest-dialog theme-${colorScheme}">
+        <p>${game.i18n.localize("hack100.rest.longRestPrompt")}</p>
+        <div class="rest-options">
+          <div class="rest-option safe-rest selected" data-rest-type="safe">
+            <h4><i class="fas fa-house"></i> ${game.i18n.localize("hack100.rest.safeRest")}</h4>
+            <p class="rest-description">${game.i18n.localize("hack100.rest.safeRestDesc")}</p>
+          </div>
+          <div class="rest-option unsafe-rest" data-rest-type="unsafe">
+            <h4><i class="fas fa-campground"></i> ${game.i18n.localize("hack100.rest.unsafeRest")}</h4>
+            <p class="rest-description">${game.i18n.localize("hack100.rest.unsafeRestDesc")}</p>
+          </div>
+        </div>
+        <input type="hidden" name="restType" value="safe" />
+      </form>
+    `;
+
+    const dialogClasses = ["dialog", "hack100-roll-dialog-wrapper", `theme-${colorScheme}`];
+
+    return new Promise((resolve) => {
+      const dialog = new Dialog({
+        title: game.i18n.localize("hack100.rest.longRestTitle"),
+        content: content,
+        buttons: {
+          confirm: {
+            icon: '<i class="fas fa-check"></i>',
+            label: game.i18n.localize("hack100.buttons.confirm"),
+            callback: async (html) => {
+              const restType = html.find('input[name="restType"]').val();
+              await this._performLongRest(restType === "safe");
+              resolve(true);
+            },
+          },
+          cancel: {
+            icon: '<i class="fas fa-times"></i>',
+            label: game.i18n.localize("hack100.buttons.cancel"),
+            callback: () => resolve(null),
+          },
+        },
+        default: "confirm",
+        render: (html) => {
+          // Add click handlers to rest options for selection
+          html.find('.rest-option').on('click', function() {
+            html.find('.rest-option').removeClass('selected');
+            $(this).addClass('selected');
+            html.find('input[name="restType"]').val($(this).data('rest-type'));
+          });
+        },
+      }, {
+        classes: dialogClasses,
+      });
+      dialog.render(true);
+    });
+  }
+
+  /**
+   * Perform the actual long rest recovery
+   * @param {boolean} isSafe - Whether it's a safe rest (full recovery) or unsafe (half recovery)
+   */
+  async _performLongRest(isSafe) {
+    const currentHP = this.system.health?.value || 0;
+    const maxHP = this.system.health?.max || 0;
+    const currentSP = this.system.sp?.value || 0;
+    const maxSP = this.system.sp?.max || 3;
+
+    let newHP, newSP;
+    let restType;
+
+    if (isSafe) {
+      // Safe rest: full recovery
+      newHP = maxHP;
+      newSP = maxSP;
+      restType = game.i18n.localize("hack100.rest.safeRest");
+    } else {
+      // Unsafe rest: recover half of max (added to current, capped at max)
+      const hpRecovery = Math.floor(maxHP / 2);
+      const spRecovery = Math.floor(maxSP / 2);
+      newHP = Math.min(currentHP + hpRecovery, maxHP);
+      newSP = Math.min(currentSP + spRecovery, maxSP);
+      restType = game.i18n.localize("hack100.rest.unsafeRest");
+    }
+
+    await this.update({
+      "system.health.value": newHP,
+      "system.sp.value": newSP,
+      "system.shortRestUsed": false
+    });
+
+    // Create chat message
+    const resultText = isSafe
+      ? game.i18n.localize("hack100.rest.fullyRestored")
+      : game.i18n.format("hack100.rest.halfRestored", { hp: newHP, maxHp: maxHP, sp: newSP, maxSp: maxSP });
+
+    const chatContent = `
+      <div class="hack100-rest-message">
+        <h3><i class="fas fa-bed"></i> ${game.i18n.localize("hack100.rest.longRestTitle")} (${restType})</h3>
+        <p>${game.i18n.format("hack100.rest.longRestMessage", { name: this.name })}</p>
+        <p class="rest-result">${resultText}</p>
+      </div>
+    `;
+
+    ChatMessage.create({
+      speaker: ChatMessage.getSpeaker({ actor: this }),
+      content: chatContent
+    });
+
+    ui.notifications.info(game.i18n.localize("hack100.rest.longRestComplete"));
+  }
+
+  /**
+   * Short Rest - roll 1d10 for HP and 1d5 for SP recovery (once per day)
+   */
+  async shortRest() {
+    // Check if short rest already used
+    if (this.system.shortRestUsed) {
+      ui.notifications.warn(game.i18n.localize("hack100.rest.shortRestUsed"));
+      return;
+    }
+
+    // Roll 1d10 for HP recovery
+    const hpRoll = new Roll("1d10");
+    await hpRoll.evaluate();
+    const hpRecoveryRoll = hpRoll.total;
+
+    // Roll 1d5 for SP recovery
+    const spRoll = new Roll("1d5");
+    await spRoll.evaluate();
+    const spRecoveryRoll = spRoll.total;
+
+    // Calculate new HP and SP values
+    const currentHP = this.system.health?.value || 0;
+    const maxHP = this.system.health?.max || 0;
+    const newHP = Math.min(currentHP + hpRecoveryRoll, maxHP);
+    const hpRecovered = newHP - currentHP;
+
+    const currentSP = this.system.sp?.value || 0;
+    const maxSP = this.system.sp?.max || 3;
+    const newSP = Math.min(currentSP + spRecoveryRoll, maxSP);
+    const spRecovered = newSP - currentSP;
+
+    // Update actor
+    await this.update({
+      "system.health.value": newHP,
+      "system.sp.value": newSP,
+      "system.shortRestUsed": true
+    });
+
+    // Create chat message showing the rolls and recovery
+    const chatContent = `
+      <div class="hack100-rest-message">
+        <h3><i class="fas fa-campground"></i> ${game.i18n.localize("hack100.rest.shortRestTitle")}</h3>
+        <p>${game.i18n.format("hack100.rest.shortRestMessage", { name: this.name })}</p>
+        <p class="rest-result">
+          ${game.i18n.format("hack100.rest.hpRecoveredRoll", { roll: hpRecoveryRoll, amount: hpRecovered, current: newHP, max: maxHP })}<br>
+          ${game.i18n.format("hack100.rest.spRecoveredRoll", { roll: spRecoveryRoll, amount: spRecovered, current: newSP, max: maxSP })}
+        </p>
+      </div>
+    `;
+
+    // Show HP roll
+    await hpRoll.toMessage({
+      flavor: `<strong>${game.i18n.localize("hack100.rest.hpRoll")}</strong>`,
+      speaker: ChatMessage.getSpeaker({ actor: this })
+    });
+
+    // Show SP roll
+    await spRoll.toMessage({
+      flavor: `<strong>${game.i18n.localize("hack100.rest.spRoll")}</strong>`,
+      speaker: ChatMessage.getSpeaker({ actor: this })
+    });
+
+    // Show summary
+    ChatMessage.create({
+      speaker: ChatMessage.getSpeaker({ actor: this }),
+      content: chatContent
+    });
+
+    ui.notifications.info(
+      game.i18n.format("hack100.rest.shortRestComplete", { hpRecovery: hpRecovered, spRecovery: spRecovered })
+    );
   }
 }

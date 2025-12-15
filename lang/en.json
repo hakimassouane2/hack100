@@ -76,6 +76,37 @@
       "rolled": "Rolled",
       "kept": "Kept"
     },
+    "sp": {
+      "title": "Specialism Points",
+      "spend": "Spend SP",
+      "spent": "{amount} SP spent",
+      "noSP": "You have no Specialism Points available!"
+    },
+    "rest": {
+      "title": "Rest",
+      "shortRest": "Short Rest",
+      "longRest": "Long Rest",
+      "shortRestTitle": "Short Rest",
+      "longRestTitle": "Long Rest",
+      "shortRestMessage": "{name} takes a short rest (10 minutes).",
+      "longRestMessage": "{name} takes a long rest (full night's sleep).",
+      "shortRestHint": "Rest for 10 minutes to recover 1d10 HP and 1d5 SP (once per day)",
+      "longRestHint": "Rest for a full night to restore HP and SP",
+      "shortRestUsed": "Short rest already used today",
+      "shortRestComplete": "Recovered {hpRecovery} HP and {spRecovery} SP from short rest!",
+      "longRestComplete": "Restored after long rest!",
+      "fullyRestored": "HP and SP fully restored. Short rest available again.",
+      "halfRestored": "HP restored to {hp}/{maxHp}, SP restored to {sp}/{maxSp}. Short rest available again.",
+      "hpRecoveredRoll": "HP: 1d10 = {roll}, +{amount} ({current}/{max})",
+      "spRecoveredRoll": "SP: 1d5 = {roll}, +{amount} ({current}/{max})",
+      "hpRoll": "HP Recovery (1d10)",
+      "spRoll": "SP Recovery (1d5)",
+      "longRestPrompt": "What kind of rest are you taking?",
+      "safeRest": "Safe Rest",
+      "unsafeRest": "Unsafe Rest",
+      "safeRestDesc": "Resting in a safe location (inn, home, etc.). Fully restores HP and SP.",
+      "unsafeRestDesc": "Resting in the wilderness or dangerous area. Recovers half of max HP and SP."
+    },
     "speeds": {
       "walk": "Normal Movement",
       "dash": "Dash",
@@ -145,7 +176,8 @@
       "add": "Add",
       "edit": "Edit",
       "delete": "Delete",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "confirm": "Confirm"
     },
     "rollDialog": {
       "target": "Target",

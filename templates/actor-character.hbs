@@ -28,8 +28,8 @@
     {{!-- Main Tab --}}
     <div class="tab main" data-group="primary" data-tab="main">
 
-      {{!-- Health and Movement Row --}}
-      <div class="health-movement-row">
+      {{!-- Row 1: Health and SP (2 columns) --}}
+      <div class="resources-row">
         {{!-- Health Section --}}
         <div class="health-section">
           <h3>{{localize "hack100.character.health"}}</h3>
@@ -49,6 +49,32 @@
           </div>
         </div>
 
+        {{!-- Specialism Points Section --}}
+        <div class="sp-section">
+          <h3>{{localize "hack100.sp.title"}}</h3>
+          <div class="sp-tracker">
+            <div class="sp-current">
+              <label>{{localize "hack100.global.current"}}</label>
+              <input type="number" name="system.sp.value" value="{{system.sp.value}}" min="0" max="{{system.sp.max}}" data-sp-percent="{{system.spPercent}}" class="{{#if (lte system.sp.value 0)}}sp-empty{{else if (lte system.sp.value 2)}}sp-low{{/if}}"/>
+            </div>
+            <div class="sp-max">
+              <label>{{localize "hack100.global.maximum"}}</label>
+              <span>{{system.sp.max}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {{!-- Row 2: Movement, Luck, Rest (3 columns) --}}
+      <div class="secondary-row">
+        {{!-- Movement Section --}}
+        <div class="movement-section">
+          <h3>{{localize "hack100.character.movement"}}</h3>
+          <div class="movement-value">
+            <span>{{system.movement}}</span> {{localize "hack100.character.squares"}}
+          </div>
+        </div>
+
         {{!-- Luck Section --}}
         <div class="luck-section">
           <h3>{{localize "hack100.luck.title"}}</h3>
@@ -63,11 +89,16 @@
           </div>
         </div>
 
-        {{!-- Movement Section --}}
-        <div class="movement-section">
-          <h3>{{localize "hack100.character.movement"}}</h3>
-          <div class="movement-value">
-            <span>{{system.movement}}</span> {{localize "hack100.character.squares"}}
+        {{!-- Rest Section --}}
+        <div class="rest-section">
+          <h3>{{localize "hack100.rest.title"}}</h3>
+          <div class="rest-buttons">
+            <button type="button" class="rest-button short-rest" {{#if system.shortRestUsed}}disabled{{/if}} title="{{#if system.shortRestUsed}}{{localize "hack100.rest.shortRestUsed"}}{{else}}{{localize "hack100.rest.shortRestHint"}}{{/if}}">
+              <i class="fas fa-campground"></i> {{localize "hack100.rest.shortRest"}}
+            </button>
+            <button type="button" class="rest-button long-rest" title="{{localize "hack100.rest.longRestHint"}}">
+              <i class="fas fa-bed"></i> {{localize "hack100.rest.longRest"}}
+            </button>
           </div>
         </div>
       </div>

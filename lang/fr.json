@@ -55,7 +55,7 @@
       "abilities": "Compétences",
       "specialisms": "Spécialités",
       "newSpecialism": "Nouvelle spécialité",
-      "health": "Santé",
+      "health": "Points de vie",
       "tempHP": "Temporaire",
       "movement": "Déplacement",
       "equipment": "Équipement",
@@ -75,6 +75,37 @@
       "clickHint": "Clic gauche pour ajouter, clic droit pour retirer",
       "rolled": "Lancé",
       "kept": "Gardé"
+    },
+    "sp": {
+      "title": "Points de Spécialité",
+      "spend": "Dépenser PS",
+      "spent": "{amount} PS dépensé(s)",
+      "noSP": "Vous n'avez plus de Points de Spécialité !"
+    },
+    "rest": {
+      "title": "Repos",
+      "shortRest": "Repos Court",
+      "longRest": "Repos Long",
+      "shortRestTitle": "Repos Court",
+      "longRestTitle": "Repos Long",
+      "shortRestMessage": "{name} prend un repos court (10 minutes).",
+      "longRestMessage": "{name} prend un repos long (nuit complète de sommeil).",
+      "shortRestHint": "Reposez-vous 10 minutes pour récupérer 1d10 PdV et 1d5 PS (une fois par jour)",
+      "longRestHint": "Reposez-vous une nuit complète pour restaurer PdV et PS",
+      "shortRestUsed": "Repos court déjà utilisé aujourd'hui",
+      "shortRestComplete": "Récupéré {hpRecovery} PdV et {spRecovery} PS grâce au repos court !",
+      "longRestComplete": "Restauré après le repos long !",
+      "fullyRestored": "PdV et PS complètement restaurés. Repos court à nouveau disponible.",
+      "halfRestored": "PdV restaurés à {hp}/{maxHp}, PS restaurés à {sp}/{maxSp}. Repos court à nouveau disponible.",
+      "hpRecoveredRoll": "PdV : 1d10 = {roll}, +{amount} ({current}/{max})",
+      "spRecoveredRoll": "PS : 1d5 = {roll}, +{amount} ({current}/{max})",
+      "hpRoll": "Récupération PdV (1d10)",
+      "spRoll": "Récupération PS (1d5)",
+      "longRestPrompt": "Quel type de repos prenez-vous ?",
+      "safeRest": "Repos Sûr",
+      "unsafeRest": "Repos Risqué",
+      "safeRestDesc": "Repos dans un lieu sûr (auberge, maison, etc.). Restaure complètement PdV et PS.",
+      "unsafeRestDesc": "Repos dans la nature ou zone dangereuse. Récupère la moitié des PdV et PS max."
     },
     "speeds": {
       "walk": "Déplacement Normal",
@@ -145,7 +176,8 @@
       "add": "Ajouter",
       "edit": "Modifier",
       "delete": "Supprimer",
-      "cancel": "Annuler"
+      "cancel": "Annuler",
+      "confirm": "Confirmer"
     },
     "rollDialog": {
       "target": "Cible",

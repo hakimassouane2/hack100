@@ -67,6 +67,14 @@ export class Hack100ActorSheet extends ActorSheet {
       Math.min(100, Math.round((healthValue / healthMax) * 100))
     );
 
+    // Calculate SP percentage for gradient display
+    const spMax = actorData.system.sp?.max || 1;
+    const spValue = actorData.system.sp?.value || 0;
+    context.system.spPercent = Math.max(
+      0,
+      Math.min(100, Math.round((spValue / spMax) * 100))
+    );
+
     // Prepare character data and items.
     if (actorData.type == "character") {
       this._prepareItems(context);
@@ -396,6 +404,10 @@ export class Hack100ActorSheet extends ActorSheet {
     // Luck pips click handlers (left click = increment, right click = decrement)
     html.find(".luck-pips").on("click", this._onLuckIncrement.bind(this));
     html.find(".luck-pips").on("contextmenu", this._onLuckDecrement.bind(this));
+
+    // Rest buttons
+    html.find(".short-rest").click(this._onShortRest.bind(this));
+    html.find(".long-rest").click(this._onLongRest.bind(this));
 
     // Drag events for macros.
     if (this.actor.isOwner) {
@@ -970,5 +982,21 @@ export class Hack100ActorSheet extends ActorSheet {
       },
       default: "transfer",
     }).render(true);
+  }
+
+  /**
+   * Handle short rest button
+   */
+  async _onShortRest(event) {
+    event.preventDefault();
+    await this.actor.shortRest();
+  }
+
+  /**
+   * Handle long rest button
+   */
+  async _onLongRest(event) {
+    event.preventDefault();
+    await this.actor.longRest();
   }
 }

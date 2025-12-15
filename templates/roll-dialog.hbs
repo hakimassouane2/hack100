@@ -24,6 +24,21 @@
     </select>
   </div>
 
+  {{#if isSpecialism}}
+  <div class="form-group sp-spend-option">
+    <label>
+      <i class="fas fa-brain"></i>
+      {{localize "hack100.sp.spend"}}
+      <span class="sp-count">({{spCurrent}}/{{spMax}})</span>
+    </label>
+    <select name="spSpend">
+      {{#each spOptions}}
+      <option value="{{this}}">{{this}}</option>
+      {{/each}}
+    </select>
+  </div>
+  {{/if}}
+
   {{#if hasLuck}}
   <div class="form-group luck-option">
     <label class="checkbox-label">
