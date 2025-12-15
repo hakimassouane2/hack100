@@ -143,7 +143,9 @@ export async function rollTask(target, label, modifier = 0, withAdvantage = fals
 
   const success = result <= modifiedTarget;
   const criticalSuccess = result >= 1 && result <= 10;
-  const criticalFailure = result >= 91 && result <= 100;
+  // Critical failure: always on 100, or when rolling strictly above the target (minimum 91)
+  const critFailThreshold = Math.max(91, modifiedTarget + 1);
+  const criticalFailure = result === 100 || (result >= critFailThreshold && result <= 100);
 
   let resultText = "";
   if (criticalSuccess) {
