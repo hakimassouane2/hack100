@@ -43,10 +43,25 @@ Hooks.once("init", async function () {
     return data;
   };
 
-  // Configure Combat initiative
+  // Configure Combat initiative - default formula (overridden per-actor in Combatant)
   CONFIG.Combat.initiative = {
-    formula: "1d10 + @abilities.agility.bonus",
+    formula: "1d10",
     decimals: 2,
+  };
+
+  // Override Combatant to use actor-specific initiative formulas
+  const originalGetInitiativeRoll = Combatant.prototype.getInitiativeRoll;
+  Combatant.prototype.getInitiativeRoll = function(formula) {
+    const actor = this.actor;
+    if (actor) {
+      // Use actor's custom initiative formula
+      if (actor.type === "npc") {
+        formula = "1d10 + @rateBonus";
+      } else {
+        formula = "1d10 + @abilities.agility.bonus";
+      }
+    }
+    return originalGetInitiativeRoll.call(this, formula);
   };
 
   // Register sheet application classes

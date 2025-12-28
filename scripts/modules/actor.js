@@ -148,6 +148,9 @@ export class Hack100Actor extends Actor {
       systemData.currency = { gold: 0, silver: 0, copper: 0 };
     }
 
+    // Calculate rate bonus (tens digit of rate) for initiative
+    systemData.rateBonus = Math.floor(systemData.rate / 10);
+
     // Calculate health percentage for display
     const healthMax = systemData.health.max || 1;
     const healthValue = systemData.health.value || 0;
@@ -551,11 +554,28 @@ export class Hack100Actor extends Actor {
 
   /**
    * Get the initiative formula for this actor
-   * Initiative = 1d10 + Agility Bonus
+   * Characters: Initiative = 1d10 + Agility Bonus
+   * NPCs: Initiative = 1d10 + Rate Bonus (tens digit of rate)
    * @override
    */
   _getInitiativeFormula() {
+    if (this.type === "npc") {
+      return "1d10 + @rateBonus";
+    }
     return "1d10 + @abilities.agility.bonus";
+  }
+
+  /**
+   * Prepare roll data for formulas that reference actor data
+   * @override
+   */
+  getRollData() {
+    const data = super.getRollData();
+    // For NPCs, ensure rateBonus is available in roll data
+    if (this.type === "npc") {
+      data.rateBonus = this.system.rateBonus ?? Math.floor((this.system.rate || 0) / 10);
+    }
+    return data;
   }
 
   /**
