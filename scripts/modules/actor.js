@@ -11,9 +11,11 @@ export class Hack100Actor extends Actor {
   prepareBaseData() {
     super.prepareBaseData();
 
-    // Calculate derived values
-    if (this.type === "character" || this.type === "npc") {
+    // Calculate derived values based on actor type
+    if (this.type === "character") {
       this._prepareCharacterData();
+    } else if (this.type === "npc") {
+      this._prepareNPCData();
     }
   }
 
@@ -107,6 +109,55 @@ export class Hack100Actor extends Actor {
   }
 
   /**
+   * Prepare NPC-specific data
+   * NPCs have simpler stats - no derived calculations
+   */
+  _prepareNPCData() {
+    const systemData = this.system;
+
+    // Ensure health values are valid
+    if (typeof systemData.health.value !== "number") {
+      systemData.health.value = 10;
+    }
+    if (typeof systemData.health.max !== "number" || systemData.health.max < 1) {
+      systemData.health.max = 10;
+    }
+    // Clamp health to max
+    if (systemData.health.value > systemData.health.max) {
+      systemData.health.value = systemData.health.max;
+    }
+
+    // Ensure rate is valid (0-100)
+    if (typeof systemData.rate !== "number") {
+      systemData.rate = 50;
+    }
+    systemData.rate = Math.max(0, Math.min(100, systemData.rate));
+
+    // Ensure movement is valid
+    if (typeof systemData.movement !== "number") {
+      systemData.movement = 6;
+    }
+
+    // Ensure damageReduction is valid
+    if (typeof systemData.damageReduction !== "number") {
+      systemData.damageReduction = 0;
+    }
+
+    // Ensure currency exists
+    if (!systemData.currency) {
+      systemData.currency = { gold: 0, silver: 0, copper: 0 };
+    }
+
+    // Calculate health percentage for display
+    const healthMax = systemData.health.max || 1;
+    const healthValue = systemData.health.value || 0;
+    systemData.healthPercent = Math.max(
+      0,
+      Math.min(100, Math.round((healthValue / healthMax) * 100))
+    );
+  }
+
+  /**
    * Calculate maximum Specialism Points
    * sp.max = 3 + highestSpecialismBonus
    * where highestSpecialismBonus = floor(highestSpecialismValue / 10)
@@ -151,10 +202,18 @@ export class Hack100Actor extends Actor {
 
   /**
    * Calculate total armor protection from equipped armor
+   * For NPCs, also includes their damageReduction stat
    * @returns {number} Total armor protection value
    */
   getTotalArmor() {
     let totalProtection = 0;
+
+    // For NPCs, start with their damage reduction stat
+    if (this.type === "npc") {
+      totalProtection += this.system.damageReduction || 0;
+    }
+
+    // Add protection from equipped armor
     for (let item of this.items) {
       if (item.type === "armor" && item.system.equipped) {
         totalProtection += parseInt(item.system.protection) || 0;
@@ -175,6 +234,110 @@ export class Hack100Actor extends Actor {
       }
     }
     return totalPenalty;
+  }
+
+  /**
+   * Roll the NPC's rate (Taux)
+   * Uses the same roll mechanics as abilities
+   */
+  async rollRate() {
+    if (this.type !== "npc") return;
+
+    const target = this.system.rate || 50;
+    const label = game.i18n.localize("hack100.npc.rate");
+
+    // Show dialog for modifier input
+    const dialogData = {
+      title: `${game.i18n.localize("hack100.global.roll")} ${label}`,
+      target: target,
+      modifier: 0,
+      agilityPenalty: 0,
+      luckPoints: 0,
+      hasLuck: false,
+      colorScheme: "default",
+      isSpecialism: false,
+      spCurrent: 0,
+      spMax: 0,
+      spOptions: [],
+    };
+
+    const html = await renderTemplate(
+      "systems/hack100/templates/roll-dialog.hbs",
+      dialogData
+    );
+
+    const dialogClasses = ["dialog", "hack100-roll-dialog-wrapper", "theme-default"];
+
+    return new Promise((resolve) => {
+      const dialog = new Dialog({
+        title: dialogData.title,
+        content: html,
+        buttons: {
+          roll: {
+            label: game.i18n.localize("hack100.global.roll"),
+            callback: async (html) => {
+              const form = html[0].querySelector("form");
+              const difficultyModifier = parseInt(form.modifier.value) || 0;
+
+              // Import the rollTask function
+              const { rollTask } = await import("../hack100.js");
+              const result = await rollTask(target, label, difficultyModifier, false);
+
+              resolve(result);
+            },
+          },
+          cancel: {
+            label: game.i18n.localize("hack100.buttons.cancel"),
+            callback: () => resolve(null),
+          },
+        },
+        default: "roll",
+      }, {
+        classes: dialogClasses,
+      }).render(true);
+    });
+  }
+
+  /**
+   * Roll the NPC's damage formula
+   * Rolls the formula stored in system.damageFormula and posts to chat
+   */
+  async rollDamageFormula() {
+    if (this.type !== "npc") return;
+
+    const formula = this.system.damageFormula || "1d6";
+    const label = game.i18n.localize("hack100.npc.damageFormula");
+
+    // Validate the formula
+    if (!Roll.validate(formula)) {
+      ui.notifications.error(`Invalid dice formula: ${formula}`);
+      return;
+    }
+
+    // Create and evaluate the roll
+    const roll = new Roll(formula);
+    await roll.evaluate();
+
+    // Build chat message content
+    const chatContent = `
+      <div class="hack100-damage npc-damage">
+        <h3><i class="fas fa-burst"></i> ${this.name} - ${label}</h3>
+        <div class="damage-result">
+          <div class="damage-formula">${formula}</div>
+          <div class="damage-total">${roll.total}</div>
+        </div>
+        <div class="damage-breakdown">${roll.formula} = ${roll.result}</div>
+      </div>
+    `;
+
+    // Create chat message with dice roll
+    await roll.toMessage({
+      speaker: ChatMessage.getSpeaker({ actor: this }),
+      flavor: `${this.name} - ${label}`,
+      content: chatContent,
+    });
+
+    return roll;
   }
 
   /**

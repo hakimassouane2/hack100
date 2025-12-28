@@ -250,6 +250,15 @@
         "light": "Clair (Bleu épuré)"
       }
     },
+    "npc": {
+      "rate": "Taux",
+      "damageReduction": "Réduction de dégâts",
+      "damageFormula": "Dégâts",
+      "damageFormulaPlaceholder": "ex: 1d6+2, 2d4, 1d8-1",
+      "combatTechniques": "Techniques de combat",
+      "combatTechniquesPlaceholder": "Décrivez les techniques de combat, capacités spéciales...",
+      "namePlaceholder": "Nom du PNJ"
+    },
     "journal": {
       "title": "Journal du Personnage",
       "quickNotes": "Notes Rapides",

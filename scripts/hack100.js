@@ -114,22 +114,15 @@ export async function rollTask(target, label, modifier = 0, withAdvantage = fals
 
   if (withAdvantage) {
     // Roll 2d100 and take the better result (lower is better in d100 systems)
-    const roll1 = new Roll("1d100");
-    const roll2 = new Roll("1d100");
-    await roll1.evaluate();
-    await roll2.evaluate();
+    // Use a single roll with 2d100 so Dice So Nice shows both dice
+    roll = new Roll("2d100");
+    await roll.evaluate();
 
-    const result1 = roll1.total;
-    const result2 = roll2.total;
+    const result1 = roll.dice[0].results[0].result;
+    const result2 = roll.dice[0].results[1].result;
 
     // Take the lower roll (better for success)
-    if (result1 <= result2) {
-      roll = roll1;
-      result = result1;
-    } else {
-      roll = roll2;
-      result = result2;
-    }
+    result = Math.min(result1, result2);
 
     // Format: show both rolls with the kept one highlighted
     const roll1Class = result1 <= result2 ? "luck-kept" : "luck-discarded";

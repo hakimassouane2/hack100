@@ -21,7 +21,7 @@ export class Hack100ActorSheet extends ActorSheet {
 
   /** @override */
   get template() {
-    return `systems/hack100/templates/actor-character.hbs`;
+    return `systems/hack100/templates/actor-${this.actor.type}.hbs`;
   }
 
   /** @override */
@@ -362,6 +362,12 @@ export class Hack100ActorSheet extends ActorSheet {
 
     // Rollable abilities.
     html.find(".rollable").click(this._onRoll.bind(this));
+
+    // NPC Rate roll
+    html.find(".rate-roll").click(this._onRateRoll.bind(this));
+
+    // NPC Damage formula roll
+    html.find(".damage-formula-roll").click(this._onDamageFormulaRoll.bind(this));
 
     // Experience rolls
     html.find(".experience-roll").click(this._onExperienceRoll.bind(this));
@@ -928,11 +934,16 @@ export class Hack100ActorSheet extends ActorSheet {
 
     // Get list of other actors (characters) that can receive money
     const actors = game.actors.filter(
-      (a) => a.id !== this.actor.id && (a.type === "character" || a.type === "npc") && a.hasPlayerOwner
+      (a) =>
+        a.id !== this.actor.id &&
+        (a.type === "character" || a.type === "npc") &&
+        a.hasPlayerOwner
     );
 
     if (actors.length === 0) {
-      ui.notifications.warn(game.i18n.localize("hack100.currency.transferNoTarget"));
+      ui.notifications.warn(
+        game.i18n.localize("hack100.currency.transferNoTarget")
+      );
       return;
     }
 
@@ -949,13 +960,21 @@ export class Hack100ActorSheet extends ActorSheet {
         <div class="form-group">
           <label>${game.i18n.localize("hack100.currency.transferType")}</label>
           <select name="currencyType">
-            <option value="gold">${game.i18n.localize("hack100.currency.gold")}</option>
-            <option value="silver">${game.i18n.localize("hack100.currency.silver")}</option>
-            <option value="copper">${game.i18n.localize("hack100.currency.copper")}</option>
+            <option value="gold">${game.i18n.localize(
+              "hack100.currency.gold"
+            )}</option>
+            <option value="silver">${game.i18n.localize(
+              "hack100.currency.silver"
+            )}</option>
+            <option value="copper">${game.i18n.localize(
+              "hack100.currency.copper"
+            )}</option>
           </select>
         </div>
         <div class="form-group">
-          <label>${game.i18n.localize("hack100.currency.transferAmount")}</label>
+          <label>${game.i18n.localize(
+            "hack100.currency.transferAmount"
+          )}</label>
           <input type="number" name="amount" value="1" min="1"/>
         </div>
       </form>
@@ -973,7 +992,11 @@ export class Hack100ActorSheet extends ActorSheet {
             const targetActorId = form.targetActor.value;
             const currencyType = form.currencyType.value;
             const amount = parseInt(form.amount.value) || 0;
-            await this.actor.transferCurrency(targetActorId, currencyType, amount);
+            await this.actor.transferCurrency(
+              targetActorId,
+              currencyType,
+              amount
+            );
           },
         },
         cancel: {
@@ -998,5 +1021,25 @@ export class Hack100ActorSheet extends ActorSheet {
   async _onLongRest(event) {
     event.preventDefault();
     await this.actor.longRest();
+  }
+
+  /**
+   * Handle NPC rate roll
+   */
+  async _onRateRoll(event) {
+    event.preventDefault();
+    if (this.actor.type === "npc") {
+      return this.actor.rollRate();
+    }
+  }
+
+  /**
+   * Handle NPC damage formula roll
+   */
+  async _onDamageFormulaRoll(event) {
+    event.preventDefault();
+    if (this.actor.type === "npc") {
+      return this.actor.rollDamageFormula();
+    }
   }
 }

@@ -250,6 +250,15 @@
         "light": "Light (Clean Blue)"
       }
     },
+    "npc": {
+      "rate": "Rate",
+      "damageReduction": "Damage Reduction",
+      "damageFormula": "Damage",
+      "damageFormulaPlaceholder": "e.g. 1d6+2, 2d4, 1d8-1",
+      "combatTechniques": "Combat Techniques",
+      "combatTechniquesPlaceholder": "Describe combat techniques, special abilities...",
+      "namePlaceholder": "NPC Name"
+    },
     "journal": {
       "title": "Character Journal",
       "quickNotes": "Quick Notes",

@@ -94,11 +94,21 @@
       "colorScheme": "default"
     },
     "npc": {
-      "templates": ["base"],
-      "baseAbilityValue": 20,
-      "description": "",
-      "background": "",
-      "innateCharacteristics": ""
+      "templates": [],
+      "health": {
+        "value": 10,
+        "max": 10
+      },
+      "rate": 50,
+      "movement": 6,
+      "damageReduction": 0,
+      "damageFormula": "1d6",
+      "combatTechniques": "",
+      "currency": {
+        "gold": 0,
+        "silver": 0,
+        "copper": 0
+      }
     }
   },
   "Item": {
