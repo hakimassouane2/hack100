@@ -76,8 +76,7 @@
     "sp": {
       "title": "Points de Spécialité",
       "spend": "Dépenser PS",
-      "spent": "{amount} PS dépensé(s)",
-      "noSP": "Vous n'avez plus de Points de Spécialité !"
+      "spent": "{amount} PS dépensé(s)"
     },
     "rest": {
       "title": "Repos",

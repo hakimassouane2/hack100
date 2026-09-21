@@ -76,8 +76,7 @@
     "sp": {
       "title": "Specialism Points",
       "spend": "Spend SP",
-      "spent": "{amount} SP spent",
-      "noSP": "You have no Specialism Points available!"
+      "spent": "{amount} SP spent"
     },
     "rest": {
       "title": "Rest",
