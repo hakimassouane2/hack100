@@ -294,8 +294,9 @@ export class Hack100Actor extends Actor {
    * @param {string} kind - "base" or "special"
    * @param {object} options
    * @param {boolean} options.attack - Roll damage if the roll succeeds
+   * @param {boolean} options.skipDialog - Roll right away, without the modifier dialog
    */
-  async rollRate(kind = "base", { attack = false } = {}) {
+  async rollRate(kind = "base", { attack = false, skipDialog = false } = {}) {
     if (this.type !== "npc") return;
 
     const isSpecial = kind === "special";
@@ -304,6 +305,22 @@ export class Hack100Actor extends Actor {
       ? this.system.specialRateLabel || game.i18n.localize("hack100.npc.specialRate")
       : game.i18n.localize("hack100.npc.rate");
     if (attack) label = `${game.i18n.localize("hack100.npc.attack")} (${label})`;
+
+    const performRoll = async (difficultyModifier) => {
+      const { rollTask, rollDamage } = await import("../hack100.js");
+      const result = await rollTask(target, label, difficultyModifier, false);
+
+      if (attack && result.success) {
+        await rollDamage(
+          this.system.damageBonus,
+          result.result,
+          game.i18n.localize("hack100.npc.damageBonus")
+        );
+      }
+      return result;
+    };
+
+    if (skipDialog) return performRoll(0);
 
     // Show dialog for modifier input
     const dialogData = {
@@ -337,19 +354,7 @@ export class Hack100Actor extends Actor {
             callback: async (html) => {
               const form = html[0].querySelector("form");
               const difficultyModifier = parseInt(form.modifier.value) || 0;
-
-              const { rollTask, rollDamage } = await import("../hack100.js");
-              const result = await rollTask(target, label, difficultyModifier, false);
-
-              if (attack && result.success) {
-                await rollDamage(
-                  this.system.damageBonus,
-                  result.result,
-                  game.i18n.localize("hack100.npc.damageBonus")
-                );
-              }
-
-              resolve(result);
+              resolve(await performRoll(difficultyModifier));
             },
           },
           cancel: {
@@ -368,6 +373,10 @@ export class Hack100Actor extends Actor {
    * Roll an ability or specialism check
    * @param {string} abilityId - The ability/specialism to roll
    * @param {object} options - Roll options
+   * @param {number} options.modifier - Default difficulty modifier
+   * @param {boolean} options.skipDamage - Don't roll unarmed damage (weapon attacks roll their own)
+   * @param {boolean} options.skipDialog - Roll right away with the default modifier,
+   *   no luck and no SP spent, without the modifier dialog
    */
   async rollAbility(abilityId, options = {}) {
     const systemData = this.system;
@@ -407,6 +416,11 @@ export class Hack100Actor extends Actor {
     }
 
     const modifier = options.modifier || 0;
+
+    if (options.skipDialog) {
+      return this._performAbilityRoll(abilityId, target, label, { difficultyModifier: modifier }, options);
+    }
+
     const luckPoints = this.system.luck?.value || 0;
     // colorScheme is stored directly on system, not in settings
     const colorScheme = this.system.colorScheme || "default";
@@ -457,40 +471,13 @@ export class Hack100Actor extends Actor {
               const currentSP = this.system.sp?.value || 0;
               const spSpend = Math.min(Math.max(0, parseInt(form.spSpend?.value) || 0), currentSP);
 
-              // If using luck, consume a luck point
-              if (useLuck && this.system.luck?.value > 0) {
-                await this.update({ "system.luck.value": this.system.luck.value - 1 });
-                ui.notifications.info(game.i18n.localize("hack100.luck.used"));
-              }
-
-              // If spending SP, consume SP
-              if (spSpend > 0 && this.system.sp?.value >= spSpend) {
-                await this.update({ "system.sp.value": this.system.sp.value - spSpend });
-                ui.notifications.info(
-                  game.i18n.format("hack100.sp.spent", { amount: spSpend })
-                );
-              }
-
-              // Import the rollTask and rollDamage functions
-              const { rollTask, rollDamage } = await import("../hack100.js");
-              const result = await rollTask(target, label, difficultyModifier, useLuck);
-
-              // Award experience check if successful
-              if (result.success) {
-                this._awardExperienceCheck(abilityId);
-              }
-
-              // If this is a melee or ranged roll and it succeeded, roll damage
-              // BUT only if skipDamage option is not set (used by weapon attacks)
-              if (
-                result.success &&
-                (abilityId === "melee" || abilityId === "ranged") &&
-                !options.skipDamage
-              ) {
-                // Use a default weapon damage of 0 if no weapon is equipped
-                // The damage will be based on the tens digit of the attack roll
-                await rollDamage("0", result.result);
-              }
+              const result = await this._performAbilityRoll(
+                abilityId,
+                target,
+                label,
+                { difficultyModifier, useLuck, spSpend },
+                options
+              );
 
               resolve(result);
             },
@@ -520,6 +507,54 @@ export class Hack100Actor extends Actor {
         classes: dialogClasses,
       }).render(true);
     });
+  }
+
+  /**
+   * Perform an ability or specialism roll: spend luck/SP, roll, award the
+   * experience check and roll unarmed damage when relevant
+   * @param {string} abilityId - The ability/specialism rolled
+   * @param {number} target - Target percentage
+   * @param {string} label - Roll label
+   * @param {object} choices - { difficultyModifier, useLuck, spSpend }
+   * @param {object} options - Options given to rollAbility
+   */
+  async _performAbilityRoll(abilityId, target, label, { difficultyModifier = 0, useLuck = false, spSpend = 0 } = {}, options = {}) {
+    // If using luck, consume a luck point
+    if (useLuck && this.system.luck?.value > 0) {
+      await this.update({ "system.luck.value": this.system.luck.value - 1 });
+      ui.notifications.info(game.i18n.localize("hack100.luck.used"));
+    }
+
+    // If spending SP, consume SP
+    if (spSpend > 0 && this.system.sp?.value >= spSpend) {
+      await this.update({ "system.sp.value": this.system.sp.value - spSpend });
+      ui.notifications.info(
+        game.i18n.format("hack100.sp.spent", { amount: spSpend })
+      );
+    }
+
+    // Import the rollTask and rollDamage functions
+    const { rollTask, rollDamage } = await import("../hack100.js");
+    const result = await rollTask(target, label, difficultyModifier, useLuck);
+
+    // Award experience check if successful
+    if (result.success) {
+      this._awardExperienceCheck(abilityId);
+    }
+
+    // If this is a melee or ranged roll and it succeeded, roll damage
+    // BUT only if skipDamage option is not set (used by weapon attacks)
+    if (
+      result.success &&
+      (abilityId === "melee" || abilityId === "ranged") &&
+      !options.skipDamage
+    ) {
+      // Use a default weapon damage of 0 if no weapon is equipped
+      // The damage will be based on the tens digit of the attack roll
+      await rollDamage("0", result.result);
+    }
+
+    return result;
   }
 
   /**

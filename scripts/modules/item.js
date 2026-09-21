@@ -15,7 +15,7 @@ export class Hack100Item extends Item {
   /**
    * Handle clickable rolls
    */
-  async roll() {
+  async roll(options = {}) {
     const item = this;
     const actor = this.actor;
 
@@ -24,7 +24,7 @@ export class Hack100Item extends Item {
 
     switch (this.type) {
       case "weapon":
-        return this._rollWeaponAttack();
+        return this._rollWeaponAttack(options);
       case "specialism":
         return this._rollSpecialism();
       default:
@@ -34,8 +34,10 @@ export class Hack100Item extends Item {
 
   /**
    * Roll a weapon attack
+   * @param {object} options
+   * @param {boolean} options.skipDialog - Roll right away, without the modifier dialog
    */
-  async _rollWeaponAttack() {
+  async _rollWeaponAttack({ skipDialog = false } = {}) {
     const actor = this.actor;
     if (!actor) return;
 
@@ -47,6 +49,7 @@ export class Hack100Item extends Item {
     const attackResult = await actor.rollAbility(abilityId, {
       modifier: weaponData.attackBonus || 0,
       skipDamage: true, // Don't auto-roll damage for weapon attacks
+      skipDialog,
     });
 
     if (!attackResult || !attackResult.success) return;
