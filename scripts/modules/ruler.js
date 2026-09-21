@@ -1,6 +1,7 @@
 /**
- * Movement Speed Ruler Coloring for Hack100 system
- * Colors the token drag ruler based on token movement speed:
+ * Movement Speed Ruler for Hack100 system
+ * Measures the token drag ruler in squares, whatever the scene's grid units,
+ * and colors it based on token movement speed:
  * - Green: Within normal movement (up to actor's movement stat in squares)
  * - Yellow: Dash movement (between 1x and 2x movement)
  * - Red: Beyond dash range (more than 2x movement)
@@ -20,6 +21,36 @@ const SPEED_COLORS = {
  * Extends the base TokenRuler to color segments based on movement speed
  */
 export class Hack100TokenRuler extends foundry.canvas.placeables.tokens.TokenRuler {
+
+  /**
+   * Show distances in squares (1 grid space = 1 square) rather than scene units
+   * @override
+   */
+  _getWaypointLabelContext(waypoint, state) {
+    const context = super._getWaypointLabelContext(waypoint, state);
+    if (!context) return context;
+
+    const units = game.i18n.localize("hack100.character.squares");
+    const toSquares = (distance) => distance / (canvas.grid.distance || 1);
+    const format = (distance) => toSquares(distance).toNearest(0.01).toLocaleString(game.i18n.lang);
+
+    context.units = units;
+    context.distance.total = format(waypoint.measurement.distance);
+    if (waypoint.index >= 2) {
+      context.distance.delta = toSquares(waypoint.measurement.backward.distance).toNearest(0.01).signedString();
+    }
+
+    const cost = waypoint.measurement.cost;
+    context.cost.units = units;
+    context.cost.total = Number.isFinite(cost) ? format(cost) : "∞";
+    if (waypoint.index >= 2) {
+      const deltaCost = waypoint.cost;
+      context.cost.delta = Number.isFinite(deltaCost)
+        ? toSquares(deltaCost).toNearest(0.01).signedString()
+        : "∞";
+    }
+    return context;
+  }
 
   /**
    * Get the style for a ruler segment based on movement speed
@@ -55,8 +86,8 @@ export class Hack100TokenRuler extends foundry.canvas.placeables.tokens.TokenRul
     // Get movement speed in squares (default 8)
     const movementSquares = actor.system?.movement ?? 8;
 
-    // Convert to feet (1 square = 5 ft) to match Foundry's measurement
-    const movementFeet = movementSquares * 5;
+    // Convert to the scene's grid units to match Foundry's measurement
+    const movementDistance = movementSquares * (canvas.grid.distance || 1);
 
     // Get the cumulative distance/cost from the waypoint
     // In Foundry v13, waypoint.measurement.cost contains the movement cost
@@ -64,7 +95,7 @@ export class Hack100TokenRuler extends foundry.canvas.placeables.tokens.TokenRul
 
     // Calculate which speed tier we're in
     // Subtract a small amount to handle floating point issues at boundaries
-    const increment = (cost - 0.1) / movementFeet;
+    const increment = (cost - 0.1) / movementDistance;
 
     // Determine color based on movement increment
     let color;
