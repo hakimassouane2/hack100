@@ -25,11 +25,7 @@
       "tensDie": "Tens die",
       "weapon": "Weapon",
       "damage": "Damage",
-      "xp": "XP",
-      "applyDamage": "Apply Damage",
-      "damageApplied": "Damage Applied",
-      "applying": "Applying...",
-      "error": "Error"
+      "xp": "XP"
     },
     "abilities": {
       "strength": "Strength",
@@ -268,6 +264,22 @@
       "combatTechniques": "Combat Techniques",
       "combatTechniquesPlaceholder": "Describe combat techniques, special abilities...",
       "namePlaceholder": "NPC Name"
+    },
+    "damageCard": {
+      "targets": "Targets",
+      "noTarget": "No target. Target one or more tokens (T key), then click \"Use my targets\".",
+      "retarget": "Use my targets",
+      "retargetHint": "Replaces the targets not hit yet with your current targets",
+      "noUserTarget": "You have not targeted any token.",
+      "apply": "Apply",
+      "applyHint": "Applies the damage to this target (armor and temp HP included)",
+      "undo": "Undo",
+      "undoHint": "Gives this target back the HP this damage removed",
+      "undone": "Damage undone for {name}",
+      "dealt": "-{damage} HP",
+      "panHint": "Center the view on this token",
+      "notReady": "The system is not ready, try again.",
+      "noGM": "No GM connected to apply the damage."
     }
   }
 }

@@ -1800,43 +1800,118 @@
   margin-bottom: var(--hack100-spacing-md);
 }
 
-.hack100-damage .apply-damage {
-  display: block;
-  width: 100%;
-  height: 42px;
+/* Damage card targets */
+.hack100-damage .damage-card-targets {
   margin-top: var(--hack100-spacing-md);
-  font-size: 13px;
+  padding-top: var(--hack100-spacing-sm);
+  border-top: 1px solid var(--hack100-border);
+  text-align: left;
+}
+
+.hack100-damage .damage-card-targets h4 {
+  margin: 0 0 var(--hack100-spacing-xs);
+  font-size: 12px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: white;
-  background: var(--hack100-danger);
-  border: 2px solid #8b3a3a;
+  color: var(--hack100-primary);
+  border: none;
+}
+
+.hack100-damage .damage-card-targets ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--hack100-spacing-xs);
+}
+
+.hack100-damage .damage-card-target {
+  display: flex;
+  align-items: center;
+  gap: var(--hack100-spacing-sm);
+  padding: 2px 4px;
+  border-radius: var(--hack100-radius-md);
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.hack100-damage .damage-card-target img {
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+  border: none;
+  object-fit: contain;
+}
+
+.hack100-damage .damage-card-target .target-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.hack100-damage .damage-card-target .target-status.applied {
+  font-weight: 700;
+  color: var(--hack100-danger);
+  white-space: nowrap;
+}
+
+.hack100-damage .damage-card-target.is-applied .target-name {
+  opacity: 0.75;
+}
+
+.hack100-damage .damage-card-targets button {
+  width: auto;
+  height: 26px;
+  line-height: 22px;
+  margin: 0;
+  padding: 0 8px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
   border-radius: var(--hack100-radius-md);
   cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: var(--hack100-shadow-sm);
+  flex: 0 0 auto;
 }
 
-.hack100-damage .apply-damage:hover:not(:disabled) {
+.hack100-damage .damage-card-apply {
+  color: white;
+  background: var(--hack100-danger);
+  border: 1px solid #8b3a3a;
+}
+
+.hack100-damage .damage-card-apply:hover:not(:disabled) {
   background: #8b3a3a;
-  transform: translateY(-1px);
-  box-shadow: var(--hack100-shadow-md);
 }
 
-.hack100-damage .apply-damage:active:not(:disabled) {
-  transform: translateY(0);
-  box-shadow: var(--hack100-shadow-sm);
-}
-
-.hack100-damage .apply-damage:disabled {
+.hack100-damage .damage-card-undo {
+  color: var(--hack100-primary-dark);
   background: var(--hack100-bg-tertiary);
-  border-color: var(--hack100-border);
-  color: var(--hack100-text-muted);
-  cursor: not-allowed;
+  border: 1px solid var(--hack100-border);
+}
+
+.hack100-damage .damage-card-retarget {
+  display: block;
+  width: 100% !important;
+  margin-top: var(--hack100-spacing-sm) !important;
+  color: var(--hack100-primary-dark);
+  background: transparent;
+  border: 1px dashed var(--hack100-border);
+}
+
+.hack100-damage .damage-card-targets button:disabled {
   opacity: 0.6;
-  transform: none;
-  box-shadow: none;
+  cursor: wait;
+}
+
+.hack100-damage .damage-card-empty {
+  margin: 0;
+  font-size: 12px;
+  color: var(--hack100-text-muted);
 }
 
 .hack100-experience {

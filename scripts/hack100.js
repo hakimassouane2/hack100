@@ -9,6 +9,7 @@ import { Hack100Actor } from "./modules/actor.js";
 import { Hack100Item } from "./modules/item.js";
 import { Hack100Token } from "./modules/token.js";
 import { Hack100TokenRuler } from "./modules/ruler.js";
+import { damageCardFlags, registerDamageCardSockets, renderDamageCard } from "./modules/damage-card.js";
 
 /* -------------------------------------------- */
 /*  Foundry VTT Initialization                  */
@@ -227,21 +228,6 @@ export async function rollDamage(weaponDamage, attackRoll, modifierLabel) {
   const weaponDamageMod = parseInt(weaponDamage) || 0;
   const totalDamage = tensDigit + weaponDamageMod;
 
-  // Get targeted tokens
-  const targets = Array.from(game.user.targets);
-  const hasTargets = targets.length > 0;
-
-  // Build apply damage button if there are targets
-  let applyDamageButton = "";
-  if (hasTargets) {
-    const targetIds = targets.map((t) => t.id).join(",");
-    applyDamageButton = `
-      <button class="apply-damage" data-damage="${totalDamage}" data-targets="${targetIds}">
-        ${game.i18n.localize("hack100.global.applyDamage")}
-      </button>
-    `;
-  }
-
   const content = `
     <div class="hack100-damage">
       <h3>${game.i18n.localize("hack100.global.damageRoll")}</h3>
@@ -257,107 +243,17 @@ export async function rollDamage(weaponDamage, attackRoll, modifierLabel) {
     modifierLabel ?? game.i18n.localize("hack100.global.weapon")
   }: ${weaponDamageMod}
       </div>
-      ${applyDamageButton}
     </div>
   `;
 
+  // Targets, apply and undo are handled by the card itself (damage-card.js)
   await ChatMessage.create({
     content: content,
     speaker: ChatMessage.getSpeaker(),
+    flags: damageCardFlags(totalDamage),
   });
 
   return totalDamage;
-}
-
-/* -------------------------------------------- */
-/*  Socketlib Functions                         */
-/* -------------------------------------------- */
-
-/**
- * Apply damage to a target (executes on GM's client)
- * This function is registered with socketlib and will execute on the GM's client
- * to bypass permission issues
- *
- * @param {string} targetId - Token ID of the target
- * @param {number} damage - Amount of damage to apply
- * @param {string} attackerName - Name of the attacker
- * @returns {Object} Result object with success, oldHP, newHP, targetName, finalDamage, armor
- */
-async function applyDamage(targetId, damage, attackerName) {
-  try {
-    // Get the token
-    const token = canvas.tokens?.get(targetId);
-    if (!token) {
-      console.warn(`Hack100 | Token ${targetId} not found`);
-      return {
-        success: false,
-        error: "Target not found",
-      };
-    }
-
-    // Get the actor
-    const actor = token.actor || token.document?.actor;
-    if (!actor) {
-      console.warn(`Hack100 | Actor not found for token ${targetId}`);
-      return {
-        success: false,
-        error: "Actor not found",
-      };
-    }
-
-    // Get total armor protection
-    const armorProtection = actor.getTotalArmor ? actor.getTotalArmor() : 0;
-
-    // Calculate damage after armor reduction
-    const finalDamage = Math.max(0, damage - armorProtection);
-
-    // Get current HP and temp HP
-    const oldHP = actor.system.health.value;
-    const oldTempHP = actor.system.health.temp || 0;
-
-    // Apply damage to temp HP first, then regular HP
-    let remainingDamage = finalDamage;
-    let newTempHP = oldTempHP;
-    let newHP = oldHP;
-
-    if (oldTempHP > 0) {
-      if (remainingDamage <= oldTempHP) {
-        // Temp HP absorbs all damage
-        newTempHP = oldTempHP - remainingDamage;
-        remainingDamage = 0;
-      } else {
-        // Temp HP is depleted, remaining damage goes to regular HP
-        remainingDamage -= oldTempHP;
-        newTempHP = 0;
-      }
-    }
-
-    // Apply remaining damage to regular HP
-    newHP = Math.max(0, oldHP - remainingDamage);
-
-    // Update actor health
-    await actor.update({
-      "system.health.value": newHP,
-      "system.health.temp": newTempHP
-    });
-
-    return {
-      success: true,
-      oldHP: oldHP,
-      newHP: newHP,
-      oldTempHP: oldTempHP,
-      newTempHP: newTempHP,
-      targetName: actor.name,
-      finalDamage: finalDamage,
-      armor: armorProtection,
-    };
-  } catch (error) {
-    console.error(`Hack100 | Error in applyDamage:`, error);
-    return {
-      success: false,
-      error: error.message,
-    };
-  }
 }
 
 /* -------------------------------------------- */
@@ -419,6 +315,9 @@ Hooks.on("preUpdateActor", (actor, changes, options, userId) => {
   if (typeof maxHP === "number" && changes.system.health.value > maxHP) {
     changes.system.health.value = maxHP;
   }
+
+  // Damage cards already split the damage between temp HP and HP
+  if (options.hack100DamageHandled) return;
 
   const currentHP = actor.system.health.value;
   const currentTempHP = actor.system.health.temp || 0;
@@ -529,8 +428,8 @@ Hooks.once("socketlib.ready", () => {
   game.hack100 = game.hack100 || {};
   game.hack100.socket = socketlib.registerSystem("hack100");
 
-  // Register the applyDamage function to execute as GM
-  game.hack100.socket.register("applyDamage", applyDamage);
+  // Damage card actions run on the GM's client
+  registerDamageCardSockets(game.hack100.socket);
 
   console.log(`Hack100 | Socketlib registered successfully`);
 });
@@ -605,111 +504,8 @@ Hooks.on("hotbarDrop", (bar, data, slot) => {
 /* -------------------------------------------- */
 
 /**
- * Handle clicking apply damage buttons in chat messages
+ * Draw the targets of damage cards and wire their buttons
  */
-Hooks.on("renderChatMessage", (message, html, data) => {
-  html.find(".apply-damage").click(async (event) => {
-    event.preventDefault();
-    const button = event.currentTarget;
-
-    // Prevent multiple clicks
-    if (button.disabled) return;
-    button.disabled = true;
-    button.textContent =
-      game.i18n.localize("hack100.global.applying") || "Applying...";
-
-    const damage = parseInt(button.dataset.damage);
-    const targetIds = button.dataset.targets.split(",");
-
-    // Get attacker name from the chat message speaker
-    const attackerName = message.author?.name || "Unknown";
-
-    // Check if socketlib is ready
-    if (!game.hack100?.socket) {
-      console.error("Hack100 | Socketlib not ready");
-      ui.notifications.error("System not ready. Please try again.");
-      button.disabled = false;
-      button.textContent = game.i18n.localize("hack100.global.applyDamage");
-      return;
-    }
-
-    // Apply damage to each targeted token
-    for (const targetId of targetIds) {
-      try {
-        // Execute applyDamage on GM's client
-        const result = await game.hack100.socket.executeAsGM(
-          "applyDamage",
-          targetId,
-          damage,
-          attackerName
-        );
-
-        if (result.success) {
-          // Update button text
-          button.textContent = game.i18n.localize(
-            "hack100.global.damageApplied"
-          );
-
-          // Show notification - only show HP to GM
-          let chatContent = "";
-          if (game.user.isGM) {
-            // GM sees full details including remaining health
-            if (result.armor > 0) {
-              chatContent = game.i18n.format(
-                "hack100.notifications.damageAppliedWithArmor",
-                {
-                  damage: damage,
-                  armor: result.armor,
-                  finalDamage: result.finalDamage,
-                  name: result.targetName,
-                  health: result.newHP,
-                }
-              );
-            } else {
-              chatContent = game.i18n.format(
-                "hack100.notifications.damageApplied",
-                {
-                  damage: damage,
-                  name: result.targetName,
-                  health: result.newHP,
-                }
-              );
-            }
-          } else {
-            // Players see only the original damage amount (no armor info, no HP)
-            chatContent = game.i18n.format(
-              "hack100.notifications.damageAppliedPlayer",
-              {
-                damage: damage,
-                name: result.targetName,
-              }
-            );
-          }
-
-          ui.notifications.info(chatContent);
-        } else {
-          // Handle error
-          console.error(`Hack100 | Failed to apply damage:`, result.error);
-          ui.notifications.error(
-            `Failed to apply damage: ${result.error || "Unknown error"}`
-          );
-          button.disabled = false;
-          button.textContent =
-            game.i18n.localize("hack100.global.error") || "Error";
-          return;
-        }
-      } catch (error) {
-        console.error(`Hack100 | Error applying damage:`, error);
-        ui.notifications.error(
-          error.message.includes("no connected GMs")
-            ? "No GM is connected to apply damage"
-            : "Failed to apply damage. Check console for details."
-        );
-        button.disabled = false;
-        button.textContent =
-          game.i18n.localize("hack100.global.error") || "Error";
-        return;
-      }
-    }
-  });
+Hooks.on("renderChatMessageHTML", (message, html) => {
+  renderDamageCard(message, html);
 });

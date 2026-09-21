@@ -25,11 +25,7 @@
       "tensDie": "Dé de dizaines",
       "weapon": "Arme",
       "damage": "Dégâts",
-      "xp": "XP",
-      "applyDamage": "Appliquer les dégâts",
-      "damageApplied": "Dégâts appliqués",
-      "applying": "Application...",
-      "error": "Erreur"
+      "xp": "XP"
     },
     "abilities": {
       "strength": "Force",
@@ -268,6 +264,22 @@
       "combatTechniques": "Techniques de combat",
       "combatTechniquesPlaceholder": "Décrivez les techniques de combat, capacités spéciales...",
       "namePlaceholder": "Nom du PNJ"
+    },
+    "damageCard": {
+      "targets": "Cibles",
+      "noTarget": "Aucune cible. Ciblez un ou plusieurs jetons (touche T), puis cliquez sur « Utiliser mes cibles ».",
+      "retarget": "Utiliser mes cibles",
+      "retargetHint": "Remplace les cibles pas encore touchées par vos cibles actuelles",
+      "noUserTarget": "Vous n'avez ciblé aucun jeton.",
+      "apply": "Appliquer",
+      "applyHint": "Applique les dégâts à cette cible (armure et PV temporaires compris)",
+      "undo": "Annuler",
+      "undoHint": "Rend à cette cible les PV retirés par ces dégâts",
+      "undone": "Dégâts annulés pour {name}",
+      "dealt": "-{damage} PV",
+      "panHint": "Centrer la vue sur ce jeton",
+      "notReady": "Le système n'est pas prêt, réessayez.",
+      "noGM": "Aucun MJ connecté pour appliquer les dégâts."
     }
   }
 }
