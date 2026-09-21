@@ -27,7 +27,47 @@ export class Hack100Actor extends Actor {
         updates[`prototypeToken.${key}`] = value;
       }
     }
+
+    // NPC health defaults to its base rate bonus x 4
+    if (this.type === "npc" && !foundry.utils.hasProperty(data, "system.health.max")) {
+      const health = Hack100Actor.npcDefaultHealth(this._source.system.rate);
+      updates["system.health.value"] = health;
+      updates["system.health.max"] = health;
+    }
+
     this.updateSource(updates);
+  }
+
+  /** @override */
+  async _preUpdate(changes, options, user) {
+    if ((await super._preUpdate(changes, options, user)) === false) return false;
+
+    // NPC: when the base rate changes, follow with max HP unless it was customized
+    // (sheet submits send every field, so an unchanged value counts as "not edited")
+    const newRate = changes.system?.rate;
+    const oldRate = this._source.system.rate;
+    if (this.type === "npc" && typeof newRate === "number" && newRate !== oldRate) {
+      const { value, max } = this._source.system.health;
+      const maxEdited = (changes.system.health?.max ?? max) !== max;
+      const valueEdited = (changes.system.health?.value ?? value) !== value;
+      if (!maxEdited && max === Hack100Actor.npcDefaultHealth(oldRate)) {
+        const newMax = Hack100Actor.npcDefaultHealth(newRate);
+        foundry.utils.setProperty(changes, "system.health.max", newMax);
+        // Keep a healthy NPC at full health
+        if (!valueEdited && value === max) {
+          changes.system.health.value = newMax;
+        }
+      }
+    }
+  }
+
+  /**
+   * Default NPC health: base rate bonus (tens digit) x 4
+   * @param {number} rate - The NPC's base rate
+   * @returns {number}
+   */
+  static npcDefaultHealth(rate) {
+    return Math.max(1, Math.floor((rate || 0) / 10) * 4);
   }
 
   /** @override */

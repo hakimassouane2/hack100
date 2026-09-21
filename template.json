@@ -90,8 +90,8 @@
     "npc": {
       "templates": [],
       "health": {
-        "value": 10,
-        "max": 10
+        "value": 20,
+        "max": 20
       },
       "rate": 50,
       "specialRate": 50,
