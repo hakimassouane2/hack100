@@ -35,6 +35,11 @@ export class Hack100Actor extends Actor {
       updates["system.health.max"] = health;
     }
 
+    // NPC damage bonus defaults to its base rate bonus (tens digit)
+    if (this.type === "npc" && !foundry.utils.hasProperty(data, "system.damageBonus")) {
+      updates["system.damageBonus"] = Hack100Actor.rateBonus(this._source.system.rate);
+    }
+
     this.updateSource(updates);
   }
 
@@ -42,7 +47,8 @@ export class Hack100Actor extends Actor {
   async _preUpdate(changes, options, user) {
     if ((await super._preUpdate(changes, options, user)) === false) return false;
 
-    // NPC: changing the base rate recalculates max HP (max HP stays editable by hand)
+    // NPC: changing the base rate recalculates max HP and the damage bonus
+    // (both stay editable by hand)
     // (sheet submits send every field, so an unchanged value counts as "not edited")
     const newRate = changes.system?.rate;
     const oldRate = this._source.system.rate;
@@ -58,6 +64,12 @@ export class Hack100Actor extends Actor {
           changes.system.health.value = newMax;
         }
       }
+
+      // ...and the damage bonus (also editable by hand)
+      const damageBonus = this._source.system.damageBonus;
+      if ((changes.system.damageBonus ?? damageBonus) === damageBonus) {
+        changes.system.damageBonus = Hack100Actor.rateBonus(newRate);
+      }
     }
   }
 
@@ -67,7 +79,16 @@ export class Hack100Actor extends Actor {
    * @returns {number}
    */
   static npcDefaultHealth(rate) {
-    return Math.max(1, Math.floor((rate || 0) / 10) * 4);
+    return Math.max(1, Hack100Actor.rateBonus(rate) * 4);
+  }
+
+  /**
+   * Bonus of a rate: its tens digit (e.g. 20% -> 2)
+   * @param {number} rate
+   * @returns {number}
+   */
+  static rateBonus(rate) {
+    return Math.floor((rate || 0) / 10);
   }
 
   /** @override */

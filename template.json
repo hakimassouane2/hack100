@@ -98,7 +98,7 @@
       "specialRateLabel": "",
       "movement": 6,
       "damageReduction": 0,
-      "damageBonus": 0,
+      "damageBonus": 5,
       "combatTechniques": ""
     }
   },
