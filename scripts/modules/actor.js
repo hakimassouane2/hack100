@@ -415,13 +415,6 @@ export class Hack100Actor extends Actor {
       target = systemData.specialisms[abilityId].value;
       label = systemData.specialisms[abilityId].name || abilityId;
       isSpecialism = true;
-
-      // Block specialism rolls if no SP available
-      const spCurrent = this.system.sp?.value || 0;
-      if (spCurrent <= 0) {
-        ui.notifications.warn(game.i18n.localize("hack100.sp.noSP"));
-        return;
-      }
     } else {
       ui.notifications.warn(`Unknown ability: ${abilityId}`);
       return;
@@ -449,8 +442,8 @@ export class Hack100Actor extends Actor {
     // SP data for specialism rolls
     const spCurrent = this.system.sp?.value || 0;
     const spMax = this.system.sp?.max || 3;
-    // Generate options array [0, 1, ...spCurrent] (only if SP available)
-    const spOptions = spCurrent > 0 ? Array.from({ length: spCurrent + 1 }, (_, i) => i) : [];
+    // Generate options array [0, 1, ...spCurrent]
+    const spOptions = Array.from({ length: spCurrent + 1 }, (_, i) => i);
 
     const dialogData = {
       title: `${game.i18n.localize("hack100.global.roll")} ${label}`,
@@ -460,7 +453,7 @@ export class Hack100Actor extends Actor {
       luckPoints: luckPoints,
       hasLuck: luckPoints > 0,
       colorScheme: colorScheme,
-      isSpecialism: isSpecialism && spCurrent > 0,
+      isSpecialism: isSpecialism,
       spCurrent: spCurrent,
       spMax: spMax,
       spOptions: spOptions,
