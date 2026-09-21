@@ -19,6 +19,14 @@ export class Hack100ActorSheet extends ActorSheet {
     });
   }
 
+  constructor(object, options = {}) {
+    // NPC sheets are a single compact page
+    if (object?.type === "npc") {
+      options = foundry.utils.mergeObject({ width: 800, height: 620 }, options);
+    }
+    super(object, options);
+  }
+
   /** @override */
   get template() {
     return `systems/hack100/templates/actor-${this.actor.type}.hbs`;
@@ -114,11 +122,6 @@ export class Hack100ActorSheet extends ActorSheet {
     if (actorData.type == "character") {
       this._prepareItems(context);
       this._prepareCharacterData(context);
-    }
-
-    // Prepare NPC data and items.
-    if (actorData.type == "npc") {
-      this._prepareItems(context);
     }
 
     // Add roll data for TinyMCE editors.
@@ -347,11 +350,8 @@ export class Hack100ActorSheet extends ActorSheet {
     // Rollable abilities.
     html.find(".rollable").click(this._onRoll.bind(this));
 
-    // NPC Rate roll
+    // NPC Rate rolls (base/special, plain roll or attack)
     html.find(".rate-roll").click(this._onRateRoll.bind(this));
-
-    // NPC Damage formula roll
-    html.find(".damage-formula-roll").click(this._onDamageFormulaRoll.bind(this));
 
     // Experience rolls
     html.find(".experience-roll").click(this._onExperienceRoll.bind(this));
@@ -655,7 +655,7 @@ export class Hack100ActorSheet extends ActorSheet {
     const actors = game.actors.filter(
       (a) =>
         a.id !== this.actor.id &&
-        (a.type === "character" || a.type === "npc") &&
+        a.type === "character" &&
         a.hasPlayerOwner
     );
 
@@ -748,17 +748,8 @@ export class Hack100ActorSheet extends ActorSheet {
   async _onRateRoll(event) {
     event.preventDefault();
     if (this.actor.type === "npc") {
-      return this.actor.rollRate();
-    }
-  }
-
-  /**
-   * Handle NPC damage formula roll
-   */
-  async _onDamageFormulaRoll(event) {
-    event.preventDefault();
-    if (this.actor.type === "npc") {
-      return this.actor.rollDamageFormula();
+      const { rate, attack } = event.currentTarget.dataset;
+      return this.actor.rollRate(rate, { attack: attack === "true" });
     }
   }
 }

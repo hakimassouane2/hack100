@@ -94,15 +94,12 @@
         "max": 10
       },
       "rate": 50,
+      "specialRate": 50,
+      "specialRateLabel": "",
       "movement": 6,
       "damageReduction": 0,
-      "damageFormula": "1d6",
-      "combatTechniques": "",
-      "currency": {
-        "gold": 0,
-        "silver": 0,
-        "copper": 0
-      }
+      "damageBonus": 0,
+      "combatTechniques": ""
     }
   },
   "Item": {

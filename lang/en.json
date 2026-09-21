@@ -253,10 +253,14 @@
       }
     },
     "npc": {
-      "rate": "Rate",
+      "rate": "Base rate",
+      "specialRate": "Special rate",
+      "specialRatePlaceholder": "Specialty (e.g. attack, traps...)",
       "damageReduction": "Damage Reduction",
-      "damageFormula": "Damage",
-      "damageFormulaPlaceholder": "e.g. 1d6+2, 2d4, 1d8-1",
+      "damageBonus": "Damage bonus",
+      "damageBonusHint": "Added to the tens digit of the attack roll",
+      "attack": "Attack",
+      "attackHint": "Attack roll: on success, deals the tens digit of the roll + the damage bonus",
       "combatTechniques": "Combat Techniques",
       "combatTechniquesPlaceholder": "Describe combat techniques, special abilities...",
       "namePlaceholder": "NPC Name"

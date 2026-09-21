@@ -216,8 +216,9 @@ export async function rollTask(target, label, modifier = 0, withAdvantage = fals
  * Roll damage
  * @param {string} weaponDamage - Weapon damage modifier
  * @param {number} attackRoll - The attack roll (to get tens digit)
+ * @param {string} [modifierLabel] - Label of the damage modifier (defaults to "Weapon")
  */
-export async function rollDamage(weaponDamage, attackRoll) {
+export async function rollDamage(weaponDamage, attackRoll, modifierLabel) {
   const tensDigit = Math.floor(attackRoll / 10) % 10; // Get the tens place (e.g. 29 -> 2, 100 -> 0)
   const weaponDamageMod = parseInt(weaponDamage) || 0;
   const totalDamage = tensDigit + weaponDamageMod;
@@ -248,9 +249,9 @@ export async function rollDamage(weaponDamage, attackRoll) {
       <div class="damage-breakdown">
           ${game.i18n.localize(
             "hack100.global.tensDie"
-          )}: ${tensDigit} +${game.i18n.localize(
-    "hack100.global.weapon"
-  )}: ${weaponDamageMod}
+          )}: ${tensDigit} +${
+    modifierLabel ?? game.i18n.localize("hack100.global.weapon")
+  }: ${weaponDamageMod}
       </div>
       ${applyDamageButton}
     </div>
@@ -369,7 +370,7 @@ Hooks.once("ready", async function () {
  */
 const OBSOLETE_ACTOR_FIELDS = {
   character: ["journal"],
-  npc: ["journal"],
+  npc: ["journal", "damageFormula", "currency"],
 };
 
 /**

@@ -107,25 +107,25 @@ export class Hack100Actor extends Actor {
       systemData.health.value = systemData.health.max;
     }
 
-    // Ensure rate is valid (0-100)
-    if (typeof systemData.rate !== "number") {
-      systemData.rate = 50;
+    // Ensure rates are valid (0-100)
+    for (const key of ["rate", "specialRate"]) {
+      if (typeof systemData[key] !== "number") {
+        systemData[key] = 50;
+      }
+      systemData[key] = Math.max(0, Math.min(100, systemData[key]));
     }
-    systemData.rate = Math.max(0, Math.min(100, systemData.rate));
 
     // Ensure movement is valid
     if (typeof systemData.movement !== "number") {
       systemData.movement = 6;
     }
 
-    // Ensure damageReduction is valid
+    // Ensure damage values are valid
     if (typeof systemData.damageReduction !== "number") {
       systemData.damageReduction = 0;
     }
-
-    // Ensure currency exists
-    if (!systemData.currency) {
-      systemData.currency = { gold: 0, silver: 0, copper: 0 };
+    if (typeof systemData.damageBonus !== "number") {
+      systemData.damageBonus = 0;
     }
 
     // Calculate rate bonus (tens digit of rate) for initiative
@@ -220,14 +220,22 @@ export class Hack100Actor extends Actor {
   }
 
   /**
-   * Roll the NPC's rate (Taux)
-   * Uses the same roll mechanics as abilities
+   * Roll one of the NPC's rates (Taux)
+   * Uses the same roll mechanics as abilities. An attack rolls damage on success,
+   * like characters: tens digit of the roll + the NPC's damage bonus.
+   * @param {string} kind - "base" or "special"
+   * @param {object} options
+   * @param {boolean} options.attack - Roll damage if the roll succeeds
    */
-  async rollRate() {
+  async rollRate(kind = "base", { attack = false } = {}) {
     if (this.type !== "npc") return;
 
-    const target = this.system.rate || 50;
-    const label = game.i18n.localize("hack100.npc.rate");
+    const isSpecial = kind === "special";
+    const target = isSpecial ? this.system.specialRate : this.system.rate;
+    let label = isSpecial
+      ? this.system.specialRateLabel || game.i18n.localize("hack100.npc.specialRate")
+      : game.i18n.localize("hack100.npc.rate");
+    if (attack) label = `${game.i18n.localize("hack100.npc.attack")} (${label})`;
 
     // Show dialog for modifier input
     const dialogData = {
@@ -262,9 +270,16 @@ export class Hack100Actor extends Actor {
               const form = html[0].querySelector("form");
               const difficultyModifier = parseInt(form.modifier.value) || 0;
 
-              // Import the rollTask function
-              const { rollTask } = await import("../hack100.js");
+              const { rollTask, rollDamage } = await import("../hack100.js");
               const result = await rollTask(target, label, difficultyModifier, false);
+
+              if (attack && result.success) {
+                await rollDamage(
+                  this.system.damageBonus,
+                  result.result,
+                  game.i18n.localize("hack100.npc.damageBonus")
+                );
+              }
 
               resolve(result);
             },
@@ -279,48 +294,6 @@ export class Hack100Actor extends Actor {
         classes: dialogClasses,
       }).render(true);
     });
-  }
-
-  /**
-   * Roll the NPC's damage formula
-   * Rolls the formula stored in system.damageFormula and posts to chat
-   */
-  async rollDamageFormula() {
-    if (this.type !== "npc") return;
-
-    const formula = this.system.damageFormula || "1d6";
-    const label = game.i18n.localize("hack100.npc.damageFormula");
-
-    // Validate the formula
-    if (!Roll.validate(formula)) {
-      ui.notifications.error(`Invalid dice formula: ${formula}`);
-      return;
-    }
-
-    // Create and evaluate the roll
-    const roll = new Roll(formula);
-    await roll.evaluate();
-
-    // Build chat message content
-    const chatContent = `
-      <div class="hack100-damage npc-damage">
-        <h3><i class="fas fa-burst"></i> ${this.name} - ${label}</h3>
-        <div class="damage-result">
-          <div class="damage-formula">${formula}</div>
-          <div class="damage-total">${roll.total}</div>
-        </div>
-        <div class="damage-breakdown">${roll.formula} = ${roll.result}</div>
-      </div>
-    `;
-
-    // Create chat message with dice roll
-    await roll.toMessage({
-      speaker: ChatMessage.getSpeaker({ actor: this }),
-      flavor: `${this.name} - ${label}`,
-      content: chatContent,
-    });
-
-    return roll;
   }
 
   /**

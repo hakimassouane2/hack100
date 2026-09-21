@@ -253,10 +253,14 @@
       }
     },
     "npc": {
-      "rate": "Taux",
+      "rate": "Taux de base",
+      "specialRate": "Taux spécial",
+      "specialRatePlaceholder": "Spécialité (ex : attaque, pièges...)",
       "damageReduction": "Réduction de dégâts",
-      "damageFormula": "Dégâts",
-      "damageFormulaPlaceholder": "ex: 1d6+2, 2d4, 1d8-1",
+      "damageBonus": "Bonus de dégâts",
+      "damageBonusHint": "Ajouté au chiffre des dizaines du jet d'attaque",
+      "attack": "Attaque",
+      "attackHint": "Jet d'attaque : en cas de succès, inflige les dizaines du jet + le bonus de dégâts",
       "combatTechniques": "Techniques de combat",
       "combatTechniquesPlaceholder": "Décrivez les techniques de combat, capacités spéciales...",
       "namePlaceholder": "Nom du PNJ"
