@@ -197,10 +197,7 @@
       "xpReset": "Clear experience check without rolling"
     },
     "notifications": {
-      "experienceReset": "Experience check cleared for {ability}",
-      "damageApplied": "{damage} damage applied to {name} (Health: {health})",
-      "damageAppliedWithArmor": "{damage} damage - {armor} armor = {finalDamage} damage applied to {name} (Health: {health})",
-      "damageAppliedPlayer": "{damage} damage dealt to {name}"
+      "experienceReset": "Experience check cleared for {ability}"
     },
     "experience": {
       "rollTitle": "Experience Roll: {ability}",
@@ -275,7 +272,6 @@
       "applyHint": "Applies the damage to this target (armor and temp HP included)",
       "undo": "Undo",
       "undoHint": "Gives this target back the HP this damage removed",
-      "undone": "Damage undone for {name}",
       "dealt": "-{damage} HP",
       "panHint": "Center the view on this token",
       "notReady": "The system is not ready, try again.",

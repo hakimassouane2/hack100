@@ -197,10 +197,7 @@
       "xpReset": "Effacer la vérification d'expérience sans lancer"
     },
     "notifications": {
-      "experienceReset": "Vérification d'expérience effacée pour {ability}",
-      "damageApplied": "{damage} dégâts appliqués à {name} (Santé : {health})",
-      "damageAppliedWithArmor": "{damage} dégâts - {armor} armure = {finalDamage} dégâts appliqués à {name} (Santé : {health})",
-      "damageAppliedPlayer": "{damage} dégâts infligés à {name}"
+      "experienceReset": "Vérification d'expérience effacée pour {ability}"
     },
     "experience": {
       "rollTitle": "Jet d'expérience : {ability}",
@@ -275,7 +272,6 @@
       "applyHint": "Applique les dégâts à cette cible (armure et PV temporaires compris)",
       "undo": "Annuler",
       "undoHint": "Rend à cette cible les PV retirés par ces dégâts",
-      "undone": "Dégâts annulés pour {name}",
       "dealt": "-{damage} PV",
       "panHint": "Centrer la vue sur ce jeton",
       "notReady": "Le système n'est pas prêt, réessayez.",

@@ -58,7 +58,7 @@ function getCardTarget(messageId, index) {
 
 /**
  * Apply the card's damage to one of its targets
- * @returns {object} Result for the notifications
+ * @returns {{success: boolean}}
  */
 async function applyCardDamage(messageId, index) {
   const { message, card, targets, target, actor } = getCardTarget(messageId, index);
@@ -83,7 +83,7 @@ async function applyCardDamage(messageId, index) {
   targets[index].applied = { damage: finalDamage, armor, hpLost, tempLost };
   await message.setFlag(FLAG_SCOPE, FLAG_KEY, { ...card, targets });
 
-  return { success: true, name: actor.name, damage: card.amount, armor, finalDamage, newHP };
+  return { success: true };
 }
 
 /**
@@ -106,7 +106,7 @@ async function undoCardDamage(messageId, index) {
 
   targets[index].applied = null;
   await message.setFlag(FLAG_SCOPE, FLAG_KEY, { ...card, targets });
-  return { success: true, name: target.name };
+  return { success: true };
 }
 
 /**
@@ -153,35 +153,6 @@ async function executeAsGM(name, ...args) {
     ui.notifications.error(game.i18n.localize("hack100.damageCard.noGM"));
     return null;
   }
-}
-
-/**
- * Notify the result of an applied damage (HP left shown to the GM only)
- */
-function notifyApplied(result) {
-  if (!result?.success) return;
-  let text;
-  if (!game.user.isGM) {
-    text = game.i18n.format("hack100.notifications.damageAppliedPlayer", {
-      damage: result.damage,
-      name: result.name,
-    });
-  } else if (result.armor > 0) {
-    text = game.i18n.format("hack100.notifications.damageAppliedWithArmor", {
-      damage: result.damage,
-      armor: result.armor,
-      finalDamage: result.finalDamage,
-      name: result.name,
-      health: result.newHP,
-    });
-  } else {
-    text = game.i18n.format("hack100.notifications.damageApplied", {
-      damage: result.damage,
-      name: result.name,
-      health: result.newHP,
-    });
-  }
-  ui.notifications.info(text);
 }
 
 /**
@@ -258,16 +229,14 @@ export function renderDamageCard(message, html) {
       })
     );
 
-  onClick(".damage-card-apply", async (button) => {
-    notifyApplied(await executeAsGM("applyCardDamage", message.id, Number(button.dataset.index)));
-  });
+  // No notification: the card itself shows what was applied or undone
+  onClick(".damage-card-apply", (button) =>
+    executeAsGM("applyCardDamage", message.id, Number(button.dataset.index))
+  );
 
-  onClick(".damage-card-undo", async (button) => {
-    const result = await executeAsGM("undoCardDamage", message.id, Number(button.dataset.index));
-    if (result?.success) {
-      ui.notifications.info(game.i18n.format("hack100.damageCard.undone", { name: result.name }));
-    }
-  });
+  onClick(".damage-card-undo", (button) =>
+    executeAsGM("undoCardDamage", message.id, Number(button.dataset.index))
+  );
 
   onClick(".damage-card-retarget", async () => {
     const targets = Array.from(game.user.targets).map(toTarget);
