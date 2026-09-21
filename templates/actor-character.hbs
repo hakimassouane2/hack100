@@ -5,7 +5,7 @@
     <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}"/>
     <div class="header-fields">
       <h1 class="charname">
-        <input name="name" type="text" value="{{actor.name}}" placeholder="Enter name"/>
+        <input name="name" type="text" value="{{actor.name}}" placeholder="{{localize "hack100.character.namePlaceholder"}}"/>
       </h1>
       <div class="background-motivation">
         <label for="system.background">{{localize "hack100.character.background"}}</label>
@@ -139,7 +139,7 @@
         <div class="specialisms-list">
           {{#each system.specialisms as |specialism key|}}
           <div class="specialism-item">
-            <input type="text" name="system.specialisms.{{key}}.name" value="{{#if specialism.name}}{{specialism.name}}{{/if}}" placeholder="Specialism name"/>
+            <input type="text" name="system.specialisms.{{key}}.name" value="{{#if specialism.name}}{{specialism.name}}{{/if}}" placeholder="{{localize "hack100.character.specialismPlaceholder"}}"/>
             <input type="number" name="system.specialisms.{{key}}.value" value="{{specialism.value}}" min="0" max="100" step="1"/>
             <span>%</span>
             {{#if specialism.name}}

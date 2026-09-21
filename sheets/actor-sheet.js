@@ -571,7 +571,7 @@ export class Hack100ActorSheet extends ActorSheet {
     if (specialism.name) {
       const confirm = await Dialog.confirm({
         title: game.i18n.localize("hack100.buttons.delete"),
-        content: `<p>Delete specialism "${specialism.name}"?</p>`,
+        content: `<p>${game.i18n.format("hack100.character.confirmDeleteSpecialism", { name: specialism.name })}</p>`,
       });
       if (!confirm) return;
     }
