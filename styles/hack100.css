@@ -2754,19 +2754,21 @@
 
 .hack100 .luck-pips {
   display: flex;
-  gap: var(--hack100-spacing-sm);
+  gap: 2px;
   cursor: pointer;
-  padding: var(--hack100-spacing-sm);
+  padding: var(--hack100-spacing-xs) var(--hack100-spacing-sm);
+  border-radius: var(--hack100-radius-md);
+  transition: transform 0.2s ease;
+}
+
+.hack100 .luck-pips:hover {
+  transform: scale(1.1);
 }
 
 .hack100 .luck-pip {
   font-size: 24px;
   color: var(--hack100-border);
-  transition: all 0.2s ease;
-}
-
-.hack100 .luck-pip:hover {
-  transform: scale(1.15);
+  transition: color 0.2s ease;
 }
 
 .hack100 .luck-pip.filled {
