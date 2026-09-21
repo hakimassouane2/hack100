@@ -219,7 +219,8 @@ export async function rollTask(target, label, modifier = 0, withAdvantage = fals
  * @param {string} [modifierLabel] - Label of the damage modifier (defaults to "Weapon")
  */
 export async function rollDamage(weaponDamage, attackRoll, modifierLabel) {
-  const tensDigit = Math.floor(attackRoll / 10) % 10; // Get the tens place (e.g. 29 -> 2, 100 -> 0)
+  // Tens place of the roll, where a 0 counts as 10 (e.g. 29 -> 2, 07 -> 10)
+  const tensDigit = Math.floor(attackRoll / 10) % 10 || 10;
   const weaponDamageMod = parseInt(weaponDamage) || 0;
   const totalDamage = tensDigit + weaponDamageMod;
 
