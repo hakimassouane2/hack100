@@ -373,13 +373,20 @@ const OBSOLETE_ACTOR_FIELDS = {
 };
 
 /**
- * Remove obsolete fields from the stored data of world actors
+ * Migrate or remove obsolete fields from the stored data of world actors
  */
 async function removeObsoleteActorData() {
   const updates = [];
   for (const actor of game.actors) {
     const source = actor._source.system ?? {};
     const update = {};
+    // The single "background" text became two fields: keep its content in the first one
+    if (actor.type === "character" && source.background) {
+      if (!source.greatBecause && !source.societyProblem) {
+        update["system.greatBecause"] = source.background;
+      }
+      update["system.-=background"] = null;
+    }
     for (const key of OBSOLETE_ACTOR_FIELDS[actor.type] ?? []) {
       if (key in source) update[`system.-=${key}`] = null;
     }

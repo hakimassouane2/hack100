@@ -82,7 +82,8 @@
     },
     "character": {
       "templates": ["base"],
-      "background": "",
+      "greatBecause": "",
+      "societyProblem": "",
       "biography": "",
       "colorScheme": "default"
     },

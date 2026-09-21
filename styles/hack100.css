@@ -358,7 +358,7 @@
 
 .hack100 .background-motivation textarea {
   flex: 1;
-  min-height: 60px;
+  min-height: 40px;
   padding: var(--hack100-spacing-sm);
   font-family: inherit;
   font-size: 13px;

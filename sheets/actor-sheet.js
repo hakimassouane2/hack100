@@ -250,7 +250,8 @@ export class Hack100ActorSheet extends ActorSheet {
       (fieldName.includes("abilities") ||
         fieldName.includes("specialisms") ||
         fieldName === "name" ||
-        fieldName.includes("background"))
+        fieldName === "system.greatBecause" ||
+        fieldName === "system.societyProblem")
     ) {
       event.preventDefault();
       const formData = this._getSubmitData();

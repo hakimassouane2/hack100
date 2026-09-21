@@ -48,8 +48,8 @@
       "equipment": "Inventaire"
     },
     "character": {
-      "background": "Historique & Motivation",
-      "backgroundPlaceholder": "Je suis géniale car ... / Mais la société à un problème avec moi car ...",
+      "greatBecause": "Je suis génial car",
+      "societyProblem": "Mais la société a un problème avec moi car",
       "abilities": "Compétences",
       "specialisms": "Spécialités",
       "newSpecialism": "Nouvelle spécialité",
