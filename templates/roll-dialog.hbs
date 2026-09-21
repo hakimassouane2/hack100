@@ -28,7 +28,7 @@
     </label>
     <select name="spSpend">
       {{#each spOptions}}
-      <option value="{{this}}">{{this}}</option>
+      <option value="{{this}}" {{#if (eq this 1)}}selected{{/if}}>{{this}}</option>
       {{/each}}
     </select>
   </div>

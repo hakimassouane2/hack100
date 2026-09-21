@@ -449,8 +449,8 @@ export class Hack100Actor extends Actor {
     // SP data for specialism rolls
     const spCurrent = this.system.sp?.value || 0;
     const spMax = this.system.sp?.max || 3;
-    // Generate options array [1, 2, ...spCurrent] (only if SP available)
-    const spOptions = spCurrent > 0 ? Array.from({ length: spCurrent }, (_, i) => i + 1) : [];
+    // Generate options array [0, 1, ...spCurrent] (only if SP available)
+    const spOptions = spCurrent > 0 ? Array.from({ length: spCurrent + 1 }, (_, i) => i) : [];
 
     const dialogData = {
       title: `${game.i18n.localize("hack100.global.roll")} ${label}`,
