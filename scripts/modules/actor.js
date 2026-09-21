@@ -42,7 +42,7 @@ export class Hack100Actor extends Actor {
   async _preUpdate(changes, options, user) {
     if ((await super._preUpdate(changes, options, user)) === false) return false;
 
-    // NPC: when the base rate changes, follow with max HP unless it was customized
+    // NPC: changing the base rate recalculates max HP (max HP stays editable by hand)
     // (sheet submits send every field, so an unchanged value counts as "not edited")
     const newRate = changes.system?.rate;
     const oldRate = this._source.system.rate;
@@ -50,7 +50,7 @@ export class Hack100Actor extends Actor {
       const { value, max } = this._source.system.health;
       const maxEdited = (changes.system.health?.max ?? max) !== max;
       const valueEdited = (changes.system.health?.value ?? value) !== value;
-      if (!maxEdited && max === Hack100Actor.npcDefaultHealth(oldRate)) {
+      if (!maxEdited) {
         const newMax = Hack100Actor.npcDefaultHealth(newRate);
         foundry.utils.setProperty(changes, "system.health.max", newMax);
         // Keep a healthy NPC at full health
