@@ -3,6 +3,34 @@
  */
 export class Hack100Actor extends Actor {
   /** @override */
+  async _preCreate(data, options, user) {
+    if ((await super._preCreate(data, options, user)) === false) return false;
+
+    // Default prototype token settings per actor type (unless already provided)
+    const { FRIENDLY, NEUTRAL } = CONST.TOKEN_DISPOSITIONS;
+    const defaults =
+      this.type === "character"
+        ? {
+            actorLink: true,
+            disposition: FRIENDLY,
+            "bar1.attribute": "health",
+            "bar2.attribute": "sp",
+          }
+        : {
+            disposition: NEUTRAL,
+            "bar1.attribute": "health",
+          };
+
+    const updates = {};
+    for (const [key, value] of Object.entries(defaults)) {
+      if (!foundry.utils.hasProperty(data, `prototypeToken.${key}`)) {
+        updates[`prototypeToken.${key}`] = value;
+      }
+    }
+    this.updateSource(updates);
+  }
+
+  /** @override */
   prepareData() {
     super.prepareData();
   }
