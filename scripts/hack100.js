@@ -373,7 +373,13 @@ Hooks.once("ready", async function () {
  */
 Hooks.on("preUpdateActor", (actor, changes, options, userId) => {
   // Only process if health value is being changed
-  if (!changes.system?.health?.value) return;
+  if (typeof changes.system?.health?.value !== "number") return;
+
+  // Never let current HP exceed max HP (e.g. holding the up arrow in the input)
+  const maxHP = changes.system.health.max ?? actor.system.health.max;
+  if (typeof maxHP === "number" && changes.system.health.value > maxHP) {
+    changes.system.health.value = maxHP;
+  }
 
   const currentHP = actor.system.health.value;
   const currentTempHP = actor.system.health.temp || 0;
