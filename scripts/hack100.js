@@ -43,6 +43,9 @@ Hooks.once("init", async function () {
     return data;
   };
 
+  // Friendly tokens in green rather than Foundry's default turquoise
+  CONFIG.Canvas.dispositionColors.FRIENDLY = 0x3fbf3f;
+
   // Configure Combat initiative - default formula (overridden per-actor in Combatant)
   CONFIG.Combat.initiative = {
     formula: "1d10",
