@@ -966,8 +966,12 @@ export class Hack100Actor extends Actor {
       return;
     }
 
-    // Roll 1d10 for HP recovery
-    const hpRoll = new Roll("1d10");
+    // Roll 1d5 + the best of the Toughness and Willpower bonuses for HP recovery
+    const hpBonus = Math.max(
+      this.system.abilities?.toughness?.bonus || 0,
+      this.system.abilities?.willpower?.bonus || 0
+    );
+    const hpRoll = new Roll(`1d5 + ${hpBonus}`);
     await hpRoll.evaluate();
     const hpRecoveryRoll = hpRoll.total;
 
@@ -1000,7 +1004,7 @@ export class Hack100Actor extends Actor {
         <h3><i class="fas fa-campground"></i> ${game.i18n.localize("hack100.rest.shortRestTitle")}</h3>
         <p>${game.i18n.format("hack100.rest.shortRestMessage", { name: this.name })}</p>
         <p class="rest-result">
-          ${game.i18n.format("hack100.rest.hpRecoveredRoll", { roll: hpRecoveryRoll, amount: hpRecovered, current: newHP, max: maxHP })}<br>
+          ${game.i18n.format("hack100.rest.hpRecoveredRoll", { bonus: hpBonus, roll: hpRecoveryRoll, amount: hpRecovered, current: newHP, max: maxHP })}<br>
           ${game.i18n.format("hack100.rest.spRecoveredRoll", { roll: spRecoveryRoll, amount: spRecovered, current: newSP, max: maxSP })}
         </p>
       </div>
@@ -1008,7 +1012,7 @@ export class Hack100Actor extends Actor {
 
     // Show HP roll
     await hpRoll.toMessage({
-      flavor: `<strong>${game.i18n.localize("hack100.rest.hpRoll")}</strong>`,
+      flavor: `<strong>${game.i18n.format("hack100.rest.hpRoll", { bonus: hpBonus })}</strong>`,
       speaker: ChatMessage.getSpeaker({ actor: this })
     });
 
