@@ -549,12 +549,9 @@ export class Hack100Actor extends Actor {
 
     // Import the rollTask and rollDamage functions
     const { rollTask, rollDamage } = await import("../hack100.js");
-    const result = await rollTask(target, label, difficultyModifier, useLuck);
-
-    // Award experience check if successful
-    if (result.success) {
-      this._awardExperienceCheck(abilityId);
-    }
+    // On a failure, the GM may grant an experience check from the chat message
+    const xp = this.type === "character" ? { actor: this, abilityId } : undefined;
+    const result = await rollTask(target, label, difficultyModifier, useLuck, { xp });
 
     // If this is a melee or ranged roll and it succeeded, roll damage
     // BUT only if skipDamage option is not set (used by weapon attacks)
@@ -569,25 +566,6 @@ export class Hack100Actor extends Actor {
     }
 
     return result;
-  }
-
-  /**
-   * Award an experience check
-   * @param {string} abilityId - The ability/specialism that gets the check
-   */
-  _awardExperienceCheck(abilityId) {
-    const systemData = this.system;
-    let updateData = {};
-
-    if (systemData.abilities[abilityId]) {
-      updateData[`system.abilities.${abilityId}.experienceCheck`] = true;
-    } else if (systemData.specialisms[abilityId]) {
-      updateData[`system.specialisms.${abilityId}.experienceCheck`] = true;
-    }
-
-    if (Object.keys(updateData).length > 0) {
-      this.update(updateData);
-    }
   }
 
   /**
@@ -776,11 +754,11 @@ export class Hack100Actor extends Actor {
       return;
     }
 
-    // No test any more: the experience check always improves the value by 1d5
+    // No test: the experience check always improves the value by 1d5, up to 100%
     const roll = new Roll("1d5");
     await roll.evaluate();
 
-    const newValue = currentValue + roll.total;
+    const newValue = Math.min(100, currentValue + roll.total);
     const path = systemData.abilities[abilityId] ? "abilities" : "specialisms";
     await this.update({
       [`system.${path}.${abilityId}.value`]: newValue,

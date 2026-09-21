@@ -10,6 +10,7 @@ import { Hack100Item } from "./modules/item.js";
 import { Hack100Token } from "./modules/token.js";
 import { Hack100TokenRuler } from "./modules/ruler.js";
 import { damageCardFlags, registerDamageCardSockets, renderDamageCard } from "./modules/damage-card.js";
+import { renderXpCard, xpCardFlags } from "./modules/xp-card.js";
 
 /* -------------------------------------------- */
 /*  Foundry VTT Initialization                  */
@@ -125,8 +126,11 @@ Hooks.once("init", async function () {
  * @param {string} label - Label for the roll
  * @param {number} modifier - Difficulty modifier
  * @param {boolean} withAdvantage - Whether to roll with advantage (luck)
+ * @param {object} [options]
+ * @param {{actor: Actor, abilityId: string}} [options.xp] - On a failure, let the GM
+ *   grant this character an experience check from the message
  */
-export async function rollTask(target, label, modifier = 0, withAdvantage = false) {
+export async function rollTask(target, label, modifier = 0, withAdvantage = false, { xp } = {}) {
   const modifiedTarget = target + modifier;
 
   let roll, result, advantageInfo = "";
@@ -198,9 +202,10 @@ export async function rollTask(target, label, modifier = 0, withAdvantage = fals
     {
       flavor: flavor,
       speaker: ChatMessage.getSpeaker(),
-      flags: {
-        "core.canPopout": false,
-      },
+      flags: foundry.utils.mergeObject(
+        { "core.canPopout": false },
+        xp && !success ? xpCardFlags(xp.actor, xp.abilityId) : {}
+      ),
     },
     {
       rollMode: game.settings.get("core", "rollMode"),
@@ -504,8 +509,10 @@ Hooks.on("hotbarDrop", (bar, data, slot) => {
 /* -------------------------------------------- */
 
 /**
- * Draw the targets of damage cards and wire their buttons
+ * Draw the targets of damage cards, the GM's experience button on failed
+ * rolls, and wire their buttons
  */
 Hooks.on("renderChatMessageHTML", (message, html) => {
   renderDamageCard(message, html);
+  renderXpCard(message, html);
 });

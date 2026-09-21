@@ -192,7 +192,7 @@
     },
     "tooltips": {
       "xpAvailable": "Experience check available - Click to improve this ability by 1d5",
-      "xpNotAvailable": "No experience check available - Succeed on a roll to earn an experience check",
+      "xpNotAvailable": "No experience check available - The GM grants it after a meaningful failure",
       "xpReset": "Clear experience check without rolling"
     },
     "notifications": {
@@ -272,6 +272,12 @@
       "panHint": "Center the view on this token",
       "notReady": "The system is not ready, try again.",
       "noGM": "No GM connected to apply the damage."
+    },
+    "xpGrant": {
+      "grant": "Grant an XP check",
+      "grantHint": "Unlocks the experience roll of this ability for this character (GM only)",
+      "granted": "XP check granted",
+      "revokeHint": "Click to take the XP check back"
     }
   }
 }

@@ -1800,6 +1800,38 @@
   margin-bottom: var(--hack100-spacing-md);
 }
 
+/* GM-only button on failed rolls: grant an experience check */
+.hack100-roll .xp-grant {
+  display: block;
+  width: 100%;
+  height: 28px;
+  line-height: 24px;
+  margin: var(--hack100-spacing-sm) 0 0;
+  padding: 0 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+  background: #8b5cf6;
+  border: 1px solid #6d28d9;
+  border-radius: var(--hack100-radius-md);
+  cursor: pointer;
+}
+
+.hack100-roll .xp-grant:hover:not(:disabled) {
+  background: #7c3aed;
+}
+
+.hack100-roll .xp-grant.is-granted {
+  color: #6d28d9;
+  background: transparent;
+  border-style: dashed;
+}
+
+.hack100-roll .xp-grant:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
 /* Damage card targets */
 .hack100-damage .damage-card-targets {
   margin-top: var(--hack100-spacing-md);

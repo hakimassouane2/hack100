@@ -192,7 +192,7 @@
     },
     "tooltips": {
       "xpAvailable": "Vérification d'expérience disponible - Clique pour améliorer cette compétence de 1d5",
-      "xpNotAvailable": "Aucune vérification d'expérience disponible - Réussis un jet pour obtenir une vérification d'expérience",
+      "xpNotAvailable": "Aucune vérification d'expérience disponible - Le MJ l'octroie après un échec important",
       "xpReset": "Effacer la vérification d'expérience sans lancer"
     },
     "notifications": {
@@ -272,6 +272,12 @@
       "panHint": "Centrer la vue sur ce jeton",
       "notReady": "Le système n'est pas prêt, réessayez.",
       "noGM": "Aucun MJ connecté pour appliquer les dégâts."
+    },
+    "xpGrant": {
+      "grant": "Octroyer une coche d'XP",
+      "grantHint": "Débloque le jet d'expérience de cette compétence pour ce personnage (visible par le MJ seulement)",
+      "granted": "Coche d'XP octroyée",
+      "revokeHint": "Cliquer pour retirer la coche d'XP"
     }
   }
 }

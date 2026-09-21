@@ -29,7 +29,7 @@ Defines the schema for all Actors and Items in the system:
 - **Hack100Actor** ([scripts/modules/actor.js](scripts/modules/actor.js)): Extends Foundry's Actor class
   - `prepareData()` and `prepareBaseData()`: Calculate derived values (ability bonuses, health max, movement)
   - `rollAbility()`: Handles d100 rolls for abilities and specialisms, shows dialog for difficulty modifiers
-  - Experience system: `_awardExperienceCheck()` marks successful rolls, `rollExperience()` handles improvement rolls
+  - Experience system: `rollExperience()` handles improvement rolls
 
 - **Hack100Item** ([scripts/modules/item.js](scripts/modules/item.js)): Extends Foundry's Item class
   - `roll()`: Delegates to weapon attack or specialism rolls
@@ -57,15 +57,16 @@ Entry point registered in system.json as an ES module:
 - Roll d100, compare to target percentage (typically 20-100%)
 - 1-10: Critical Success
 - 91-100: Critical Failure
-- Success awards an experience check mark
+- Failure lets the GM grant an experience check from the chat message
 
 **Damage System**:
 - Damage = tens digit of attack roll + weapon damage modifier (a tens digit of 0 counts as 10)
 - Example: Roll 67 on attack → 6 + weapon damage
 
 **Experience System**:
-- Successful ability/specialism rolls award experience checks
-- Experience roll: the value always improves by 1d5 (no d100 test)
+- A failed character ability/specialism roll shows a GM-only "grant an XP check"
+  button on its chat message (scripts/modules/xp-card.js); nothing is automatic
+- Experience roll: the value always improves by 1d5, capped at 100% (no d100 test)
 - The experience check is consumed by the roll
 
 **Derived Statistics**:
