@@ -201,7 +201,6 @@
       "xpReset": "Effacer la vérification d'expérience sans lancer"
     },
     "notifications": {
-      "experienceAwarded": "Vérification d'expérience accordée pour {ability} !",
       "experienceReset": "Vérification d'expérience effacée pour {ability}",
       "damageApplied": "{damage} dégâts appliqués à {name} (Santé : {health})",
       "damageAppliedWithArmor": "{damage} dégâts - {armor} armure = {finalDamage} dégâts appliqués à {name} (Santé : {health})",

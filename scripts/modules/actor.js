@@ -573,11 +573,6 @@ export class Hack100Actor extends Actor {
 
     if (Object.keys(updateData).length > 0) {
       this.update(updateData);
-      ui.notifications.info(
-        game.i18n.format("hack100.notifications.experienceAwarded", {
-          ability: abilityId,
-        })
-      );
     }
   }
 
