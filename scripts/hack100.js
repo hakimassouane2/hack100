@@ -444,6 +444,43 @@ Hooks.on("preUpdateActor", (actor, changes, options, userId) => {
 });
 
 /* -------------------------------------------- */
+/*  Actor Rename Hooks                          */
+/* -------------------------------------------- */
+
+/**
+ * When an actor is renamed from its sheet, keep its token names in sync
+ * (prototype token, linked tokens on scenes, and the token of a synthetic actor)
+ */
+Hooks.on("preUpdateActor", (actor, changes, options) => {
+  if (typeof changes.name !== "string" || changes.name === actor.name) return;
+  options.hack100RenamedFrom = actor.name;
+  if (!actor.isToken && actor.prototypeToken?.name === actor.name) {
+    foundry.utils.setProperty(changes, "prototypeToken.name", changes.name);
+  }
+});
+
+Hooks.on("updateActor", async (actor, changes, options, userId) => {
+  const oldName = options.hack100RenamedFrom;
+  if (!oldName || userId !== game.user.id) return;
+
+  // Unlinked token: rename the token itself
+  if (actor.isToken) {
+    if (actor.token.name === oldName) await actor.token.update({ name: actor.name });
+    return;
+  }
+
+  // Linked tokens placed on scenes
+  for (const scene of game.scenes) {
+    const updates = scene.tokens
+      .filter((t) => t.actorLink && t.actorId === actor.id && t.name === oldName)
+      .map((t) => ({ _id: t.id, name: actor.name }));
+    if (updates.length && scene.canUserModify(game.user, "update")) {
+      await scene.updateEmbeddedDocuments("Token", updates);
+    }
+  }
+});
+
+/* -------------------------------------------- */
 /*  Token HUD Hook for Temp HP Display          */
 /* -------------------------------------------- */
 
