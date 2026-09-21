@@ -33,6 +33,43 @@ export class Hack100Item extends Item {
   }
 
   /**
+   * Use an item: post it to chat, and spend one if it is a consumable
+   * @returns {Promise<ChatMessage|void>}
+   */
+  async use() {
+    const actor = this.actor;
+    const consumable = this.type === "item" && this.system.consumable;
+    const quantity = this.system.quantity ?? 0;
+
+    if (consumable && quantity <= 0) {
+      ui.notifications.warn(game.i18n.format("hack100.items.noneLeft", { item: this.name }));
+      return;
+    }
+    if (consumable) await this.update({ "system.quantity": quantity - 1 });
+
+    const title = actor
+      ? game.i18n.format("hack100.items.used", { actor: actor.name, item: this.name })
+      : this.name;
+    const remaining = consumable
+      ? `<p class="item-remaining">${game.i18n.format("hack100.items.remaining", { quantity: quantity - 1 })}</p>`
+      : "";
+    const description = this.system.description
+      ? `<div class="item-description">${this.system.description}</div>`
+      : "";
+
+    return ChatMessage.create({
+      speaker: ChatMessage.getSpeaker({ actor }),
+      content: `
+        <div class="hack100-item-use">
+          <h3><img src="${this.img}" width="24" height="24"/> ${title}</h3>
+          ${description}
+          ${remaining}
+        </div>
+      `,
+    });
+  }
+
+  /**
    * Roll a weapon attack
    * @param {object} options
    * @param {boolean} options.skipDialog - Roll right away, without the modifier dialog

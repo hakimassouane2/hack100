@@ -140,6 +140,10 @@
       "convertSuccess": "Monnaie convertie"
     },
     "items": {
+      "consumable": "Consommable",
+      "used": "{actor} utilise {item}",
+      "remaining": "Restant : {quantity}",
+      "noneLeft": "Plus aucun exemplaire de {item}.",
       "weapon": "Armes",
       "armor": "Armures",
       "item": "Objet",
@@ -211,6 +215,7 @@
       "noImprovement": "Pas d'amélioration - {roll} contre {value}%"
     },
     "hints": {
+      "itemConsumable": "Un consommable perd 1 en quantité à chaque utilisation (depuis le HUD par exemple).",
       "weaponDamage": "Bonus de dégâts ajouté",
       "weaponAttackBonus": "Bonus aux jets d'attaque",
       "weaponRange": "Portée maximale effective de l'arme",

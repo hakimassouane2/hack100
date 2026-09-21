@@ -140,6 +140,10 @@
       "convertSuccess": "Currency converted"
     },
     "items": {
+      "consumable": "Consumable",
+      "used": "{actor} uses {item}",
+      "remaining": "Remaining: {quantity}",
+      "noneLeft": "No {item} left.",
       "weapon": "Weapon",
       "armor": "Armor",
       "item": "Item",
@@ -211,6 +215,7 @@
       "noImprovement": "No improvement - rolled {roll} vs {value}%"
     },
     "hints": {
+      "itemConsumable": "A consumable loses 1 quantity each time it is used (from the HUD, for instance).",
       "weaponDamage": "Damage bonus added to attack roll",
       "weaponAttackBonus": "Bonus to attack rolls",
       "weaponRange": "Maximum effective range of the weapon",

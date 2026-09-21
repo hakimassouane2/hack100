@@ -115,7 +115,8 @@
       }
     },
     "item": {
-      "templates": ["base"]
+      "templates": ["base"],
+      "consumable": false
     },
     "weapon": {
       "templates": ["base"],

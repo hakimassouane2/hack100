@@ -107,6 +107,19 @@
         <p class="hint">{{localize "hack100.hints.itemEquipped"}}</p>
       </div>
 
+      {{!-- Consumable Checkbox --}}
+      <div class="form-group checkbox-group">
+        <label class="checkbox-label">
+          <input
+            type="checkbox"
+            name="system.consumable"
+            {{checked system.consumable}}
+          />
+          <span class="checkbox-text">{{localize "hack100.items.consumable"}}</span>
+        </label>
+        <p class="hint">{{localize "hack100.hints.itemConsumable"}}</p>
+      </div>
+
     </div>
   </section>
 </form>
