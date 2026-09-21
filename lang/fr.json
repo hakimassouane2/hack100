@@ -45,8 +45,7 @@
     },
     "tabs": {
       "main": "Informations",
-      "equipment": "Inventaire",
-      "settings": "Paramètres"
+      "equipment": "Inventaire"
     },
     "character": {
       "background": "Historique & Motivation",
@@ -243,6 +242,7 @@
       "price": "0"
     },
     "settings": {
+      "title": "Paramètres",
       "appearance": "Apparence",
       "colorScheme": "Palette de couleurs",
       "colorSchemeHint": "Choisissez une palette de couleurs pour cette fiche de personnage. Ce paramètre est enregistré par personnage.",

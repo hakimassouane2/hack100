@@ -111,7 +111,6 @@
 .hack100.color-scheme-dark .ability-block,
 .hack100.color-scheme-dark .health-section,
 .hack100.color-scheme-dark .movement-section,
-.hack100.color-scheme-dark .settings-section,
 .hack100.color-scheme-dark .specialism-item,
 .hack100.color-scheme-dark .items-list .item,
 .hack100.color-scheme-dark .item-description-section,
@@ -428,19 +427,8 @@
 
 /* ===== SECTION CONTAINERS ===== */
 .hack100 .abilities-section,
-.hack100 .specialisms-section,
-.hack100 .settings-section {
+.hack100 .specialisms-section {
   margin-bottom: var(--hack100-spacing-xl);
-}
-
-/* Settings Section Specific */
-.hack100 .settings-section {
-  background: white;
-  border: 2px solid var(--hack100-border);
-  border-left: 4px solid var(--hack100-accent);
-  border-radius: var(--hack100-radius-md);
-  padding: var(--hack100-spacing-lg);
-  box-shadow: var(--hack100-shadow-sm);
 }
 
 /* Row 1: Health and SP (2 columns) */

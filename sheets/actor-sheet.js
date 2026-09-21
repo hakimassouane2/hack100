@@ -25,6 +25,65 @@ export class Hack100ActorSheet extends ActorSheet {
   }
 
   /** @override */
+  _getHeaderButtons() {
+    const buttons = super._getHeaderButtons();
+    if (this.actor.type === "character" && this.isEditable) {
+      buttons.unshift({
+        label: game.i18n.localize("hack100.settings.title"),
+        class: "hack100-settings",
+        icon: "fas fa-cog",
+        onclick: () => this._onOpenSettings(),
+      });
+    }
+    return buttons;
+  }
+
+  /**
+   * Open the sheet settings dialog (color scheme)
+   */
+  async _onOpenSettings() {
+    const current = this.actor.system.colorScheme || "default";
+    const options = ["default", "dark", "light"]
+      .map(
+        (scheme) =>
+          `<option value="${scheme}" ${scheme === current ? "selected" : ""}>${game.i18n.localize(
+            `hack100.settings.colorSchemes.${scheme}`
+          )}</option>`
+      )
+      .join("");
+
+    const content = `
+      <form>
+        <div class="form-group">
+          <label>${game.i18n.localize("hack100.settings.colorScheme")}</label>
+          <select name="colorScheme">${options}</select>
+        </div>
+        <p class="hint">${game.i18n.localize("hack100.settings.colorSchemeHint")}</p>
+      </form>
+    `;
+
+    new Dialog({
+      title: `${game.i18n.localize("hack100.settings.title")} : ${this.actor.name}`,
+      content: content,
+      buttons: {
+        save: {
+          icon: '<i class="fas fa-check"></i>',
+          label: game.i18n.localize("hack100.buttons.confirm"),
+          callback: async (html) => {
+            const colorScheme = html[0].querySelector("select[name='colorScheme']").value;
+            await this.actor.update({ "system.colorScheme": colorScheme });
+            this._applyColorScheme();
+          },
+        },
+        cancel: {
+          label: game.i18n.localize("hack100.buttons.cancel"),
+        },
+      },
+      default: "save",
+    }).render(true);
+  }
+
+  /** @override */
   getData() {
     const context = super.getData();
 
@@ -253,12 +312,6 @@ export class Hack100ActorSheet extends ActorSheet {
     // -------------------------------------------------------------
     // Everything below here is only needed if the sheet is editable
     if (!this.isEditable) return;
-
-    // Color scheme change handler
-    html.find('select[name="system.colorScheme"]').change(async (ev) => {
-      await this.actor.update({ "system.colorScheme": ev.target.value });
-      this._applyColorScheme();
-    });
 
     // Add Inventory Item
     html.find(".item-create").click(this._onItemCreate.bind(this));
