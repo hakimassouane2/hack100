@@ -35,30 +35,6 @@ export class Hack100ActorSheet extends ActorSheet {
     context.system = actorData.system;
     context.flags = actorData.flags;
 
-    // Fix journal arrays that may have been converted to objects by Foundry
-    if (context.system.journal) {
-      const journal = context.system.journal;
-
-      // Convert object-based arrays back to proper arrays
-      ["clues", "npcs", "rumors", "freeEntries"].forEach((arrayKey) => {
-        if (journal[arrayKey] && !Array.isArray(journal[arrayKey])) {
-          // Convert object to array, preserving order by numeric keys
-          const obj = journal[arrayKey];
-          const arr = [];
-          Object.keys(obj)
-            .sort((a, b) => parseInt(a) - parseInt(b))
-            .forEach((key) => {
-              arr.push(obj[key]);
-            });
-          journal[arrayKey] = arr;
-        }
-        // Ensure array exists
-        if (!journal[arrayKey]) {
-          journal[arrayKey] = [];
-        }
-      });
-    }
-
     // Calculate health percentage for gradient display
     const healthMax = actorData.system.health.max || 1;
     const healthValue = actorData.system.health.value || 0;
@@ -101,9 +77,6 @@ export class Hack100ActorSheet extends ActorSheet {
 
     // Restore collapsed sections
     this._restoreCollapsedSections();
-
-    // Restore collapsed journal entries and subsections
-    this._restoreJournalCollapsedStates();
   }
 
   /**
@@ -126,9 +99,7 @@ export class Hack100ActorSheet extends ActorSheet {
               `.section-toggle[data-section="${sectionName}"]`
             );
             if (toggle) {
-              const section = toggle.closest(
-                ".items-section, .journal-section"
-              );
+              const section = toggle.closest(".items-section");
               if (section) {
                 section.classList.add("collapsed");
               }
@@ -138,42 +109,6 @@ export class Hack100ActorSheet extends ActorSheet {
       );
     } catch (e) {
       console.error("Error restoring collapsed sections:", e);
-    }
-  }
-
-  /**
-   * Restore collapsed journal entry states from localStorage
-   */
-  _restoreJournalCollapsedStates() {
-    const element = this.element[0];
-
-    // Restore entry collapsed states
-    const entryKey = `hack100-journal-collapsed-${this.actor.id}`;
-    const entryStored = localStorage.getItem(entryKey);
-
-    if (entryStored) {
-      try {
-        const collapsedEntries = JSON.parse(entryStored);
-        Object.entries(collapsedEntries).forEach(([key, isCollapsed]) => {
-          if (isCollapsed) {
-            const [type, index] = key.split("-");
-            const entryClass =
-              type === "clue"
-                ? "clue-entry"
-                : type === "npc"
-                ? "npc-entry"
-                : type === "rumor"
-                ? "rumor-entry"
-                : "free-entry";
-            const entries = element.querySelectorAll(
-              `.${entryClass}[data-index="${index}"]`
-            );
-            entries.forEach((entry) => entry.classList.add("collapsed"));
-          }
-        });
-      } catch (e) {
-        console.error("Error restoring collapsed entries:", e);
-      }
     }
   }
 
@@ -256,14 +191,9 @@ export class Hack100ActorSheet extends ActorSheet {
       (fieldName.includes("abilities") ||
         fieldName.includes("specialisms") ||
         fieldName === "name" ||
-        fieldName.includes("background") ||
-        fieldName.includes("journal"))
+        fieldName.includes("background"))
     ) {
       event.preventDefault();
-      // Journal fields are handled by _onJournalFieldChange
-      if (fieldName.includes("journal")) {
-        return;
-      }
       const formData = this._getSubmitData();
       await this.actor.update(formData);
       return;
@@ -380,26 +310,6 @@ export class Hack100ActorSheet extends ActorSheet {
     addButton.click(this._onSpecialismAdd.bind(this));
     html.find(".specialism-delete").click(this._onSpecialismDelete.bind(this));
 
-    // Journal management
-    html.find(".journal-add").click(this._onJournalAdd.bind(this));
-    html.find(".journal-delete").click(this._onJournalDelete.bind(this));
-    html.find(".entry-toggle").click(this._onEntryToggle.bind(this));
-
-    // Journal autosave on input change
-    html
-      .find(".journal-quick-textarea")
-      .on("blur", this._onJournalFieldChange.bind(this));
-    html
-      .find(
-        ".journal-entry input, .journal-entry textarea, .journal-entry select"
-      )
-      .on("change", this._onJournalFieldChange.bind(this));
-
-    // Update entry toggle icon color when status/relationship/credibility changes
-    html
-      .find(".entry-status, .entry-relationship, .entry-credibility")
-      .on("change", this._onStatusChange.bind(this));
-
     // Currency convert and transfer
     html.find(".currency-convert").click(this._onCurrencyConvert.bind(this));
     html.find(".currency-transfer").click(this._onCurrencyTransfer.bind(this));
@@ -435,7 +345,6 @@ export class Hack100ActorSheet extends ActorSheet {
     // Get the type of item to create.
     const type = header.dataset.type;
 
-    // Skip if this is a journal add button (it has different handling)
     if (!type) {
       return;
     }
@@ -607,250 +516,6 @@ export class Hack100ActorSheet extends ActorSheet {
 
     // Set data transfer
     event.dataTransfer.setData("text/plain", JSON.stringify(dragData));
-  }
-
-  /**
-   * Handle adding a new journal entry
-   */
-  async _onJournalAdd(event) {
-    event.preventDefault();
-    const button = event.currentTarget;
-    const journalType = button.dataset.journalType;
-
-    const journal = foundry.utils.duplicate(this.actor.system.journal) || {
-      quickNotes: "",
-      clues: [],
-      npcs: [],
-      rumors: [],
-      freeEntries: [],
-    };
-    let newEntry;
-    let arrayKey;
-
-    // Get current date in a nice format
-    const now = new Date();
-    const dateStr = now.toLocaleDateString();
-
-    switch (journalType) {
-      case "clue":
-        arrayKey = "clues";
-        newEntry = {
-          title: game.i18n.localize("hack100.journal.newClue"),
-          description: "",
-          status: "unsolved",
-        };
-        break;
-      case "npc":
-        arrayKey = "npcs";
-        newEntry = {
-          name: game.i18n.localize("hack100.journal.newNpc"),
-          relationship: "unknown",
-          notes: "",
-        };
-        break;
-      case "rumor":
-        arrayKey = "rumors";
-        newEntry = {
-          text: "",
-          source: "",
-          credibility: "unknown",
-        };
-        break;
-      case "freeEntry":
-        arrayKey = "freeEntries";
-        newEntry = {
-          title: game.i18n.localize("hack100.journal.newEntry"),
-          body: "",
-          date: dateStr,
-        };
-        break;
-      default:
-        console.warn("Unknown journal type:", journalType);
-        return;
-    }
-
-    // Ensure the array exists before pushing
-    if (!Array.isArray(journal[arrayKey])) {
-      journal[arrayKey] = [];
-    }
-
-    journal[arrayKey].push(newEntry);
-
-    await this.actor.update({ "system.journal": journal });
-
-    // Focus on the new entry's first input field after render
-    setTimeout(() => {
-      const entries = this.element.find(`.${journalType}-entry`);
-      const lastEntry = entries.last();
-      const firstInput = lastEntry.find("input, textarea").first();
-      if (firstInput.length) {
-        firstInput.focus().select();
-      }
-    }, 100);
-  }
-
-  /**
-   * Handle deleting a journal entry
-   */
-  async _onJournalDelete(event) {
-    event.preventDefault();
-    const button = event.currentTarget;
-    const journalType = button.dataset.journalType;
-    const index = parseInt(button.dataset.index);
-
-    const journal = foundry.utils.duplicate(this.actor.system.journal);
-    let arrayKey;
-
-    switch (journalType) {
-      case "clue":
-        arrayKey = "clues";
-        break;
-      case "npc":
-        arrayKey = "npcs";
-        break;
-      case "rumor":
-        arrayKey = "rumors";
-        break;
-      case "freeEntry":
-        arrayKey = "freeEntries";
-        break;
-      default:
-        console.warn("Unknown journal type:", journalType);
-        return;
-    }
-
-    // Confirm deletion if there's content
-    const entry = journal[arrayKey][index];
-    const hasContent =
-      entry &&
-      Object.values(entry).some((val) => val && val.trim?.().length > 0);
-
-    if (hasContent) {
-      const confirm = await Dialog.confirm({
-        title: game.i18n.localize("hack100.buttons.delete"),
-        content: `<p>${game.i18n.localize(
-          "hack100.journal.confirmDelete"
-        )}</p>`,
-      });
-      if (!confirm) return;
-    }
-
-    journal[arrayKey].splice(index, 1);
-
-    await this.actor.update({ "system.journal": journal });
-  }
-
-  /**
-   * Handle toggling journal entry collapse state
-   */
-  _onEntryToggle(event) {
-    event.preventDefault();
-    event.stopPropagation();
-    const icon = $(event.currentTarget);
-    const entry = icon.closest(".journal-entry");
-
-    entry.toggleClass("collapsed");
-
-    // Save state to localStorage
-    const storageKey = `hack100-journal-collapsed-${this.actor.id}`;
-    const stored = localStorage.getItem(storageKey);
-    let collapsedEntries = {};
-
-    if (stored) {
-      try {
-        collapsedEntries = JSON.parse(stored);
-      } catch (e) {
-        collapsedEntries = {};
-      }
-    }
-
-    const entryType = entry.hasClass("clue-entry")
-      ? "clue"
-      : entry.hasClass("npc-entry")
-      ? "npc"
-      : entry.hasClass("rumor-entry")
-      ? "rumor"
-      : "free";
-    const index = entry.data("index");
-    const key = `${entryType}-${index}`;
-
-    collapsedEntries[key] = entry.hasClass("collapsed");
-    localStorage.setItem(storageKey, JSON.stringify(collapsedEntries));
-  }
-
-  /**
-   * Handle journal field changes for autosave
-   */
-  async _onJournalFieldChange(event) {
-    event.preventDefault();
-    const field = event.currentTarget;
-    const fieldName = field.name;
-
-    if (!fieldName || !fieldName.startsWith("system.journal")) {
-      return;
-    }
-
-    // Parse the field name to extract journal type, index, and property
-    // Format: system.journal.clues.0.title or system.journal.quickNotes
-    const parts = fieldName.split(".");
-
-    if (parts.length === 3 && parts[2] === "quickNotes") {
-      // Simple case: quickNotes
-      await this.actor.update({ [fieldName]: field.value }, { render: false });
-      return;
-    }
-
-    if (parts.length < 5) {
-      return; // Invalid path
-    }
-
-    const arrayType = parts[2]; // clues, npcs, rumors, freeEntries
-    const index = parseInt(parts[3]);
-    const property = parts[4];
-
-    // Get current journal data
-    const journal = foundry.utils.duplicate(this.actor.system.journal);
-
-    // Ensure the array exists
-    if (!Array.isArray(journal[arrayType])) {
-      journal[arrayType] = [];
-    }
-
-    // Ensure the entry exists at this index
-    if (!journal[arrayType][index]) {
-      return;
-    }
-
-    // Update the specific property
-    journal[arrayType][index][property] = field.value;
-
-    // Update the entire journal object
-    const updateData = { "system.journal": journal };
-    await this.actor.update(updateData, { render: false });
-  }
-
-  /**
-   * Handle status/relationship/credibility changes to update toggle icon color
-   */
-  _onStatusChange(event) {
-    const select = event.currentTarget;
-    const value = select.value;
-    const entry = select.closest(".journal-entry");
-    const toggle = entry.querySelector(".entry-toggle");
-
-    if (!toggle) return;
-
-    // Determine which attribute to update based on select class
-    if (select.classList.contains("entry-status")) {
-      toggle.setAttribute("data-status", value);
-      entry.setAttribute("data-status", value);
-    } else if (select.classList.contains("entry-relationship")) {
-      toggle.setAttribute("data-relationship", value);
-      entry.setAttribute("data-relationship", value);
-    } else if (select.classList.contains("entry-credibility")) {
-      toggle.setAttribute("data-credibility", value);
-      entry.setAttribute("data-credibility", value);
-    }
   }
 
   /**

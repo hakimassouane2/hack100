@@ -361,7 +361,34 @@ async function applyDamage(targetId, damage, attackerName) {
 
 Hooks.once("ready", async function () {
   console.log(`Hack100 | System Ready`);
+  if (game.user.isGM) await removeObsoleteActorData();
 });
+
+/**
+ * Obsolete system fields, per actor type, removed from stored actor data
+ */
+const OBSOLETE_ACTOR_FIELDS = {
+  character: ["journal"],
+  npc: ["journal"],
+};
+
+/**
+ * Remove obsolete fields from the stored data of world actors
+ */
+async function removeObsoleteActorData() {
+  const updates = [];
+  for (const actor of game.actors) {
+    const source = actor._source.system ?? {};
+    const update = {};
+    for (const key of OBSOLETE_ACTOR_FIELDS[actor.type] ?? []) {
+      if (key in source) update[`system.-=${key}`] = null;
+    }
+    if (Object.keys(update).length) updates.push({ _id: actor.id, ...update });
+  }
+  if (!updates.length) return;
+  await Actor.updateDocuments(updates);
+  console.log(`Hack100 | Removed obsolete data from ${updates.length} actor(s)`);
+}
 
 /* -------------------------------------------- */
 /*  Pre-Update Actor Hook for Temp HP           */

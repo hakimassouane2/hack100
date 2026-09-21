@@ -77,14 +77,7 @@
           "silver": 0,
           "copper": 0
         },
-        "notes": "",
-        "journal": {
-          "quickNotes": "",
-          "clues": [],
-          "npcs": [],
-          "rumors": [],
-          "freeEntries": []
-        }
+        "notes": ""
       }
     },
     "character": {
