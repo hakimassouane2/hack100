@@ -215,12 +215,12 @@ export async function rollTask(target, label, modifier = 0, withAdvantage = fals
 /**
  * Roll damage
  * @param {string} weaponDamage - Weapon damage modifier
- * @param {number} attackRoll - The attack roll (to get units digit)
+ * @param {number} attackRoll - The attack roll (to get tens digit)
  */
 export async function rollDamage(weaponDamage, attackRoll) {
-  const unitsDigit = attackRoll % 10; // Get the ones place (units digit)
+  const tensDigit = Math.floor(attackRoll / 10) % 10; // Get the tens place (e.g. 29 -> 2, 100 -> 0)
   const weaponDamageMod = parseInt(weaponDamage) || 0;
-  const totalDamage = unitsDigit + weaponDamageMod;
+  const totalDamage = tensDigit + weaponDamageMod;
 
   // Get targeted tokens
   const targets = Array.from(game.user.targets);
@@ -248,7 +248,7 @@ export async function rollDamage(weaponDamage, attackRoll) {
       <div class="damage-breakdown">
           ${game.i18n.localize(
             "hack100.global.tensDie"
-          )}: ${unitsDigit} + ${game.i18n.localize(
+          )}: ${tensDigit} +${game.i18n.localize(
     "hack100.global.weapon"
   )}: ${weaponDamageMod}
       </div>
