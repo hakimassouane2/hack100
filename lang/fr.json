@@ -191,7 +191,7 @@
       "fromArmor": "des armures équipées"
     },
     "tooltips": {
-      "xpAvailable": "Vérification d'expérience disponible - Fait un jet pour améliorer cette compétence",
+      "xpAvailable": "Vérification d'expérience disponible - Clique pour améliorer cette compétence de 1d5",
       "xpNotAvailable": "Aucune vérification d'expérience disponible - Réussis un jet pour obtenir une vérification d'expérience",
       "xpReset": "Effacer la vérification d'expérience sans lancer"
     },
@@ -200,10 +200,7 @@
     },
     "experience": {
       "rollTitle": "Jet d'expérience : {ability}",
-      "rollingVs": "Jet contre {value}%...",
-      "improvementTitle": "Jet d'amélioration",
-      "improvementSuccess": "Succès ! {ability} amélioré de {oldValue}% à {newValue}%",
-      "noImprovement": "Pas d'amélioration - {roll} contre {value}%"
+      "improvementSuccess": "{ability} passe de {oldValue}% à {newValue}%"
     },
     "hints": {
       "itemConsumable": "Un consommable perd 1 en quantité à chaque utilisation (depuis le HUD par exemple).",

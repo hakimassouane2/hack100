@@ -776,69 +776,28 @@ export class Hack100Actor extends Actor {
       return;
     }
 
-    const roll = new Roll("1d100");
+    // No test any more: the experience check always improves the value by 1d5
+    const roll = new Roll("1d5");
     await roll.evaluate();
 
-    // Build localized strings
+    const newValue = currentValue + roll.total;
+    const path = systemData.abilities[abilityId] ? "abilities" : "specialisms";
+    await this.update({
+      [`system.${path}.${abilityId}.value`]: newValue,
+      [`system.${path}.${abilityId}.experienceCheck`]: false,
+    });
+
     const rollTitle = game.i18n.format("hack100.experience.rollTitle", { ability: label });
-    const rollingVs = game.i18n.format("hack100.experience.rollingVs", { value: currentValue });
+    const improvement = game.i18n.format("hack100.experience.improvementSuccess", {
+      ability: label,
+      oldValue: currentValue,
+      newValue: newValue,
+    });
 
-    if (roll.total > currentValue) {
-      // Improvement roll
-      const improvementRoll = new Roll("1d5");
-      await improvementRoll.evaluate();
-
-      const newValue = currentValue + improvementRoll.total;
-      let updateData = {};
-
-      if (systemData.abilities[abilityId]) {
-        updateData[`system.abilities.${abilityId}.value`] = newValue;
-        updateData[`system.abilities.${abilityId}.experienceCheck`] = false;
-      } else if (systemData.specialisms[abilityId]) {
-        updateData[`system.specialisms.${abilityId}.value`] = newValue;
-        updateData[`system.specialisms.${abilityId}.experienceCheck`] = false;
-      }
-
-      await this.update(updateData);
-
-      const improvementTitle = game.i18n.localize("hack100.experience.improvementTitle");
-      const improvementSuccess = game.i18n.format("hack100.experience.improvementSuccess", {
-        ability: label,
-        oldValue: currentValue,
-        newValue: newValue
-      });
-
-      // Show both dice rolls
-      await roll.toMessage({
-        flavor: `<h3>${rollTitle}</h3><p>${rollingVs}</p>`,
-        speaker: ChatMessage.getSpeaker({ actor: this }),
-      });
-
-      await improvementRoll.toMessage({
-        flavor: `<h3>${improvementTitle}</h3><p><strong>${improvementSuccess}</strong></p>`,
-        speaker: ChatMessage.getSpeaker({ actor: this }),
-      });
-    } else {
-      // Clear experience check anyway
-      let updateData = {};
-      if (systemData.abilities[abilityId]) {
-        updateData[`system.abilities.${abilityId}.experienceCheck`] = false;
-      } else if (systemData.specialisms[abilityId]) {
-        updateData[`system.specialisms.${abilityId}.experienceCheck`] = false;
-      }
-
-      await this.update(updateData);
-
-      const noImprovement = game.i18n.format("hack100.experience.noImprovement", {
-        roll: roll.total,
-        value: currentValue
-      });
-
-      await roll.toMessage({
-        flavor: `<h3>${rollTitle}</h3><p>${noImprovement}</p>`,
-        speaker: ChatMessage.getSpeaker({ actor: this }),
-      });
-    }
+    await roll.toMessage({
+      flavor: `<h3>${rollTitle}</h3><p><strong>${improvement}</strong></p>`,
+      speaker: ChatMessage.getSpeaker({ actor: this }),
+    });
   }
 
   /**

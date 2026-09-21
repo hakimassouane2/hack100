@@ -60,13 +60,13 @@ Entry point registered in system.json as an ES module:
 - Success awards an experience check mark
 
 **Damage System**:
-- Damage = tens digit of attack roll + weapon damage modifier
+- Damage = tens digit of attack roll + weapon damage modifier (a tens digit of 0 counts as 10)
 - Example: Roll 67 on attack → 6 + weapon damage
 
 **Experience System**:
 - Successful ability/specialism rolls award experience checks
-- Roll d100 vs current value: if roll > value, improve by d5
-- Experience checks consumed after improvement roll attempt
+- Experience roll: the value always improves by 1d5 (no d100 test)
+- The experience check is consumed by the roll
 
 **Derived Statistics**:
 - Health Max = (Toughness Bonus + Willpower Bonus) × 2

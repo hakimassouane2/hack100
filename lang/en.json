@@ -191,7 +191,7 @@
       "fromArmor": "from equipped armors"
     },
     "tooltips": {
-      "xpAvailable": "Experience check available - Roll to improve this ability",
+      "xpAvailable": "Experience check available - Click to improve this ability by 1d5",
       "xpNotAvailable": "No experience check available - Succeed on a roll to earn an experience check",
       "xpReset": "Clear experience check without rolling"
     },
@@ -199,11 +199,8 @@
       "experienceReset": "Experience check cleared for {ability}"
     },
     "experience": {
-      "rollTitle": "Experience Roll: {ability}",
-      "rollingVs": "Rolling vs {value}%...",
-      "improvementTitle": "Improvement Roll",
-      "improvementSuccess": "Success! {ability} improved from {oldValue}% to {newValue}%",
-      "noImprovement": "No improvement - rolled {roll} vs {value}%"
+      "rollTitle": "Experience roll: {ability}",
+      "improvementSuccess": "{ability} goes from {oldValue}% to {newValue}%"
     },
     "hints": {
       "itemConsumable": "A consumable loses 1 quantity each time it is used (from the HUD, for instance).",
