@@ -1800,7 +1800,7 @@
   margin-bottom: var(--hack100-spacing-md);
 }
 
-/* GM-only button on failed rolls: grant an experience check */
+/* GM-only button on successful rolls: grant an experience check, or take it back */
 .hack100-roll .xp-grant {
   display: block;
   width: 100%;
@@ -1822,9 +1822,13 @@
 }
 
 .hack100-roll .xp-grant.is-granted {
-  color: #6d28d9;
-  background: transparent;
-  border-style: dashed;
+  background: #64748b;
+  border-color: #475569;
+}
+
+.hack100-roll .xp-grant.is-granted:hover:not(:disabled) {
+  background: #b91c1c;
+  border-color: #991b1b;
 }
 
 .hack100-roll .xp-grant:disabled {

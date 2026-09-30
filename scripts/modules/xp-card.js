@@ -34,7 +34,7 @@ export function renderXpCard(message, html) {
   if (!actor) return;
 
   const label = xp.granted
-    ? `<i class="fas fa-check"></i> ${game.i18n.localize("hack100.xpGrant.granted")}`
+    ? `<i class="fas fa-undo"></i> ${game.i18n.localize("hack100.xpGrant.revoke")}`
     : `<i class="fas fa-star"></i> ${game.i18n.localize("hack100.xpGrant.grant")}`;
   container.insertAdjacentHTML(
     "beforeend",

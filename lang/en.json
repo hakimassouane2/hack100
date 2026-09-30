@@ -277,8 +277,8 @@
     "xpGrant": {
       "grant": "Grant an XP check",
       "grantHint": "Unlocks the experience roll of this ability for this character (GM only)",
-      "granted": "XP check granted",
-      "revokeHint": "Click to take the XP check back"
+      "revoke": "Take the XP check back",
+      "revokeHint": "The XP check has been granted: click to take it back"
     }
   }
 }

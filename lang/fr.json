@@ -277,8 +277,8 @@
     "xpGrant": {
       "grant": "Octroyer une coche d'XP",
       "grantHint": "Débloque le jet d'expérience de cette compétence pour ce personnage (visible par le MJ seulement)",
-      "granted": "Coche d'XP octroyée",
-      "revokeHint": "Cliquer pour retirer la coche d'XP"
+      "revoke": "Retirer la coche d'XP",
+      "revokeHint": "La coche d'XP a été octroyée : cliquer pour la retirer"
     }
   }
 }
