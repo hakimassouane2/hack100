@@ -18,6 +18,13 @@ export class Hack100ItemSheet extends ItemSheet {
     });
   }
 
+  constructor(...args) {
+    super(...args);
+
+    // Weapons and armor open on their attributes, the part edited most often
+    if (["weapon", "armor"].includes(this.item.type)) this._tabs[0].active = "attributes";
+  }
+
   /** @override */
   get template() {
     const path = "systems/hack100/templates/item";
