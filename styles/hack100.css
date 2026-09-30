@@ -144,7 +144,6 @@
 
 .hack100.color-scheme-dark .item-damage,
 .hack100.color-scheme-dark .item-protection,
-.hack100.color-scheme-dark .item-location,
 .hack100.color-scheme-dark .movement-value span:first-child,
 .hack100.color-scheme-dark .health-max span {
   background: var(--hack100-bg-tertiary);
@@ -1457,8 +1456,7 @@
 }
 
 .hack100 .item-damage,
-.hack100 .item-protection,
-.hack100 .item-location {
+.hack100 .item-protection {
   min-width: 70px;
   padding: var(--hack100-spacing-sm) var(--hack100-spacing-md);
   font-size: 13px;

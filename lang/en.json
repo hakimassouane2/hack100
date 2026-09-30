@@ -157,7 +157,6 @@
       "attackBonus": "Attack Bonus",
       "range": "Range",
       "rangeForRanged": "Range (for ranged weapons)",
-      "location": "Location",
       "quantity": "Quantity",
       "weight": "Weight",
       "weightPerItem": "Weight (per item)",
@@ -208,14 +207,11 @@
       "weaponDamage": "Damage bonus added to attack roll",
       "weaponAttackBonus": "Bonus to attack rolls",
       "weaponRange": "Maximum effective range of the weapon",
-      "weaponLocation": "E.g., \"right hand\", \"belt\", \"back sheath\", \"quiver\"",
       "weaponEquipped": "Check this box if the weapon is currently equipped and ready for use",
       "armorProtection": "Damage reduction provided",
       "armorMovementPenalty": "Squares reduced from base movement",
       "armorAgilityPenalty": "Percentage penalty applied to agility rolls when worn",
-      "armorLocation": "E.g., \"worn\", \"backpack\", \"mount's saddlebag\"",
       "armorEquipped": "Check this box if the armor is currently being worn",
-      "itemLocation": "E.g., \"backpack\", \"belt pouch\", \"left hand\", \"pocket\", \"horse saddlebag\"",
       "itemEquipped": "Check this box if the item is currently equipped or in use"
     },
     "placeholders": {
@@ -228,9 +224,6 @@
       "damageModifier": "+2",
       "attackBonus": "0",
       "range": "e.g., 50 squares, 100 meters",
-      "weaponLocation": "Where is this weapon carried?",
-      "armorLocation": "Where is this armor stored?",
-      "itemLocation": "Where is this item stored?",
       "quantity": "1",
       "weight": "0",
       "price": "0"

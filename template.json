@@ -110,8 +110,7 @@
         "quantity": 1,
         "weight": 0,
         "price": 0,
-        "equipped": false,
-        "location": ""
+        "equipped": false
       }
     },
     "item": {

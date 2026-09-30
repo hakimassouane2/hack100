@@ -157,7 +157,6 @@
       "attackBonus": "Bonus d'attaque",
       "range": "Portée",
       "rangeForRanged": "Portée",
-      "location": "Emplacement",
       "quantity": "Quantité",
       "weight": "Poids",
       "weightPerItem": "Poids (par objet)",
@@ -208,14 +207,11 @@
       "weaponDamage": "Bonus de dégâts ajouté",
       "weaponAttackBonus": "Bonus aux jets d'attaque",
       "weaponRange": "Portée maximale effective de l'arme",
-      "weaponLocation": "Ex : \"main droite\", \"ceinture\", \"fourreau dorsal\", \"carquois\"",
       "weaponEquipped": "Cochez cette case si l'arme est actuellement équipée et prête à l'emploi",
       "armorProtection": "Réduction de dégâts fournie",
       "armorMovementPenalty": "Cases réduites du mouvement de base",
       "armorAgilityPenalty": "Pénalité en pourcentage appliquée aux jets d'agilité lorsque portée",
-      "armorLocation": "Ex : \"porté\", \"sac à dos\", \"sacoche de monture\"",
       "armorEquipped": "Cochez cette case si l'armure est actuellement portée",
-      "itemLocation": "Ex : \"sac à dos\", \"bourse de ceinture\", \"main gauche\", \"poche\", \"sacoche de cheval\"",
       "itemEquipped": "Cochez cette case si l'objet est actuellement équipé ou en cours d'utilisation"
     },
     "placeholders": {
@@ -228,9 +224,6 @@
       "damageModifier": "+2",
       "attackBonus": "0",
       "range": "ex : 50 cases, 100 mètres",
-      "weaponLocation": "Où cette arme est-elle portée ?",
-      "armorLocation": "Où cette armure est-elle stockée ?",
-      "itemLocation": "Où cet objet est-il stocké ?",
       "quantity": "1",
       "weight": "0",
       "price": "0"

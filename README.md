@@ -28,7 +28,7 @@ Hack100 is a percentile-based role-playing game system that uses d100 rolls for 
 ### Item Types
 - **Weapons**: Melee and ranged weapons with damage modifiers and attack bonuses
 - **Armor**: Protection with agility and movement penalties
-- **General Items**: Equipment with weight, price, and location tracking
+- **General Items**: Equipment with weight and price tracking
 - **Specialisms**: Custom skills that function as rollable abilities
 
 ### Character Types
