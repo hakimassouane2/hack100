@@ -311,7 +311,8 @@ export class Hack100Actor extends Actor {
   /**
    * Roll one of the NPC's rates (Taux)
    * Uses the same roll mechanics as abilities. An attack rolls damage on success,
-   * like characters: tens digit of the roll + the NPC's damage bonus.
+   * like characters: tens digit of the roll (the bonus of the rate rolled when
+   * it is 0) + the NPC's damage bonus.
    * @param {string} kind - "base" or "special"
    * @param {object} options
    * @param {boolean} options.attack - Roll damage if the roll succeeds
@@ -332,11 +333,10 @@ export class Hack100Actor extends Actor {
       const result = await rollTask(target, label, difficultyModifier, false);
 
       if (attack && result.success) {
-        await rollDamage(
-          this.system.damageBonus,
-          result.result,
-          game.i18n.localize("hack100.npc.damageBonus")
-        );
+        await rollDamage(this.system.damageBonus, result.result, {
+          attackBonus: Hack100Actor.rateBonus(target),
+          modifierLabel: game.i18n.localize("hack100.npc.damageBonus"),
+        });
       }
       return result;
     };
@@ -562,7 +562,9 @@ export class Hack100Actor extends Actor {
     ) {
       // Use a default weapon damage of 0 if no weapon is equipped
       // The damage will be based on the tens digit of the attack roll
-      await rollDamage("0", result.result);
+      await rollDamage("0", result.result, {
+        attackBonus: this.system.abilities[abilityId].bonus,
+      });
     }
 
     return result;

@@ -225,11 +225,19 @@ export async function rollTask(target, label, modifier = 0, withAdvantage = fals
  * Roll damage
  * @param {string} weaponDamage - Weapon damage modifier
  * @param {number} attackRoll - The attack roll (to get tens digit)
- * @param {string} [modifierLabel] - Label of the damage modifier (defaults to "Weapon")
+ * @param {object} [options]
+ * @param {number} [options.attackBonus] - Bonus of the rate rolled for the attack,
+ *   dealt in place of a tens digit of 0
+ * @param {string} [options.modifierLabel] - Label of the damage modifier (defaults to "Weapon")
  */
-export async function rollDamage(weaponDamage, attackRoll, modifierLabel) {
-  // Tens place of the roll, where a 0 counts as 10 (e.g. 29 -> 2, 07 -> 10)
-  const tensDigit = Math.floor(attackRoll / 10) % 10 || 10;
+export async function rollDamage(weaponDamage, attackRoll, { attackBonus = 0, modifierLabel } = {}) {
+  // Tens place of the roll, where a 0 deals the attacker's bonus instead, the best
+  // tens digit they can roll (e.g. with 67% in melee: 29 -> 2, 07 -> 6)
+  const rolledTens = Math.floor(attackRoll / 10) % 10;
+  const tensDigit = rolledTens || attackBonus;
+  const tensLabel = game.i18n.localize(
+    rolledTens ? "hack100.global.tensDie" : "hack100.global.attackBonus"
+  );
   const weaponDamageMod = parseInt(weaponDamage) || 0;
   const totalDamage = tensDigit + weaponDamageMod;
 
@@ -242,9 +250,7 @@ export async function rollDamage(weaponDamage, attackRoll, modifierLabel) {
   )}
       </div>
       <div class="damage-breakdown">
-          ${game.i18n.localize(
-            "hack100.global.tensDie"
-          )}: ${tensDigit} +${
+          ${tensLabel}: ${tensDigit} +${
     modifierLabel ?? game.i18n.localize("hack100.global.weapon")
   }: ${weaponDamageMod}
       </div>

@@ -93,7 +93,9 @@ export class Hack100Item extends Item {
 
     // If attack succeeds, roll damage with weapon damage modifier
     const { rollDamage } = await import("../hack100.js");
-    const damage = await rollDamage(weaponData.damage, attackResult.result);
+    const damage = await rollDamage(weaponData.damage, attackResult.result, {
+      attackBonus: actor.system.abilities[abilityId].bonus,
+    });
 
     return { attack: attackResult, damage };
   }

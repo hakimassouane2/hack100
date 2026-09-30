@@ -60,8 +60,9 @@ Entry point registered in system.json as an ES module:
 - Success lets the GM grant an experience check from the chat message
 
 **Damage System**:
-- Damage = tens digit of attack roll + weapon damage modifier (a tens digit of 0 counts as 10)
-- Example: Roll 67 on attack → 6 + weapon damage
+- Damage = tens digit of attack roll + weapon damage modifier
+- A tens digit of 0 deals the bonus of the ability rolled instead (NPC: bonus of the rate rolled)
+- Example: Roll 67 on attack → 6 + weapon damage; roll 06 with 67% in melee → 6 + weapon damage
 
 **Experience System**:
 - A successful character ability/specialism roll shows a GM-only "grant an XP check"
