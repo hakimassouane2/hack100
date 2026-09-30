@@ -57,14 +57,14 @@ Entry point registered in system.json as an ES module:
 - Roll d100, compare to target percentage (typically 20-100%)
 - 1-10: Critical Success
 - 91-100: Critical Failure
-- Failure lets the GM grant an experience check from the chat message
+- Success lets the GM grant an experience check from the chat message
 
 **Damage System**:
 - Damage = tens digit of attack roll + weapon damage modifier (a tens digit of 0 counts as 10)
 - Example: Roll 67 on attack → 6 + weapon damage
 
 **Experience System**:
-- A failed character ability/specialism roll shows a GM-only "grant an XP check"
+- A successful character ability/specialism roll shows a GM-only "grant an XP check"
   button on its chat message (scripts/modules/xp-card.js); nothing is automatic
 - Experience roll: the value always improves by 1d5, capped at 100% (no d100 test)
 - The experience check is consumed by the roll

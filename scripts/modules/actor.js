@@ -549,7 +549,7 @@ export class Hack100Actor extends Actor {
 
     // Import the rollTask and rollDamage functions
     const { rollTask, rollDamage } = await import("../hack100.js");
-    // On a failure, the GM may grant an experience check from the chat message
+    // On a success, the GM may grant an experience check from the chat message
     const xp = this.type === "character" ? { actor: this, abilityId } : undefined;
     const result = await rollTask(target, label, difficultyModifier, useLuck, { xp });
 

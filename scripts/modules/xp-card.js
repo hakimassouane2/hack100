@@ -1,10 +1,10 @@
 /**
  * Experience checks granted by the GM from the chat.
  *
- * A failed ability or specialism roll of a character carries in its flags the
- * actor and the ability rolled (flags.hack100.xp). The GM, and only the GM,
+ * A successful ability or specialism roll of a character carries in its flags
+ * the actor and the ability rolled (flags.hack100.xp). The GM, and only the GM,
  * sees a button on that message to grant the experience check: it is not
- * automatic any more, only failures that matter in the story should count.
+ * automatic, only successes that matter in the story should count.
  */
 
 const FLAG_SCOPE = "hack100";
@@ -21,7 +21,7 @@ export function xpCardFlags(actor, abilityId) {
 }
 
 /**
- * Add the GM's "grant an experience check" button to a failed roll message
+ * Add the GM's "grant an experience check" button to a successful roll message
  * @param {ChatMessage} message
  * @param {HTMLElement} html
  */

@@ -192,7 +192,7 @@
     },
     "tooltips": {
       "xpAvailable": "Experience check available - Click to improve this ability by 1d5",
-      "xpNotAvailable": "No experience check available - The GM grants it after a meaningful failure",
+      "xpNotAvailable": "No experience check available - The GM grants it after a meaningful success",
       "xpReset": "Clear experience check without rolling"
     },
     "notifications": {

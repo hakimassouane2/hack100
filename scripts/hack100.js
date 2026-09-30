@@ -127,7 +127,7 @@ Hooks.once("init", async function () {
  * @param {number} modifier - Difficulty modifier
  * @param {boolean} withAdvantage - Whether to roll with advantage (luck)
  * @param {object} [options]
- * @param {{actor: Actor, abilityId: string}} [options.xp] - On a failure, let the GM
+ * @param {{actor: Actor, abilityId: string}} [options.xp] - On a success, let the GM
  *   grant this character an experience check from the message
  */
 export async function rollTask(target, label, modifier = 0, withAdvantage = false, { xp } = {}) {
@@ -204,7 +204,7 @@ export async function rollTask(target, label, modifier = 0, withAdvantage = fals
       speaker: ChatMessage.getSpeaker(),
       flags: foundry.utils.mergeObject(
         { "core.canPopout": false },
-        xp && !success ? xpCardFlags(xp.actor, xp.abilityId) : {}
+        xp && (success || criticalSuccess) ? xpCardFlags(xp.actor, xp.abilityId) : {}
       ),
     },
     {
@@ -509,7 +509,7 @@ Hooks.on("hotbarDrop", (bar, data, slot) => {
 /* -------------------------------------------- */
 
 /**
- * Draw the targets of damage cards, the GM's experience button on failed
+ * Draw the targets of damage cards, the GM's experience button on successful
  * rolls, and wire their buttons
  */
 Hooks.on("renderChatMessageHTML", (message, html) => {
